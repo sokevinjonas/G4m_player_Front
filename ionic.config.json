@@ -1,0 +1,7 @@
+{
+  "name": "G4m_player_Front",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
