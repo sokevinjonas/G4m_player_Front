@@ -10,35 +10,6 @@
 .tournament-card {
   margin-bottom: 16px;
   border-radius: 16px;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.925); // Légère transparence pour démarquer
-  box-shadow: 0 2px 12px 0 rgba(80, 40, 120, 0.08); // Ombre douce et visible
-  border: 1px solid rgba(148, 47, 255, 0.07); // Bordure subtile violette
-  transition: box-shadow 0.2s;
-}
-
-.tournament-card:hover {
-  box-shadow: 0 4px 24px 0 rgba(148, 47, 255, 0.14); // Effet au survol
-}
-
-.tournament-card.partial {
-  height: 80px;
-  overflow: hidden;
-  position: relative;
-}
-
-.partial-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 24px;
-  background: linear-gradient(
-    to bottom,
-    transparent,
-    var(--ion-background, #fff)
-  );
-  pointer-events: none;
 }
 
 .card-header-content {
@@ -53,20 +24,18 @@
 }
 
 .status-chip {
-  --background: transparent;
-  --color: white;
   font-size: 12px;
   height: 28px;
 }
 
 .status-chip.upcoming {
-  --background: rgba(33, 150, 243, 0.2);
-  --color: #2196f3;
+  --background: var(--ion-color-primary);
+  --color: var(--ion-color-light);
 }
 
 .status-chip.ongoing {
-  --background: rgba(76, 175, 80, 0.2);
-  --color: #4caf50;
+  --background: var(--ion-color-success);
+  --color: var(--ion-color-light);
 }
 
 .tournament-details {
@@ -116,32 +85,6 @@
   color: #ff9800;
 }
 
-.register-btn {
-  --background: #ff5722;
-  --color: white;
-  --border-radius: 8px;
-  height: 36px;
-  font-weight: 500;
-}
-
-.bottom-nav {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 1000;
-}
-
-.tournaments-header {
-  ion-toolbar {
-    --background: var(--ion-background);
-    --min-height: 72px;
-    padding-top: env(safe-area-inset-top);
-    box-shadow: none;
-    border-bottom: 1px solid rgba(148, 47, 255, 0.08);
-  }
-}
-
 .header-row {
   display: flex;
   align-items: center;
@@ -156,9 +99,4 @@
   font-weight: 700;
   color: var(--ion-color-light);
   gap: 8px;
-}
-
-.header-icon {
-  font-size: 1.6rem;
-  color: #942fff;
 }
