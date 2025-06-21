@@ -1,0 +1,227 @@
+<ion-header class="ion-no-border" [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button
+        text="Retour aux jeux"
+        defaultHref="/tabs/games"
+      ></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="game-detail-container">
+    <!-- Game Header -->
+    <div class="game-header">
+      <div class="game-icon-large">
+        <img
+          src="https://www.citypng.com/public/uploads/preview/pubg-white-silhouette-soldier-with-helmet-logo-733961695143126pruerybiwc.png"
+          alt="PUBG Mobile Logo"
+        />
+      </div>
+      <div class="game-info">
+        <h1>PUBG Mobile</h1>
+        <p>
+          PlayerUnknown's Battlegrounds Mobile est un jeu de battle royale où
+          100 joueurs s'affrontent sur une île pour être le dernier survivant.
+        </p>
+
+        <div class="game-meta">
+          <ion-chip class="game-category">
+            <ion-label>Battle Royale</ion-label>
+          </ion-chip>
+          <div class="players-count">
+            <ion-icon name="people-outline"></ion-icon>
+            <span>1250 joueurs actifs</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- About Section -->
+    <div class="section">
+      <h2>À propos du jeu</h2>
+      <p>
+        PUBG Mobile offre une expérience de bataille royale authentique avec des
+        graphismes de console et des contrôles intuitifs. Combattez sur des
+        cartes massives, pilotez des véhicules, et survivez pour remporter la
+        victoire.
+      </p>
+    </div>
+
+    <!-- Competitions Section -->
+    <div class="section">
+      <div class="section-header">
+        <ion-icon name="trophy-outline"></ion-icon>
+        <h2>Compétitions disponibles (3)</h2>
+      </div>
+
+      <div class="competitions-list">
+        <!-- Championship PUBG Mobile -->
+        <div class="competition-card">
+          <div class="competition-header">
+            <div class="competition-info">
+              <h3>Championship PUBG Mobile</h3>
+              <div class="competition-meta">
+                <span class="date">01/07/2024 • 24 participants</span>
+                <ion-chip class="status-chip upcoming">
+                  <ion-label>à venir</ion-label>
+                </ion-chip>
+              </div>
+            </div>
+            <div class="prize">Gratuit</div>
+          </div>
+          <ion-button> Voir détails </ion-button>
+        </div>
+
+        <!-- Squad Battle Weekly -->
+        <div class="competition-card">
+          <div class="competition-header">
+            <div class="competition-info">
+              <h3>Squad Battle Weekly</h3>
+              <div class="competition-meta">
+                <span class="date">28/06/2024 • 16 participants</span>
+                <ion-chip class="status-chip ongoing">
+                  <ion-label>en cours</ion-label>
+                </ion-chip>
+              </div>
+            </div>
+            <div class="prize">200€</div>
+          </div>
+          <ion-button> Voir détails </ion-button>
+        </div>
+
+        <!-- Third Competition -->
+        <div class="competition-card">
+          <div class="competition-header">
+            <div class="competition-info">
+              <h3>PUBG Pro League</h3>
+              <div class="competition-meta">
+                <span class="date">10/07/2024 • 8 participants</span>
+                <ion-chip class="status-chip upcoming">
+                  <ion-label>à venir</ion-label>
+                </ion-chip>
+              </div>
+            </div>
+            <div class="prize">300€</div>
+          </div>
+          <ion-button> Voir détails </ion-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Player Groups Section -->
+    <div class="section">
+      <div class="section-header">
+        <ion-icon name="chatbubbles-outline"></ion-icon>
+        <h2>Groupes de joueurs (4)</h2>
+      </div>
+
+      <div class="groups-list">
+        <!-- PUBG Mobile France -->
+        <div class="group-card">
+          <div class="group-header">
+            <div class="group-icon">
+              <ion-icon name="chatbubbles-outline"></ion-icon>
+            </div>
+            <div class="group-info">
+              <h3>PUBG Mobile France</h3>
+              <p>Communauté française de PUBG Mobile</p>
+              <div class="group-meta">
+                <ion-icon name="people-outline"></ion-icon>
+                <span>2450 membres</span>
+              </div>
+            </div>
+          </div>
+          <div class="group-actions">
+            <ion-chip class="platform-chip">
+              <ion-label>Discord</ion-label>
+            </ion-chip>
+            <ion-button class="join-btn" fill="solid">
+              <ion-icon name="enter-outline" slot="start"></ion-icon>
+              Rejoindre
+            </ion-button>
+          </div>
+        </div>
+
+        <!-- Squad Pro PUBG -->
+        <div class="group-card">
+          <div class="group-header">
+            <div class="group-icon squad">
+              <ion-icon name="people-outline"></ion-icon>
+            </div>
+            <div class="group-info">
+              <h3>Squad Pro PUBG</h3>
+              <p>Groupe pour formation de squads compétitives</p>
+              <div class="group-meta">
+                <ion-icon name="people-outline"></ion-icon>
+                <span>156 membres</span>
+              </div>
+            </div>
+          </div>
+          <div class="group-actions">
+            <ion-chip class="platform-chip whatsapp">
+              <ion-label>WhatsApp</ion-label>
+            </ion-chip>
+            <ion-button class="join-btn" fill="solid">
+              <ion-icon name="enter-outline" slot="start"></ion-icon>
+              Rejoindre
+            </ion-button>
+          </div>
+        </div>
+
+        <!-- PUBG Mobile Tournaments -->
+        <div class="group-card">
+          <div class="group-header">
+            <div class="group-icon">
+              <ion-icon name="chatbubbles-outline"></ion-icon>
+            </div>
+            <div class="group-info">
+              <h3>PUBG Mobile Tournaments</h3>
+              <p>Annonces et discussions tournois</p>
+              <div class="group-meta">
+                <ion-icon name="people-outline"></ion-icon>
+                <span>890 membres</span>
+              </div>
+            </div>
+          </div>
+          <div class="group-actions">
+            <ion-chip class="platform-chip">
+              <ion-label>Discord</ion-label>
+            </ion-chip>
+            <ion-button class="join-btn" fill="solid">
+              <ion-icon name="enter-outline" slot="start"></ion-icon>
+              Rejoindre
+            </ion-button>
+          </div>
+        </div>
+
+        <!-- Strategy & Tips PUBG -->
+        <div class="group-card">
+          <div class="group-header">
+            <div class="group-icon strategy">
+              <ion-icon name="bulb-outline"></ion-icon>
+            </div>
+            <div class="group-info">
+              <h3>Strategy & Tips PUBG</h3>
+              <p>Partage de stratégies et conseils</p>
+              <div class="group-meta">
+                <ion-icon name="people-outline"></ion-icon>
+                <span>234 membres</span>
+              </div>
+            </div>
+          </div>
+          <div class="group-actions">
+            <ion-chip class="platform-chip whatsapp">
+              <ion-label>WhatsApp</ion-label>
+            </ion-chip>
+            <ion-button class="join-btn" fill="solid">
+              <ion-icon name="enter-outline" slot="start"></ion-icon>
+              Rejoindre
+            </ion-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

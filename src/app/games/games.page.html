@@ -32,7 +32,12 @@
   <!-- Games List -->
   <div class="games-list">
     <!-- PUBG Mobile -->
-    <ion-card class="game-card">
+    <ion-card
+      class="game-card"
+      button
+      [routerLink]="['/show-games', 1]"
+      routerLinkActive="router-link-active"
+    >
       <ion-card-content>
         <div class="game-header">
           <div class="game-icon">

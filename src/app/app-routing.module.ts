@@ -14,6 +14,13 @@ const routes: Routes = [
         (m) => m.ShowTournamentPageModule
       ),
   },
+  {
+    path: 'show-games/:id',
+    loadChildren: () =>
+      import('./pages/show-games/show-games.module').then(
+        (m) => m.ShowGamesPageModule
+      ),
+  },
 ];
 
 @NgModule({
