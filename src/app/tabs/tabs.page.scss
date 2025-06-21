@@ -1,0 +1,24 @@
+.gaming-tab-bar {
+  --background: #161b2c;
+  --color: #8a91a8;
+  --color-selected: #942fff;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  height: 70px;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+ion-tab-button {
+  --color: #8a91a8;
+  --color-selected: #942fff;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+ion-tab-button.tab-selected {
+  --color: #942fff;
+}
+
+ion-tab-button ion-icon {
+  font-size: 22px;
+  margin-bottom: 2px;
+}

@@ -1,20 +1,88 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+<ion-header class="ion-no-border">
+  <ion-toolbar color="dark">
+    <ion-title color="light">G4M Player</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="ion-padding gaming-content">
   <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
+    <ion-toolbar color="dark">
+      <ion-title size="large" color="light">Bienvenue, GamerPro</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+  <!-- Section d'accueil -->
+  <div class="welcome-section">
+    <h1 class="welcome-title">
+      Bienvenue, <span class="username">GamerPro</span>
+    </h1>
+    <div class="wave-emoji">👋</div>
+    <p class="welcome-subtitle">Prêt pour de nouvelles aventures ?</p>
+  </div>
+
+  <!-- Section des statistiques -->
+  <div class="stats-section">
+    <div class="stat-card points-card">
+      <div class="stat-number">1,247</div>
+      <div class="stat-label">Points</div>
+    </div>
+    <div class="stat-card badges-card">
+      <div class="stat-number">5</div>
+      <div class="stat-label">Badges</div>
+    </div>
+  </div>
+
+  <!-- Section des actions -->
+  <div class="actions-section">
+    <ion-card class="action-card">
+      <ion-card-content>
+        <div class="action-header">
+          <ion-icon name="trophy" class="action-icon trophy-icon"></ion-icon>
+          <div class="action-text">
+            <h3>Compétitions</h3>
+            <p>3 tournois disponibles</p>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="action-card">
+      <ion-card-content>
+        <div class="action-header">
+          <ion-icon
+            name="game-controller"
+            class="action-icon game-icon"
+          ></ion-icon>
+          <div class="action-text">
+            <h3>Explorer les jeux</h3>
+            <p>Découvrez 12 jeux populaires</p>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="action-card">
+      <ion-card-content>
+        <div class="action-header">
+          <ion-icon name="medal" class="action-icon medal-icon"></ion-icon>
+          <div class="action-text">
+            <h3>Mes badges</h3>
+            <p>Voir vos accomplissements</p>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <ion-card class="action-card">
+      <ion-card-content>
+        <div class="action-header">
+          <ion-icon name="person" class="action-icon profile-icon"></ion-icon>
+          <div class="action-text">
+            <h3>Mon profil</h3>
+            <p>Gérer vos informations</p>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
   </div>
 </ion-content>

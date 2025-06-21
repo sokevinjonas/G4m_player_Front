@@ -1,27 +1,138 @@
-#container {
+/* SECTION D'ACCUEIL */
+.welcome-section {
   text-align: center;
-
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  margin-bottom: 24px;
+  padding: 20px 0;
 }
 
-#container strong {
-  font-size: 20px;
-  line-height: 26px;
+.welcome-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #ffffff;
+  margin: 0 0 8px 0;
 }
 
-#container p {
+.username {
+  background: linear-gradient(90deg, #942fff, #973ae7);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.wave-emoji {
+  font-size: 32px;
+  margin: 8px 0;
+}
+
+.welcome-subtitle {
+  color: #8a91a8;
   font-size: 16px;
-  line-height: 22px;
-
-  color: #8c8c8c;
-
   margin: 0;
 }
 
-#container a {
-  text-decoration: none;
+/* SECTION STATISTIQUES */
+.stats-section {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  flex: 1;
+  padding: 20px 16px;
+  border-radius: 12px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.points-card {
+  background: linear-gradient(135deg, #942fff, #7b3cd8);
+  color: #ffffff;
+}
+
+.badges-card {
+  background: linear-gradient(135deg, #d88f00, #b5750a);
+  color: #ffffff;
+}
+
+.stat-number {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 14px;
+  opacity: 0.9;
+  font-weight: 500;
+}
+
+/* SECTION ACTIONS */
+.actions-section {
+  margin-top: 8px;
+}
+
+.action-card {
+  --background: #1a1f2e;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.3s ease;
+}
+
+.action-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(148, 47, 255, 0.3);
+}
+
+.action-header {
+  display: flex;
+  align-items: center;
+  padding: 4px 0;
+}
+
+.action-icon {
+  font-size: 24px;
+  margin-right: 16px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+}
+
+.trophy-icon {
+  background: linear-gradient(135deg, #ffd700, #ffb347);
+  color: #1a1f2e;
+}
+
+.game-icon {
+  background: linear-gradient(135deg, #00d4aa, #00a086);
+  color: #ffffff;
+}
+
+.medal-icon {
+  background: linear-gradient(135deg, #942fff, #7b3cd8);
+  color: #ffffff;
+}
+
+.profile-icon {
+  background: linear-gradient(135deg, #4facfe, #00d2ff);
+  color: #ffffff;
+}
+
+.action-text h3 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.action-text p {
+  margin: 0;
+  font-size: 14px;
+  color: #8a91a8;
 }
