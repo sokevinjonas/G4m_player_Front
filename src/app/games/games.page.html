@@ -1,13 +1,136 @@
-<ion-header [translucent]="true">
+<ion-header class="ion-no-border" [translucent]="true">
   <ion-toolbar>
-    <ion-title>games</ion-title>
+    <ion-title>
+      <ion-icon color="primary" name="game-controller-outline"></ion-icon>
+      Explorer les jeux
+    </ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-title size="small" class="subtitle">
+      Découvrez tous les jeux
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">games</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <!-- Category Pills -->
+  <div class="category-pills">
+    <ion-chip class="category-pill active">
+      <ion-label>Tous</ion-label>
+    </ion-chip>
+    <ion-chip class="category-pill">
+      <ion-label>Battle Royale</ion-label>
+    </ion-chip>
+    <ion-chip class="category-pill">
+      <ion-label>FPS</ion-label>
+    </ion-chip>
+    <ion-chip class="category-pill">
+      <ion-label>Stratégie</ion-label>
+    </ion-chip>
+  </div>
+
+  <!-- Games List -->
+  <div class="games-list">
+    <!-- PUBG Mobile -->
+    <ion-card class="game-card">
+      <ion-card-content>
+        <div class="game-header">
+          <div class="game-icon">
+            <img
+              src="https://www.citypng.com/public/uploads/preview/pubg-white-silhouette-soldier-with-helmet-logo-733961695143126pruerybiwc.png"
+              alt="PUBG Mobile Logo"
+              style="width: 32px; height: 32px"
+            />
+          </div>
+          <div class="game-info">
+            <h2>PUBG Mobile</h2>
+            <p>Battle Royale ultime sur mobile</p>
+          </div>
+        </div>
+
+        <ion-chip class="game-category">
+          <ion-label>Battle Royale</ion-label>
+        </ion-chip>
+
+        <div class="game-stats">
+          <div class="stat-item">
+            <ion-icon name="trophy-outline"></ion-icon>
+            <span>3 tournois</span>
+          </div>
+          <div class="stat-item">
+            <ion-icon name="people-outline"></ion-icon>
+            <span>1250 joueurs</span>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Call of Duty Mobile -->
+    <ion-card class="game-card">
+      <ion-card-content>
+        <div class="game-header">
+          <div class="game-icon cod">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Call_of_Duty_2023_logo_2.svg/2048px-Call_of_Duty_2023_logo_2.svg.png"
+              alt="Call of Duty Mobile Logo"
+              style="width: 32px; height: 32px"
+            />
+          </div>
+          <div class="game-info">
+            <h2>Call of Duty Mobile</h2>
+            <p>Action FPS mobile légendaire</p>
+          </div>
+        </div>
+
+        <ion-chip class="game-category">
+          <ion-label>FPS</ion-label>
+        </ion-chip>
+
+        <div class="game-stats">
+          <div class="stat-item">
+            <ion-icon name="trophy-outline"></ion-icon>
+            <span>2 tournois</span>
+          </div>
+          <div class="stat-item">
+            <ion-icon name="people-outline"></ion-icon>
+            <span>890 joueurs</span>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Clash of Clans -->
+    <ion-card class="game-card">
+      <ion-card-content>
+        <div class="game-header">
+          <div class="game-icon clash">
+            <img
+              src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Call_of_Duty_2023_logo_2.svg/2048px-Call_of_Duty_2023_logo_2.svg.png"
+              alt="Clash of Clans Logo"
+              style="width: 32px; height: 32px"
+            />
+          </div>
+          <div class="game-info">
+            <h2>Clash of Clans</h2>
+            <p>Stratégie et construction d'empire</p>
+          </div>
+        </div>
+
+        <ion-chip class="game-category">
+          <ion-label>Stratégie</ion-label>
+        </ion-chip>
+
+        <div class="game-stats">
+          <div class="stat-item">
+            <ion-icon name="trophy-outline"></ion-icon>
+            <span>1 tournoi</span>
+          </div>
+          <div class="stat-item">
+            <ion-icon name="people-outline"></ion-icon>
+            <span>650 joueurs</span>
+          </div>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

@@ -1,0 +1,117 @@
+.subtitle {
+  font-size: 14px;
+  opacity: 0.7;
+  font-weight: normal;
+}
+
+.explorer-container {
+  padding: 16px;
+}
+
+.category-pills {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+  padding-bottom: 4px;
+}
+
+.category-pill {
+  --background: rgba(255, 255, 255, 0.1);
+  --color: var(--ion-color-light);
+  height: 32px;
+  border-radius: 16px;
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.category-pill.active {
+  --background: white;
+  --color: var(--ion-color-primary);
+  font-weight: 500;
+}
+
+.games-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.game-card {
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+}
+
+.game-card:not(.featured) {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.game-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.game-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-icon.cod {
+  background: rgba(255, 193, 7, 0.3);
+}
+
+.game-icon.clash {
+  background: rgba(158, 158, 158, 0.3);
+}
+
+.game-icon ion-icon {
+  font-size: 24px;
+  color: white;
+}
+
+.game-info h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: white;
+}
+
+.game-info p {
+  margin: 4px 0 0 0;
+  font-size: 14px;
+  opacity: 0.8;
+  color: white;
+}
+
+.game-category {
+  height: 24px;
+  font-size: 12px;
+  margin-bottom: 16px;
+  --color: var(--ion-color-secondary);
+}
+
+.game-stats {
+  display: flex;
+  gap: 20px;
+}
+
+.stat-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: white;
+  font-size: 14px;
+}
+
+.stat-item ion-icon {
+  font-size: 16px;
+  opacity: 0.8;
+}
