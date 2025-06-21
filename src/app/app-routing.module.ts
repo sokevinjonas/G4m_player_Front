@@ -7,6 +7,13 @@ const routes: Routes = [
     loadChildren: () =>
       import('./tabs/tabs.module').then((m) => m.TabsPageModule),
   },
+  {
+    path: 'show-tournament/:id',
+    loadChildren: () =>
+      import('./pages/show-tournament/show-tournament.module').then(
+        (m) => m.ShowTournamentPageModule
+      ),
+  },
 ];
 
 @NgModule({

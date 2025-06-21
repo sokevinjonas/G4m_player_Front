@@ -49,7 +49,14 @@
 
       <div class="tournament-footer">
         <span class="prize">Prix : 500 €</span>
-        <ion-button class="register-btn" fill="solid"> S'inscrire </ion-button>
+        <ion-button
+          class="register-btn"
+          [routerLink]="['/show-tournament', 1]"
+          routerLinkActive="router-link-active"
+          fill="solid"
+        >
+          S'inscrire
+        </ion-button>
       </div>
     </ion-card-content>
   </ion-card>
