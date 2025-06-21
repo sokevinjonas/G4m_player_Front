@@ -9,90 +9,91 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="ion-padding">
   <ion-grid>
     <ion-row class="ion-justify-content-center">
-      <ion-col size="12" size-md="8">
-        <!-- Titre et statut -->
-        <ion-card-header>
-          <ion-card-title>Championship PUBG Mobile</ion-card-title>
-        </ion-card-header>
-        <ion-card-content>
-          <div class="card-row">
-            <p class="game-name">PUBG Mobile</p>
-            <ion-chip class="status-chip upcoming">
-              <ion-icon color="light" name="calendar-outline"></ion-icon>
-              <ion-label>À venir</ion-label>
-            </ion-chip>
-          </div>
-        </ion-card-content>
-      </ion-col>
+      <!-- Titre et statut -->
+      <ion-card-header>
+        <ion-card-title>Championship PUBG Mobile </ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <div class="card-row">
+          <p class="game-name">PUBG Mobile</p>
+          <ion-chip class="status-chip upcoming">
+            <ion-icon color="light" name="calendar-outline"></ion-icon>
+            <ion-label>À venir</ion-label>
+          </ion-chip>
+        </div>
+      </ion-card-content>
 
       <!-- Informations du tournoi -->
-      <ion-col size="12" size-md="8">
-        <ion-card class="tournament-info-card">
-          <ion-card-header>
-            <ion-card-title>Informations du tournoi</ion-card-title>
-            <ion-card-subtitle>
-              <div class="card-row">
-                <span><strong>Date :</strong> 15/10/2023</span>
-                <span class="prize"><strong>Récompense :</strong> 10 $</span>
-              </div>
-            </ion-card-subtitle>
-          </ion-card-header>
-          <ion-card-content>
-            <p class="section-title">Description</p>
-            <ion-text class="ion-text-justify">
-              <p>
-                Tournoi officiel PUBG Mobile avec les meilleurs joueurs de la
-                région. Mode squad, 4 joueurs par équipe. Format Battle Royale
-                classique avec plusieurs manches.
-              </p>
-            </ion-text>
-            <p class="section-title">Règles</p>
-            <ion-text class="ion-text-justify">
-              <ul class="rules-list">
-                <li>Pas de triche ou d'utilisation de hacks</li>
-                <li>Respect des autres joueurs et de l'organisation</li>
-                <li>Utilisation de microphones recommandée</li>
-                <li>Les décisions des organisateurs sont finales</li>
-              </ul>
-            </ion-text>
-            <ion-button expand="block" shape="round" color="primary">
-              S'inscrire au tournoi
+      <ion-card class="tournament-info-card">
+        <ion-card-header>
+          <ion-card-title
+            ><ion-icon name="trophy" color="warning"></ion-icon> Informations du
+            tournoi</ion-card-title
+          >
+          <ion-card-subtitle>
+            <div class="card-row">
+              <span><strong>Date :</strong> 15/10/2023</span>
+              <span class="prize"
+                ><strong>Récompense :</strong> 5.000 FCFA</span
+              >
+            </div>
+          </ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <p class="section-title">Description</p>
+          <ion-text class="ion-text-justify">
+            <p>
+              Tournoi officiel PUBG Mobile avec les meilleurs joueurs de la
+              région. Mode squad, 4 joueurs par équipe. Format Battle Royale
+              classique avec plusieurs manches.
+            </p>
+          </ion-text>
+          <p class="section-title">Règles</p>
+          <ion-text class="ion-text-justify">
+            <ul class="rules-list">
+              <li>Pas de triche ou d'utilisation de hacks</li>
+              <li>Respect des autres joueurs et de l'organisation</li>
+              <li>Utilisation de microphones recommandée</li>
+              <li>Les décisions des organisateurs sont finales</li>
+            </ul>
+          </ion-text>
+          <ion-button expand="block" shape="round" color="primary">
+            S'inscrire au tournoi
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </ion-row>
+    <!-- Liste des participants -->
+    <ion-card class="participants-card">
+      <ion-card-header>
+        <ion-card-title
+          ><ion-icon color="success" name="people-outline"></ion-icon>
+          Participants inscrits (12)</ion-card-title
+        >
+      </ion-card-header>
+      <div class="participants-list">
+        <ion-card class="participant-card" *ngFor="let item of [1,2,1,1,1]">
+          <div class="participant-content">
+            <ion-avatar>
+              <img
+                src="https://img.freepik.com/vecteurs-libre/composition-couronne-laurier-trophee-image-realiste-coupe-or-decoree-guirlandes-reflexion_1284-32301.jpg?semt=ais_hybrid&w=740"
+                alt="ProGamer_77"
+              />
+            </ion-avatar>
+            <div class="participant-info">
+              <h2>ProGamer_77</h2>
+              <p>Rang #1</p>
+            </div>
+
+            <ion-button fill="clear" size="small" color="primary">
+              2150 pts
             </ion-button>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-
-      <!-- Liste des participants -->
-      <ion-col size="12" size-md="8">
-        <ion-card class="participants-card">
-          <ion-card-header>
-            <ion-card-title>Participants inscrits</ion-card-title>
-          </ion-card-header>
-          <div class="participants-list">
-            <ion-card class="participant-card" *ngFor="let item of [1,2,1,1,1]">
-              <div class="participant-content">
-                <ion-avatar>
-                  <img
-                    src="https://img.freepik.com/vecteurs-libre/composition-couronne-laurier-trophee-image-realiste-coupe-or-decoree-guirlandes-reflexion_1284-32301.jpg?semt=ais_hybrid&w=740"
-                    alt="ProGamer_77"
-                  />
-                </ion-avatar>
-                <div class="participant-info">
-                  <h2>ProGamer_77</h2>
-                  <p>Rang #1</p>
-                </div>
-
-                <ion-button fill="clear" size="small" color="primary">
-                  2150 pts
-                </ion-button>
-              </div>
-            </ion-card>
           </div>
         </ion-card>
-      </ion-col>
-    </ion-row>
+      </div>
+    </ion-card>
   </ion-grid>
 </ion-content>
