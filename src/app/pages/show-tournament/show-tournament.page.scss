@@ -1,0 +1,140 @@
+.card-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.game-name {
+  margin: 0;
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--ion-color-primary);
+}
+
+.status-chip {
+  font-size: 12px;
+  height: 28px;
+}
+
+.status-chip.upcoming {
+  --background: var(--ion-color-primary);
+  --color: var(--ion-color-light);
+}
+
+.tournament-info-card {
+  margin: 16px 0;
+  padding: 0;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px 0 rgba(80, 40, 120, 0.08);
+  border: 1px solid rgba(148, 47, 255, 0.07);
+}
+
+.tournament-info-card .section-title {
+  font-weight: 600;
+  margin-top: 12px;
+  margin-bottom: 4px;
+  color: var(--ion-color-primary);
+}
+
+.tournament-info-card ul {
+  margin: 0 0 12px 18px;
+  padding: 0;
+  color: var(--ion-color-dark);
+  font-size: 15px;
+}
+
+.tournament-info-card ion-button {
+  margin-top: 18px;
+}
+
+.prize {
+  color: #ff9800;
+  font-weight: 600;
+}
+
+.participants-card {
+  margin: 16px 0;
+  border-radius: 16px;
+}
+
+.participants-card ion-card-header {
+  padding-bottom: 0;
+}
+
+.participants-card ion-list {
+  --ion-item-background: transparent;
+  --ion-item-color: var(--ion-color-light);
+
+  margin-top: 0;
+}
+
+.participants-card ion-item {
+  border-radius: 8px;
+  margin-bottom: 4px;
+}
+
+.participants-card ion-avatar img {
+  border-radius: 50%;
+  border: 2px solid var(--ion-color-primary);
+}
+
+.participants-card ion-button {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.rules-list li {
+  color: var(--ion-color-light);
+}
+
+.participants-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 16px 0 0 0;
+}
+
+.participant-card {
+  display: flex;
+  background: #1a1f2e;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px 0 rgba(80, 40, 120, 0.06);
+  border: 1px solid rgba(148, 47, 255, 0.07);
+  padding: 12px 16px;
+  align-items: center;
+}
+
+.participant-content {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 16px;
+}
+
+.participant-card ion-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid var(--ion-color-primary);
+  overflow: hidden;
+}
+
+.participant-info h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 2px 0;
+  color: var(--ion-color-light);
+}
+
+.participant-info p {
+  font-size: 0.95rem;
+  color: #bdbdbd;
+  margin: 0;
+}
+
+.participant-card ion-button {
+  margin-left: auto;
+  font-size: 13px;
+  font-weight: 500;
+}
