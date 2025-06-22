@@ -1,20 +1,25 @@
-<ion-header [translucent]="true">
+<ion-header class="ion-no-border" [translucent]="true">
   <ion-toolbar>
-    <ion-title>Connexion</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button text="Retour"></ion-back-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
   <div class="auth-container">
     <ion-avatar class="auth-avatar">
-      <img src="assets/avatar-default.png" alt="Avatar" />
+      <img
+        src="https://www.citypng.com/public/uploads/preview/pubg-white-silhouette-soldier-with-helmet-logo-733961695143126pruerybiwc.png"
+        alt="Avatar"
+      />
     </ion-avatar>
     <h2 class="auth-title">Bienvenue !</h2>
     <p class="auth-subtitle">Connecte-toi pour rejoindre la communauté</p>
 
     <form (ngSubmit)="onLogin()" #loginForm="ngForm">
       <ion-item>
-        <ion-icon name="mail-outline" slot="start"></ion-icon>
+        <ion-icon color="primary" name="mail-outline" slot="start"></ion-icon>
         <ion-input
           type="email"
           placeholder="Email"
@@ -24,7 +29,11 @@
         ></ion-input>
       </ion-item>
       <ion-item>
-        <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
+        <ion-icon
+          color="primary"
+          name="lock-closed-outline"
+          slot="start"
+        ></ion-icon>
         <ion-input
           type="password"
           placeholder="Mot de passe"
