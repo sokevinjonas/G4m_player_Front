@@ -21,6 +21,10 @@ const routes: Routes = [
         (m) => m.ShowGamesPageModule
       ),
   },
+  {
+    path: 'welcome-screen',
+    loadChildren: () => import('./welcome-screen/welcome-screen.module').then( m => m.WelcomeScreenPageModule)
+  },
 ];
 
 @NgModule({

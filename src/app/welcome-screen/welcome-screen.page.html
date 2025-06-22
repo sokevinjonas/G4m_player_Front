@@ -1,0 +1,101 @@
+<ion-content [fullscreen]="true" class="main-content">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="logo-container">
+      <div class="game-icon">
+        <ion-icon name="game-controller"></ion-icon>
+      </div>
+      <h1 class="app-title">G4M Player</h1>
+    </div>
+    <p class="subtitle">Rejoignez la plus grande communauté de gamers</p>
+  </div>
+
+  <!-- Demo Section (avant les boutons) -->
+  <div class="demo-section">
+    <p class="demo-text">Vous pouvez explorer l’application sans compte.</p>
+    <a class="dashboard-link" (click)="onDashboardAccess()">
+      Accéder au dashboard
+    </a>
+  </div>
+
+  <!-- Auth Buttons -->
+  <div class="auth-buttons">
+    <ion-button expand="block" class="connect-btn" (click)="onCreateAccount()">
+      Créer un compte
+    </ion-button>
+    <ion-button
+      expand="block"
+      fill="outline"
+      class="create-account-btn"
+      (click)="onConnect()"
+    >
+      Se connecter
+    </ion-button>
+  </div>
+
+  <!-- Features Grid -->
+  <div class="features-grid">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" size-md="6">
+          <ion-card
+            class="feature-card"
+            (click)="onFeatureClick('competitions')"
+          >
+            <ion-card-content class="feature-content">
+              <div class="feature-icon">
+                <ion-icon name="trophy"></ion-icon>
+              </div>
+              <div class="feature-title">Compétitions</div>
+              <div class="feature-description">
+                Participez aux tournois et gagnez des récompenses
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size="12" size-md="6">
+          <ion-card class="feature-card" (click)="onFeatureClick('games')">
+            <ion-card-content class="feature-content">
+              <div class="feature-icon">
+                <ion-icon name="game-controller-outline"></ion-icon>
+              </div>
+              <div class="feature-title">Jeux</div>
+              <div class="feature-description">
+                Découvrez tous vos jeux favoris
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+
+      <ion-row>
+        <ion-col size="12" size-md="6">
+          <ion-card class="feature-card" (click)="onFeatureClick('badges')">
+            <ion-card-content class="feature-content">
+              <div class="feature-icon">
+                <ion-icon name="ribbon"></ion-icon>
+              </div>
+              <div class="feature-title">Badges</div>
+              <div class="feature-description">
+                Collectionnez vos accomplissements
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col size="12" size-md="6">
+          <ion-card class="feature-card" (click)="onFeatureClick('community')">
+            <ion-card-content class="feature-content">
+              <div class="feature-icon">
+                <ion-icon name="people"></ion-icon>
+              </div>
+              <div class="feature-title">Communauté</div>
+              <div class="feature-description">
+                Rejoignez des groupes de joueurs
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>
