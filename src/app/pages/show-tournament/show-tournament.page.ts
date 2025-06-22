@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ApiService } from '../../core/services/api/api.service';
 
 @Component({
   selector: 'app-show-tournament',
@@ -7,7 +9,18 @@ import { Component, OnInit } from '@angular/core';
   standalone: false,
 })
 export class ShowTournamentPage implements OnInit {
-  constructor() {}
+  tournament: any = null;
+  loading = true;
 
-  ngOnInit() {}
+  constructor(private route: ActivatedRoute, private api: ApiService) {}
+
+  ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.api.getCompetition(+id).subscribe((data) => {
+        this.tournament = data;
+        this.loading = false;
+      });
+    }
+  }
 }

@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { ShowTournamentPageRoutingModule } from './show-tournament-routing.module';
 
 import { ShowTournamentPage } from './show-tournament.page';
+import { JsonParsePipe } from '../../pipes/json-parse.pipe';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ShowTournamentPageRoutingModule
+    ShowTournamentPageRoutingModule,
+    JsonParsePipe,
   ],
-  declarations: [ShowTournamentPage]
+  declarations: [ShowTournamentPage],
 })
 export class ShowTournamentPageModule {}
