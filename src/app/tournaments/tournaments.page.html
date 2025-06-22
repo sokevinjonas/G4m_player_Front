@@ -14,76 +14,129 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding tournaments-content">
-  <ng-container *ngFor="let comp of competitions">
-    <ion-card class="tournament-card">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+  <!-- Skeleton loader pendant le chargement -->
+  <ng-container *ngIf="competitions.length === 0">
+    <ion-card *ngFor="let skel of [1,2]" class="tournament-card">
       <ion-card-header>
-        <div class="card-header-content">
-          <div class="tournament-info">
-            <ion-card-title>{{ comp.title }}</ion-card-title>
-            <ion-card-subtitle>
-              <img
-                [src]="comp.game.logo ?? 'https://placehold.co/400'"
-                alt="logo"
-                style="
-                  width: 24px;
-                  height: 24px;
-                  vertical-align: middle;
-                  margin-right: 6px;
-                "
-              />
-              {{ comp.game?.name }}
-            </ion-card-subtitle>
-          </div>
-          <ion-chip class="status-chip" [ngClass]="comp.status">
-            <ion-icon
-              color="light"
-              [name]="comp.status === 'upcoming' ? 'calendar-outline' : (comp.status === 'ongoing' ? 'play-outline' : 'checkmark-outline')"
-            ></ion-icon>
-            <ion-label>
-              {{ comp.status === 'upcoming' ? 'À venir' : (comp.status ===
-              'ongoing' ? 'En cours' : 'Terminé') }}
-            </ion-label>
-          </ion-chip>
-        </div>
+        <ion-skeleton-text
+          animated
+          style="width: 60%; height: 24px"
+        ></ion-skeleton-text>
+        <ion-skeleton-text
+          animated
+          style="width: 40%; height: 16px; margin-top: 8px"
+        ></ion-skeleton-text>
       </ion-card-header>
-
       <ion-card-content>
-        <div class="tournament-details">
-          <div class="detail-item">
-            <ion-icon name="calendar-outline"></ion-icon>
-            <div class="detail-content">
-              <span class="detail-label">Date</span>
-              <span class="detail-value"
-                >{{ comp.date | date:'dd/MM/yyyy' }}</span
-              >
-            </div>
-          </div>
-          <div class="detail-item">
-            <ion-icon name="people-outline"></ion-icon>
-            <div class="detail-content">
-              <span class="detail-label">Participants</span>
-              <span class="detail-value">{{ comp.participants ?? 0 }}</span>
-            </div>
-          </div>
-        </div>
+        <ion-skeleton-text
+          animated
+          style="width: 100%; height: 16px; margin-bottom: 8px"
+        ></ion-skeleton-text>
+        <ion-skeleton-text
+          animated
+          style="width: 80%; height: 16px"
+        ></ion-skeleton-text>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
 
-        <div class="tournament-footer">
-          <ng-container *ngIf="comp.is_online">
-            <span class="prize">En ligne : Oui</span>
-          </ng-container>
-          <ng-container *ngIf="!comp.is_online">
-            <span class="prize">En ligne : Non</span>
-          </ng-container>
-          <ion-button
-            class="register-btn"
-            [routerLink]="['/show-tournament', comp.id]"
-            routerLinkActive="router-link-active"
-            fill="solid"
-          >
-            S'inscrire
-          </ion-button>
+  <!-- Message si aucune compétition -->
+  <ng-container *ngIf="competitions && competitions.length === 0">
+    <ion-card class="tournament-card">
+      <ion-card-content>
+        <div style="text-align: center; padding: 24px">
+          <ion-icon
+            name="sad-outline"
+            style="font-size: 48px; color: var(--ion-color-medium)"
+          ></ion-icon>
+          <h3>Aucune compétition trouvée</h3>
+          <p>Reviens plus tard pour découvrir de nouveaux tournois !</p>
         </div>
       </ion-card-content>
     </ion-card>
+  </ng-container>
+
+  <!-- Liste des compétitions -->
+  <ng-container *ngIf="competitions && competitions.length > 0">
+    <ng-container *ngFor="let comp of competitions">
+      <ion-card
+        button
+        [routerLink]="['/show-tournament', comp.id]"
+        routerLinkActive="router-link-active"
+        class="tournament-card"
+      >
+        <ion-card-header>
+          <div class="card-header-content">
+            <div class="tournament-info">
+              <ion-card-title>{{ comp.title }}</ion-card-title>
+              <ion-card-subtitle>
+                <img
+                  [src]="comp.game.logo ?? 'https://placehold.co/400'"
+                  alt="logo"
+                  style="
+                    width: 24px;
+                    height: 24px;
+                    vertical-align: middle;
+                    margin-right: 6px;
+                  "
+                />
+                {{ comp.game?.name }}
+              </ion-card-subtitle>
+            </div>
+            <ion-chip class="status-chip" [ngClass]="comp.status">
+              <ion-icon
+                color="light"
+                [name]="comp.status === 'upcoming' ? 'calendar-outline' : (comp.status === 'ongoing' ? 'play-outline' : 'checkmark-outline')"
+              ></ion-icon>
+              <ion-label>
+                {{ comp.status === 'upcoming' ? 'À venir' : (comp.status ===
+                'ongoing' ? 'En cours' : 'Terminé') }}
+              </ion-label>
+            </ion-chip>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content>
+          <div class="tournament-details">
+            <div class="detail-item">
+              <ion-icon name="calendar-outline"></ion-icon>
+              <div class="detail-content">
+                <span class="detail-label">Date</span>
+                <span class="detail-value"
+                  >{{ comp.date | date:'dd/MM/yyyy' }}</span
+                >
+              </div>
+            </div>
+            <div class="detail-item">
+              <ion-icon name="people-outline"></ion-icon>
+              <div class="detail-content">
+                <span class="detail-label">Participants</span>
+                <span class="detail-value">{{ comp.participants ?? 0 }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="tournament-footer">
+            <ng-container *ngIf="comp.is_online">
+              <span class="prize">En ligne : Oui</span>
+            </ng-container>
+            <ng-container *ngIf="!comp.is_online">
+              <span class="prize">En ligne : Non</span>
+            </ng-container>
+            <ion-button
+              class="register-btn"
+              [routerLink]="['/show-tournament', comp.id]"
+              routerLinkActive="router-link-active"
+              fill="solid"
+            >
+              S'inscrire
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ng-container>
   </ng-container>
 </ion-content>

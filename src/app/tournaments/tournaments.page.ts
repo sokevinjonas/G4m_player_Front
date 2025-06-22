@@ -13,9 +13,19 @@ export class TournamentsPage implements OnInit {
   constructor(private api: ApiService) {}
 
   ngOnInit() {
+    this.loadCompetitions();
+  }
+
+  loadCompetitions(event?: any) {
     this.api.getCompetitions().subscribe((data) => {
       this.competitions = data;
-      console.log('Competitions:', this.competitions);
+      if (event) {
+        event.target.complete();
+      }
     });
+  }
+
+  doRefresh(event: any) {
+    this.loadCompetitions(event);
   }
 }
