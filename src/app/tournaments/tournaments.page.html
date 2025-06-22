@@ -1,4 +1,4 @@
-<ion-header [translucent]="true" class="tournaments-header">
+<ion-header [translucent]="true" class="tournaments-header ion-no-border">
   <ion-toolbar>
     <div class="header-row">
       <div class="header-title">
@@ -6,7 +6,7 @@
         <span>Compétitions</span>
       </div>
       <ion-button color="light" fill="clear">
-        <ion-icon name="funnel-outline" size="smal"></ion-icon>
+        <ion-icon name="funnel-outline" size="small"></ion-icon>
       </ion-button>
     </div>
     <div class="subtitle">Rejoignez les tournois gaming</div>
@@ -14,90 +14,76 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding tournaments-content">
-  <!-- Championship PUBG Mobile -->
-  <ion-card class="tournament-card">
-    <ion-card-header>
-      <div class="card-header-content">
-        <div class="tournament-info">
-          <ion-card-title>Championship PUBG Mobile</ion-card-title>
-          <ion-card-subtitle>PUBG Mobile</ion-card-subtitle>
+  <ng-container *ngFor="let comp of competitions">
+    <ion-card class="tournament-card">
+      <ion-card-header>
+        <div class="card-header-content">
+          <div class="tournament-info">
+            <ion-card-title>{{ comp.title }}</ion-card-title>
+            <ion-card-subtitle>
+              <img
+                [src]="comp.game.logo ?? 'https://placehold.co/400'"
+                alt="logo"
+                style="
+                  width: 24px;
+                  height: 24px;
+                  vertical-align: middle;
+                  margin-right: 6px;
+                "
+              />
+              {{ comp.game?.name }}
+            </ion-card-subtitle>
+          </div>
+          <ion-chip class="status-chip" [ngClass]="comp.status">
+            <ion-icon
+              color="light"
+              [name]="comp.status === 'upcoming' ? 'calendar-outline' : (comp.status === 'ongoing' ? 'play-outline' : 'checkmark-outline')"
+            ></ion-icon>
+            <ion-label>
+              {{ comp.status === 'upcoming' ? 'À venir' : (comp.status ===
+              'ongoing' ? 'En cours' : 'Terminé') }}
+            </ion-label>
+          </ion-chip>
         </div>
-        <ion-chip class="status-chip upcoming">
-          <ion-icon color="light" name="calendar-outline"></ion-icon>
-          <ion-label>À venir</ion-label>
-        </ion-chip>
-      </div>
-    </ion-card-header>
+      </ion-card-header>
 
-    <ion-card-content>
-      <div class="tournament-details">
-        <div class="detail-item">
-          <ion-icon name="calendar-outline"></ion-icon>
-          <div class="detail-content">
-            <span class="detail-label">Date</span>
-            <span class="detail-value">01/07/2024</span>
+      <ion-card-content>
+        <div class="tournament-details">
+          <div class="detail-item">
+            <ion-icon name="calendar-outline"></ion-icon>
+            <div class="detail-content">
+              <span class="detail-label">Date</span>
+              <span class="detail-value"
+                >{{ comp.date | date:'dd/MM/yyyy' }}</span
+              >
+            </div>
+          </div>
+          <div class="detail-item">
+            <ion-icon name="people-outline"></ion-icon>
+            <div class="detail-content">
+              <span class="detail-label">Participants</span>
+              <span class="detail-value">{{ comp.participants ?? 0 }}</span>
+            </div>
           </div>
         </div>
-        <div class="detail-item">
-          <ion-icon name="people-outline"></ion-icon>
-          <div class="detail-content">
-            <span class="detail-label">Participants</span>
-            <span class="detail-value">24/32</span>
-          </div>
-        </div>
-      </div>
 
-      <div class="tournament-footer">
-        <span class="prize">Gratuit</span>
-        <ion-button
-          class="register-btn"
-          [routerLink]="['/show-tournament', 1]"
-          routerLinkActive="router-link-active"
-          fill="solid"
-        >
-          S'inscrire
-        </ion-button>
-      </div>
-    </ion-card-content>
-  </ion-card>
-
-  <!-- Call of Duty Mobile Tournament -->
-  <ion-card class="tournament-card">
-    <ion-card-header>
-      <div class="card-header-content">
-        <div class="tournament-info">
-          <ion-card-title>Call of Duty Mobile Tournament</ion-card-title>
-          <ion-card-subtitle>Call of Duty Mobile</ion-card-subtitle>
+        <div class="tournament-footer">
+          <ng-container *ngIf="comp.is_online">
+            <span class="prize">En ligne : Oui</span>
+          </ng-container>
+          <ng-container *ngIf="!comp.is_online">
+            <span class="prize">En ligne : Non</span>
+          </ng-container>
+          <ion-button
+            class="register-btn"
+            [routerLink]="['/show-tournament', comp.id]"
+            routerLinkActive="router-link-active"
+            fill="solid"
+          >
+            S'inscrire
+          </ion-button>
         </div>
-        <ion-chip class="status-chip ongoing">
-          <ion-icon color="light" name="play-outline"></ion-icon>
-          <ion-label>En cours</ion-label>
-        </ion-chip>
-      </div>
-    </ion-card-header>
-
-    <ion-card-content>
-      <div class="tournament-details">
-        <div class="detail-item">
-          <ion-icon name="calendar-outline"></ion-icon>
-          <div class="detail-content">
-            <span class="detail-label">Date</span>
-            <span class="detail-value">25/06/2024</span>
-          </div>
-        </div>
-        <div class="detail-item">
-          <ion-icon name="people-outline"></ion-icon>
-          <div class="detail-content">
-            <span class="detail-label">Participants</span>
-            <span class="detail-value">16/16</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="tournament-footer">
-        <span class="prize">Prix : 300 €</span>
-        <ion-button class="register-btn" fill="solid"> S'inscrire </ion-button>
-      </div>
-    </ion-card-content>
-  </ion-card>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
 </ion-content>

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../core/services/api/api.service';
 
 @Component({
   selector: 'app-tournaments',
@@ -7,7 +8,14 @@ import { Component, OnInit } from '@angular/core';
   standalone: false,
 })
 export class TournamentsPage implements OnInit {
-  constructor() {}
+  competitions: any[] = [];
 
-  ngOnInit() {}
+  constructor(private api: ApiService) {}
+
+  ngOnInit() {
+    this.api.getCompetitions().subscribe((data) => {
+      this.competitions = data;
+      console.log('Competitions:', this.competitions);
+    });
+  }
 }
