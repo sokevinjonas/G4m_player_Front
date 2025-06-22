@@ -55,51 +55,8 @@
   border-radius: 12px;
   position: relative;
   overflow: hidden;
-}
-
-.badge-card.gold {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 193, 7, 0.2),
-    rgba(255, 152, 0, 0.1)
-  );
   border: 1px solid rgba(255, 193, 7, 0.3);
-}
-
-.badge-card.green {
-  background: linear-gradient(
-    135deg,
-    rgba(76, 175, 80, 0.2),
-    rgba(46, 125, 50, 0.1)
-  );
-  border: 1px solid rgba(76, 175, 80, 0.3);
-}
-
-.badge-card.purple {
-  background: linear-gradient(
-    135deg,
-    rgba(156, 39, 176, 0.2),
-    rgba(103, 58, 183, 0.1)
-  );
-  border: 1px solid rgba(156, 39, 176, 0.3);
-}
-
-.badge-card.blue {
-  background: linear-gradient(
-    135deg,
-    rgba(33, 150, 243, 0.2),
-    rgba(21, 101, 192, 0.1)
-  );
-  border: 1px solid rgba(33, 150, 243, 0.3);
-}
-
-.badge-card.gray {
-  background: linear-gradient(
-    135deg,
-    rgba(158, 158, 158, 0.2),
-    rgba(97, 97, 97, 0.1)
-  );
-  border: 1px solid rgba(158, 158, 158, 0.3);
+  background: var(--second-background);
 }
 
 .badge-progress-card {
@@ -201,44 +158,18 @@
 }
 
 .custom-progress {
-  --progress-background: rgba(255, 255, 255, 0.1);
-  --background: rgba(255, 255, 255, 0.1);
+  --progress-background: var(--ion-color-secondary);
+  --background: var(--ion-color-light);
   height: 6px;
   border-radius: 3px;
 }
 
-.rarity-chip {
-  position: absolute;
-  top: 12px;
-  right: 12px;
-  height: 20px;
-  font-size: 10px;
-  font-weight: 600;
-}
-
-.rarity-chip.rare {
-  --background: rgba(33, 150, 243, 0.2);
-  --color: #2196f3;
-}
-
-.rarity-chip.epic {
-  --background: rgba(156, 39, 176, 0.2);
-  --color: #9c27b0;
-}
-
-.rarity-chip.legendary {
-  --background: rgba(255, 152, 0, 0.2);
-  --color: #ff9800;
-}
-
-.rarity-chip.mythic {
-  --background: rgba(244, 67, 54, 0.2);
-  --color: #f44336;
-}
-
-.rarity-chip.common {
-  --background: rgba(158, 158, 158, 0.2);
-  --color: #9e9e9e;
+.empty-badges {
+  text-align: center;
+  color: var(--ion-color-light);
+  font-size: 16px;
+  padding: 24px 0 12px 0;
+  opacity: 0.8;
 }
 
 @media (max-width: 480px) {

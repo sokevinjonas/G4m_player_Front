@@ -16,11 +16,11 @@ export class BadgesPage implements OnInit {
 
   ngOnInit() {
     this.api.getUserBadgesUnLocked(this.userId).subscribe((badges) => {
-      this.unlockedBadges = badges;
+      this.unlockedBadges = badges.badges || [];
       console.log('Badges débloqués:', this.unlockedBadges);
     });
     this.api.getUserBadgesLocked(this.userId).subscribe((badges) => {
-      this.lockedBadges = badges;
+      this.lockedBadges = badges.badges || [];
       console.log('Badges verrouillés:', this.lockedBadges);
     });
   }

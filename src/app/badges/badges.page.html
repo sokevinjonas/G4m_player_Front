@@ -15,23 +15,40 @@
         <ion-icon name="trophy"></ion-icon>
         <h2>Badges obtenus</h2>
       </div>
-
       <div class="badges-grid">
-        <!-- Exemple : Premier Sang -->
-        <div class="badge-card earned gold">
+        <div
+          class="badge-card earned"
+          [ngClass]="badge.badge.grade?.toLowerCase().replace(' ', '-')"
+          *ngFor="let badge of lockedBadges"
+        >
           <div class="badge-content">
-            <ion-icon name="trophy" class="badge-icon"></ion-icon>
+            <img
+              [src]="badge.badge.icon"
+              class="badge-icon"
+              [alt]="badge.badge.name"
+            />
             <div class="badge-info">
-              <h3>Premier Sang</h3>
-              <p>Première victoire en tournoi</p>
-              <div class="badge-date">15/05/2024</div>
+              <h3>{{ badge.badge.name }}</h3>
+              <p>{{ badge.badge.description }}</p>
+              <div class="badge-date">
+                {{ badge.earned_at ? (badge.earned_at | date:'dd/MM/yyyy') : ''
+                }}
+              </div>
             </div>
           </div>
-          <ion-chip class="rarity-chip rare">
-            <ion-label>Rare</ion-label>
+          <ion-chip
+            class="rarity-chip"
+            [ngClass]="badge.badge.grade?.toLowerCase().replace(' ', '-')"
+          >
+            <ion-label>{{ badge.badge.grade }}</ion-label>
           </ion-chip>
         </div>
-        <!-- Ajouter d'autres badges obtenus ici -->
+        <div
+          *ngIf="lockedBadges.length === 0"
+          class="badge-card earned empty-badges"
+        >
+          Aucun badge débloqué pour le moment.
+        </div>
       </div>
     </div>
 
@@ -41,25 +58,39 @@
         <ion-icon name="lock-closed-outline"></ion-icon>
         <h2>À débloquer</h2>
       </div>
-
-      <div class="badges-list">
-        <div class="badge-progress-card">
-          <div class="badge-progress-content">
-            <ion-icon name="flame-outline" class="badge-icon locked"></ion-icon>
+      <div class="badges-grid">
+        <div
+          class="badge-card"
+          [ngClass]="badge.badge.grade?.toLowerCase().replace(' ', '-')"
+          *ngFor="let badge of unlockedBadges"
+        >
+          <div class="badge-content">
+            <img
+              [src]="'https://www.citypng.com/public/uploads/preview/pubg-white-silhouette-soldier-with-helmet-logo-733961695143126pruerybiwc.png'"
+              class="badge-icon"
+              [alt]="badge.badge.name"
+            />
             <div class="badge-info">
-              <h3>Légende</h3>
-              <p>Remporter 10 tournois</p>
+              <h3>{{ badge.badge.name }}</h3>
+              <p>{{ badge.badge.description }}</p>
               <div class="progress-section">
-                <div class="progress-value">3/10</div>
-                <ion-progress-bar value="0.3"></ion-progress-bar>
+                <div class="progress-value">
+                  {{ badge.current_progress }}/{{ badge.badge.required_points }}
+                </div>
+                <ion-progress-bar
+                  class="custom-progress"
+                  [value]="badge.badge.required_points ? (badge.current_progress / badge.badge.required_points) : 0"
+                ></ion-progress-bar>
               </div>
             </div>
           </div>
-          <ion-chip class="rarity-chip mythic">
-            <ion-label>Mythique</ion-label>
-          </ion-chip>
         </div>
-        <!-- Ajouter d'autres badges en cours ici -->
+        <div
+          *ngIf="unlockedBadges.length === 0"
+          class="badge-card locked empty-badges"
+        >
+          Aucun badge à débloquer.
+        </div>
       </div>
     </div>
   </div>
