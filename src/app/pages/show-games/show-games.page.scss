@@ -144,15 +144,16 @@
 .status-chip {
   height: 24px;
   font-size: 12px;
+  --color: var(--ion-color-light);
 }
 
 .status-chip.upcoming {
-  --background: rgba(33, 150, 243, 0.2);
+  --background: var(--ion-color-light);
   --color: var(--ion-color-primary);
 }
 
 .status-chip.ongoing {
-  --background: rgba(76, 175, 80, 0.2);
+  --background: var(--ion-color-light);
   --color: var(--ion-color-success);
 }
 

@@ -20,19 +20,15 @@
         />
       </div>
       <div class="game-info">
-        <h1>PUBG Mobile</h1>
-        <p>
-          PlayerUnknown's Battlegrounds Mobile est un jeu de battle royale où
-          100 joueurs s'affrontent sur une île pour être le dernier survivant.
-        </p>
+        <h1>{{ game?.name }}</h1>
 
         <div class="game-meta">
           <ion-chip class="game-category">
-            <ion-label>Battle Royale</ion-label>
+            <ion-label>{{ game?.type_game?.name }}</ion-label>
           </ion-chip>
           <div class="players-count">
             <ion-icon name="people-outline"></ion-icon>
-            <span>1250 joueurs actifs</span>
+            <span>{{ game?.players?.length || 0 }} joueurs actifs</span>
           </div>
         </div>
       </div>
@@ -41,187 +37,100 @@
     <!-- About Section -->
     <div class="section">
       <h2>À propos du jeu</h2>
-      <p>
-        PUBG Mobile offre une expérience de bataille royale authentique avec des
-        graphismes de console et des contrôles intuitifs. Combattez sur des
-        cartes massives, pilotez des véhicules, et survivez pour remporter la
-        victoire.
-      </p>
+      <p>{{ game?.description }}</p>
     </div>
 
     <!-- Competitions Section -->
-    <div class="section">
+    <div class="section" *ngIf="game?.competitions">
       <div class="section-header">
         <ion-icon name="trophy-outline"></ion-icon>
-        <h2>Compétitions disponibles (3)</h2>
+        <h2>Compétitions disponibles ({{ game.competitions.length }})</h2>
       </div>
-
       <div class="competitions-list">
-        <!-- Championship PUBG Mobile -->
-        <div class="competition-card">
+        <div
+          class="competition-card"
+          *ngFor="let competition of game.competitions"
+        >
           <div class="competition-header">
             <div class="competition-info">
-              <h3>Championship PUBG Mobile</h3>
+              <h3>{{ competition.title }}</h3>
               <div class="competition-meta">
-                <span class="date">01/07/2024 • 24 participants</span>
-                <ion-chip class="status-chip upcoming">
-                  <ion-label>à venir</ion-label>
+                <span class="date">
+                  {{ competition.date | date: 'dd/MM/yyyy' }}
+                </span>
+                <ion-chip class="status-chip" [ngClass]="competition.status">
+                  <ion-label>
+                    {{ competition.status === 'upcoming' ? 'à venir' :
+                    competition.status === 'ongoing' ? 'en cours' : 'terminé' }}
+                  </ion-label>
                 </ion-chip>
               </div>
             </div>
             <div class="prize">Gratuit</div>
           </div>
-          <ion-button> Voir détails </ion-button>
-        </div>
-
-        <!-- Squad Battle Weekly -->
-        <div class="competition-card">
-          <div class="competition-header">
-            <div class="competition-info">
-              <h3>Squad Battle Weekly</h3>
-              <div class="competition-meta">
-                <span class="date">28/06/2024 • 16 participants</span>
-                <ion-chip class="status-chip ongoing">
-                  <ion-label>en cours</ion-label>
-                </ion-chip>
-              </div>
-            </div>
-            <div class="prize">200€</div>
-          </div>
-          <ion-button> Voir détails </ion-button>
-        </div>
-
-        <!-- Third Competition -->
-        <div class="competition-card">
-          <div class="competition-header">
-            <div class="competition-info">
-              <h3>PUBG Pro League</h3>
-              <div class="competition-meta">
-                <span class="date">10/07/2024 • 8 participants</span>
-                <ion-chip class="status-chip upcoming">
-                  <ion-label>à venir</ion-label>
-                </ion-chip>
-              </div>
-            </div>
-            <div class="prize">300€</div>
-          </div>
-          <ion-button> Voir détails </ion-button>
+          <ion-button
+            size="small"
+            [routerLink]="['/show-tournament', competition.id]"
+          >
+            Voir détails
+          </ion-button>
         </div>
       </div>
     </div>
 
-    <!-- Player Groups Section -->
-    <div class="section">
+    <!-- Contact List -->
+    <div class="section" *ngIf="game?.contact_link?.length">
       <div class="section-header">
         <ion-icon name="chatbubbles-outline"></ion-icon>
-        <h2>Groupes de joueurs (4)</h2>
+        <h2>Contacts</h2>
       </div>
-
       <div class="groups-list">
-        <!-- PUBG Mobile France -->
-        <div class="group-card">
+        <div class="group-card" *ngFor="let contact of game.contact_link">
           <div class="group-header">
             <div class="group-icon">
-              <ion-icon name="chatbubbles-outline"></ion-icon>
+              <ion-icon
+                [name]="contact.type === 'discord' ? 'logo-discord' : (contact.type === 'telegram' ? 'paper-plane-outline' : 'link-outline')"
+              ></ion-icon>
             </div>
             <div class="group-info">
-              <h3>PUBG Mobile France</h3>
-              <p>Communauté française de PUBG Mobile</p>
-              <div class="group-meta">
-                <ion-icon name="people-outline"></ion-icon>
-                <span>2450 membres</span>
-              </div>
+              <h3>{{ contact.type | titlecase }}</h3>
+              <a [href]="contact.url" target="_blank"
+                ><ion-icon name="enter-outline" slot="start"></ion-icon>
+                Rejoindre</a
+              >
+              <!-- <ion-button class="join-btn" fill="solid">
+                <ion-icon name="enter-outline" slot="start"></ion-icon>
+                Rejoindre
+              </ion-button> -->
             </div>
-          </div>
-          <div class="group-actions">
-            <ion-chip class="platform-chip">
-              <ion-label>Discord</ion-label>
-            </ion-chip>
-            <ion-button class="join-btn" fill="solid">
+            <!-- <ion-button class="join-btn" fill="solid">
               <ion-icon name="enter-outline" slot="start"></ion-icon>
               Rejoindre
-            </ion-button>
-          </div>
-        </div>
-
-        <!-- Squad Pro PUBG -->
-        <div class="group-card">
-          <div class="group-header">
-            <div class="group-icon squad">
-              <ion-icon name="people-outline"></ion-icon>
-            </div>
-            <div class="group-info">
-              <h3>Squad Pro PUBG</h3>
-              <p>Groupe pour formation de squads compétitives</p>
-              <div class="group-meta">
-                <ion-icon name="people-outline"></ion-icon>
-                <span>156 membres</span>
-              </div>
-            </div>
-          </div>
-          <div class="group-actions">
-            <ion-chip class="platform-chip whatsapp">
-              <ion-label>WhatsApp</ion-label>
-            </ion-chip>
-            <ion-button class="join-btn" fill="solid">
-              <ion-icon name="enter-outline" slot="start"></ion-icon>
-              Rejoindre
-            </ion-button>
-          </div>
-        </div>
-
-        <!-- PUBG Mobile Tournaments -->
-        <div class="group-card">
-          <div class="group-header">
-            <div class="group-icon">
-              <ion-icon name="chatbubbles-outline"></ion-icon>
-            </div>
-            <div class="group-info">
-              <h3>PUBG Mobile Tournaments</h3>
-              <p>Annonces et discussions tournois</p>
-              <div class="group-meta">
-                <ion-icon name="people-outline"></ion-icon>
-                <span>890 membres</span>
-              </div>
-            </div>
-          </div>
-          <div class="group-actions">
-            <ion-chip class="platform-chip">
-              <ion-label>Discord</ion-label>
-            </ion-chip>
-            <ion-button class="join-btn" fill="solid">
-              <ion-icon name="enter-outline" slot="start"></ion-icon>
-              Rejoindre
-            </ion-button>
-          </div>
-        </div>
-
-        <!-- Strategy & Tips PUBG -->
-        <div class="group-card">
-          <div class="group-header">
-            <div class="group-icon strategy">
-              <ion-icon name="bulb-outline"></ion-icon>
-            </div>
-            <div class="group-info">
-              <h3>Strategy & Tips PUBG</h3>
-              <p>Partage de stratégies et conseils</p>
-              <div class="group-meta">
-                <ion-icon name="people-outline"></ion-icon>
-                <span>234 membres</span>
-              </div>
-            </div>
-          </div>
-          <div class="group-actions">
-            <ion-chip class="platform-chip whatsapp">
-              <ion-label>WhatsApp</ion-label>
-            </ion-chip>
-            <ion-button class="join-btn" fill="solid">
-              <ion-icon name="enter-outline" slot="start"></ion-icon>
-              Rejoindre
-            </ion-button>
+            </ion-button> -->
           </div>
         </div>
       </div>
     </div>
   </div>
+  <!-- Skeleton pendant le chargement -->
+  <ng-container *ngIf="loading">
+    <ion-card>
+      <ion-card-header>
+        <ion-skeleton-text
+          animated
+          style="width: 60%; height: 24px"
+        ></ion-skeleton-text>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-skeleton-text
+          animated
+          style="width: 100%; height: 16px; margin-bottom: 8px"
+        ></ion-skeleton-text>
+        <ion-skeleton-text
+          animated
+          style="width: 80%; height: 16px"
+        ></ion-skeleton-text>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
 </ion-content>
