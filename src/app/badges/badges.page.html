@@ -1,13 +1,219 @@
-<ion-header [translucent]="true">
+<ion-header class="ion-no-border" [translucent]="true">
   <ion-toolbar>
-    <ion-title>badges</ion-title>
+    <ion-title>
+      <ion-icon name="trophy" slot="start"></ion-icon>
+      Mes badges
+    </ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-title size="small" class="subtitle">
+      Vos accomplissements et récompenses
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">badges</ion-title>
+      <ion-title size="large">
+        <ion-icon name="trophy" slot="start"></ion-icon>
+        Mes badges
+      </ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <div class="badges-container">
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+      <div class="stat-card orange">
+        <div class="stat-number">5</div>
+        <div class="stat-label">Badges obtenus</div>
+      </div>
+      <div class="stat-card purple">
+        <div class="stat-number">1,247</div>
+        <div class="stat-label">Points badges</div>
+      </div>
+      <div class="stat-card green">
+        <div class="stat-number">15</div>
+        <div class="stat-label">Rang global</div>
+      </div>
+    </div>
+
+    <!-- Earned Badges Section -->
+    <div class="section">
+      <div class="section-header">
+        <ion-icon name="trophy"></ion-icon>
+        <h2>Badges obtenus (5)</h2>
+      </div>
+
+      <div class="badges-grid">
+        <!-- Premier Sang -->
+        <div class="badge-card earned gold">
+          <div class="badge-content">
+            <div class="badge-icon">
+              <ion-icon name="trophy"></ion-icon>
+            </div>
+            <div class="badge-info">
+              <h3>Premier Sang</h3>
+              <p>Première victoire dans un tournoi</p>
+              <div class="badge-date">Obtenu le 15/05/2024</div>
+            </div>
+          </div>
+          <ion-chip class="rarity-chip rare">
+            <ion-label>Rare</ion-label>
+          </ion-chip>
+        </div>
+
+        <!-- Sniper Elite -->
+        <div class="badge-card earned green">
+          <div class="badge-content">
+            <div class="badge-icon">
+              <ion-icon name="radio-outline"></ion-icon>
+            </div>
+            <div class="badge-info">
+              <h3>Sniper Elite</h3>
+              <p>100 éliminations avec un sniper</p>
+              <div class="badge-date">Obtenu le 10/06/2024</div>
+            </div>
+          </div>
+          <ion-chip class="rarity-chip epic">
+            <ion-label>Épique</ion-label>
+          </ion-chip>
+        </div>
+
+        <!-- Rookie Champion -->
+        <div class="badge-card earned purple">
+          <div class="badge-content">
+            <div class="badge-icon">
+              <ion-icon name="ribbon-outline"></ion-icon>
+            </div>
+            <div class="badge-info">
+              <h3>Rookie Champion</h3>
+              <p>Gagner 5 tournois consécutifs</p>
+              <div class="badge-date">Obtenu le 18/06/2024</div>
+            </div>
+          </div>
+          <ion-chip class="rarity-chip legendary">
+            <ion-label>Légendaire</ion-label>
+          </ion-chip>
+        </div>
+
+        <!-- Speed Demon -->
+        <div class="badge-card earned blue">
+          <div class="badge-content">
+            <div class="badge-icon">
+              <ion-icon name="flash-outline"></ion-icon>
+            </div>
+            <div class="badge-info">
+              <h3>Speed Demon</h3>
+              <p>Victoire en moins de 15 minutes</p>
+              <div class="badge-date">Obtenu le 20/06/2024</div>
+            </div>
+          </div>
+          <ion-chip class="rarity-chip rare">
+            <ion-label>Rare</ion-label>
+          </ion-chip>
+        </div>
+
+        <!-- Tank Master -->
+        <div class="badge-card earned gray">
+          <div class="badge-content">
+            <div class="badge-icon">
+              <ion-icon name="shield-outline"></ion-icon>
+            </div>
+            <div class="badge-info">
+              <h3>Tank Master</h3>
+              <p>Survivre 30 minutes sans mourir</p>
+              <div class="badge-date">Obtenu le 12/06/2024</div>
+            </div>
+          </div>
+          <ion-chip class="rarity-chip common">
+            <ion-label>Commun</ion-label>
+          </ion-chip>
+        </div>
+      </div>
+    </div>
+
+    <!-- Badges to Unlock Section -->
+    <div class="section">
+      <div class="section-header">
+        <ion-icon name="star-outline"></ion-icon>
+        <h2>Badges à débloquer (3)</h2>
+      </div>
+
+      <div class="badges-list">
+        <!-- Legendary Warrior -->
+        <div class="badge-progress-card">
+          <div class="badge-progress-content">
+            <div class="badge-icon locked">
+              <ion-icon name="flame-outline"></ion-icon>
+            </div>
+            <div class="badge-info">
+              <h3>Legendary Warrior</h3>
+              <p>Gagner 10 tournois légendaires</p>
+              <div class="progress-section">
+                <div class="progress-label">Progression</div>
+                <div class="progress-value">3/10</div>
+              </div>
+              <ion-progress-bar
+                value="0.3"
+                class="custom-progress"
+              ></ion-progress-bar>
+            </div>
+          </div>
+          <ion-chip class="rarity-chip mythic">
+            <ion-label>Mythique</ion-label>
+          </ion-chip>
+        </div>
+
+        <!-- Social Butterfly -->
+        <div class="badge-progress-card">
+          <div class="badge-progress-content">
+            <div class="badge-icon locked">
+              <ion-icon name="star-outline"></ion-icon>
+            </div>
+            <div class="badge-info">
+              <h3>Social Butterfly</h3>
+              <p>Rejoindre 5 groupes différents</p>
+              <div class="progress-section">
+                <div class="progress-label">Progression</div>
+                <div class="progress-value">2/5</div>
+              </div>
+              <ion-progress-bar
+                value="0.4"
+                class="custom-progress"
+              ></ion-progress-bar>
+            </div>
+          </div>
+          <ion-chip class="rarity-chip rare">
+            <ion-label>Rare</ion-label>
+          </ion-chip>
+        </div>
+
+        <!-- Tournament King -->
+        <div class="badge-progress-card">
+          <div class="badge-progress-content">
+            <div class="badge-icon locked">
+              <ion-icon name="medal-outline"></ion-icon>
+            </div>
+            <div class="badge-info">
+              <h3>Tournament King</h3>
+              <p>Participer à 50 tournois</p>
+              <div class="progress-section">
+                <div class="progress-label">Progression</div>
+                <div class="progress-value">23/50</div>
+              </div>
+              <ion-progress-bar
+                value="0.46"
+                class="custom-progress"
+              ></ion-progress-bar>
+            </div>
+          </div>
+          <ion-chip class="rarity-chip epic">
+            <ion-label>Épique</ion-label>
+          </ion-chip>
+        </div>
+      </div>
+    </div>
+  </div>
 </ion-content>
