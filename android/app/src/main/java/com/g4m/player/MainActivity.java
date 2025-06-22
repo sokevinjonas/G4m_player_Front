@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package com.g4m.player;
 
 import com.getcapacitor.BridgeActivity;
 
