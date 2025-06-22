@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ApiService } from '../core/services/api/api.service';
 
 @Component({
   selector: 'app-badges',
@@ -7,7 +8,20 @@ import { Component, OnInit } from '@angular/core';
   standalone: false,
 })
 export class BadgesPage implements OnInit {
-  constructor() {}
+  unlockedBadges: any[] = [];
+  lockedBadges: any[] = [];
+  userId = 120; // Remplace par l'ID réel de l'utilisateur connecté
 
-  ngOnInit() {}
+  constructor(private api: ApiService) {}
+
+  ngOnInit() {
+    this.api.getUserBadgesUnLocked(this.userId).subscribe((badges) => {
+      this.unlockedBadges = badges;
+      console.log('Badges débloqués:', this.unlockedBadges);
+    });
+    this.api.getUserBadgesLocked(this.userId).subscribe((badges) => {
+      this.lockedBadges = badges;
+      console.log('Badges verrouillés:', this.lockedBadges);
+    });
+  }
 }

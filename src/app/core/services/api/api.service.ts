@@ -64,4 +64,13 @@ export class ApiService {
   getBadgesCount(): Observable<any> {
     return this.http.get(`${BASE_URL}/countUsersBadge`);
   }
+
+  // Nouveaux endpoints pour les badges verrouillés/déverrouillés d'un utilisateur
+  getUserBadgesLocked(userId: number): Observable<any> {
+    return this.http.get(`${BASE_URL}/LoadUsersBadgeLocked/${userId}`);
+  }
+
+  getUserBadgesUnLocked(userId: number): Observable<any> {
+    return this.http.get(`${BASE_URL}/LoadUsersBadgeUnLocked/${userId}`);
+  }
 }
