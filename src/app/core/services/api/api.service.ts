@@ -27,6 +27,18 @@ export class ApiService {
     return this.http.get(`${BASE_URL}/competitions/${id}/players`);
   }
 
+  getCompetitionsCountAllEnable(): Observable<any> {
+    return this.http.get(`${BASE_URL}/countAllEnabledCompetitions`);
+  }
+
+  getCompetitionsCount(): Observable<any> {
+    return this.http.get(`${BASE_URL}/countCompetitionsUser`);
+  }
+
+  getCompetitionsPoints(): Observable<any> {
+    return this.http.get(`${BASE_URL}/pointsCompetitionsUser`);
+  }
+
   // --- GAMES ---
   getGames(): Observable<any> {
     return this.http.get(`${BASE_URL}/games`);
@@ -36,6 +48,10 @@ export class ApiService {
     return this.http.get(`${BASE_URL}/games/${id}`);
   }
 
+  getGamesCountAll(): Observable<any> {
+    return this.http.get(`${BASE_URL}/countAllGame`);
+  }
+
   // --- BADGES ---
   getBadges(): Observable<any> {
     return this.http.get(`${BASE_URL}/badges`);
@@ -43,5 +59,9 @@ export class ApiService {
 
   getBadge(id: number): Observable<any> {
     return this.http.get(`${BASE_URL}/badges/${id}`);
+  }
+
+  getBadgesCount(): Observable<any> {
+    return this.http.get(`${BASE_URL}/countUsersBadge`);
   }
 }

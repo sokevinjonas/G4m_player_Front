@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { ApiService } from '../core/services/api/api.service';
 
 @Component({
   selector: 'app-home',
@@ -7,7 +8,44 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class HomePage {
+  myPoints: number = 0;
+  myBadges: number = 0;
+  tournoisDisponibles: number = 0;
+  jeuxDisponibles: number = 0;
+  constructor(protected apiService: ApiService) {}
 
-  constructor() {}
+  ionViewWillEnter() {
+    this.getCompetitionsCountAllEnable();
+    this.getGamesCountAll();
+    this.getCompetitionsPoints();
+    this.getBadges();
+  }
 
+  getCompetitionsCountAllEnable() {
+    this.apiService.getCompetitionsCountAllEnable().subscribe((data) => {
+      this.tournoisDisponibles = data.count;
+      console.log('Tournois disponibles:', data.count);
+    });
+  }
+
+  getGamesCountAll() {
+    this.apiService.getGamesCountAll().subscribe((data) => {
+      this.jeuxDisponibles = data.count;
+      console.log('Jeux disponibles:', data.count);
+    });
+  }
+
+  getCompetitionsPoints() {
+    this.apiService.getCompetitionsPoints().subscribe((data) => {
+      this.myPoints = data.points;
+      console.log('Mes points:', data.points);
+    });
+  }
+
+  getBadges() {
+    this.apiService.getBadgesCount().subscribe((data) => {
+      this.myBadges = data.count;
+      console.log('Mes badges:', data.count);
+    });
+  }
 }

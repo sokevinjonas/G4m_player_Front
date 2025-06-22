@@ -17,12 +17,12 @@
   <!-- Section des statistiques -->
   <div class="stats-section">
     <div class="stat-card points-card">
-      <div class="stat-number">1,247</div>
-      <div class="stat-label">Points</div>
+      <div class="stat-number">{{ myPoints }}</div>
+      <div class="stat-label">Mes Points</div>
     </div>
     <div class="stat-card badges-card">
-      <div class="stat-number">5</div>
-      <div class="stat-label">Badges</div>
+      <div class="stat-number">{{ myBadges }}</div>
+      <div class="stat-label">Mes Badges</div>
     </div>
   </div>
 
@@ -34,7 +34,7 @@
           <ion-icon name="trophy" class="action-icon trophy-icon"></ion-icon>
           <div class="action-text">
             <h3>Compétitions</h3>
-            <p>3 tournois disponibles</p>
+            <p>{{ tournoisDisponibles }} tournois disponibles</p>
           </div>
         </div>
       </ion-card-content>
@@ -49,7 +49,7 @@
           ></ion-icon>
           <div class="action-text">
             <h3>Explorer les jeux</h3>
-            <p>Découvrez 12 jeux populaires</p>
+            <p>Découvrez {{ jeuxDisponibles }} jeux populaires</p>
           </div>
         </div>
       </ion-card-content>
