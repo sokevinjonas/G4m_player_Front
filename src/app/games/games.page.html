@@ -13,126 +13,105 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
-  <!-- Category Pills -->
-  <div class="category-pills">
-    <ion-chip class="category-pill active">
-      <ion-label>Tous</ion-label>
-    </ion-chip>
-    <ion-chip class="category-pill">
-      <ion-label>Battle Royale</ion-label>
-    </ion-chip>
-    <ion-chip class="category-pill">
-      <ion-label>FPS</ion-label>
-    </ion-chip>
-    <ion-chip class="category-pill">
-      <ion-label>Stratégie</ion-label>
-    </ion-chip>
-  </div>
+  <!-- Skeleton pendant le chargement -->
+  <ng-container *ngIf="games.length === 0">
+    <ion-card *ngFor="let skel of [1,2,3,4,5]" class="game-card">
+      <ion-card-content>
+        <div class="game-header">
+          <ion-skeleton-text
+            animated
+            style="width: 48px; height: 48px; border-radius: 12px"
+          ></ion-skeleton-text>
+          <div class="game-info">
+            <ion-skeleton-text
+              animated
+              style="width: 120px; height: 18px"
+            ></ion-skeleton-text>
+            <ion-skeleton-text
+              animated
+              style="width: 180px; height: 14px; margin-top: 6px"
+            ></ion-skeleton-text>
+          </div>
+        </div>
+        <ion-skeleton-text
+          animated
+          style="width: 60px; height: 20px; margin-bottom: 12px"
+        ></ion-skeleton-text>
+        <div class="game-stats">
+          <ion-skeleton-text
+            animated
+            style="width: 80px; height: 14px"
+          ></ion-skeleton-text>
+          <ion-skeleton-text
+            animated
+            style="width: 80px; height: 14px"
+          ></ion-skeleton-text>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
 
-  <!-- Games List -->
-  <div class="games-list">
-    <!-- PUBG Mobile -->
+  <!-- Catégories avec ion-segment -->
+  <ion-segment
+    mode="ios"
+    scrollable
+    [(ngModel)]="selectedCategory"
+    (ionChange)="selectCategory($event.detail.value?.toString())"
+    *ngIf="games.length > 0"
+  >
+    <ion-segment-button *ngFor="let cat of categories" [value]="cat">
+      <ion-label>{{ cat }}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Liste des jeux -->
+  <div class="games-list" *ngIf="games.length > 0">
     <ion-card
       class="game-card"
       button
-      [routerLink]="['/show-games', 1]"
+      *ngFor="let game of filteredGames"
+      [routerLink]="['/show-games', game.id]"
       routerLinkActive="router-link-active"
     >
       <ion-card-content>
         <div class="game-header">
-          <div class="game-icon">
+          <div
+            class="game-icon"
+            [ngClass]="game.type_game?.name?.toLowerCase()"
+          >
             <img
-              src="https://www.citypng.com/public/uploads/preview/pubg-white-silhouette-soldier-with-helmet-logo-733961695143126pruerybiwc.png"
-              alt="PUBG Mobile Logo"
+              [src]="game.logo"
+              [alt]="game.name + ' Logo'"
               style="width: 32px; height: 32px"
             />
           </div>
           <div class="game-info">
-            <h2>PUBG Mobile</h2>
-            <p>Battle Royale ultime sur mobile</p>
+            <h2>{{ game.name }}</h2>
+            <p>
+              {{ game.description.length > 50 ? (game.description | slice:0:50)
+              + '...' : game.description }}
+            </p>
           </div>
         </div>
 
         <ion-chip class="game-category">
-          <ion-label>Battle Royale</ion-label>
+          <ion-label>{{ game.type_game?.name }}</ion-label>
         </ion-chip>
 
         <div class="game-stats">
           <div class="stat-item">
             <ion-icon name="trophy-outline"></ion-icon>
-            <span>3 tournois</span>
+            <span
+              >{{ game.competitions?.length || 0 }} tournoi{{
+              game.competitions?.length > 1 ? 's' : '' }}</span
+            >
           </div>
           <div class="stat-item">
             <ion-icon name="people-outline"></ion-icon>
-            <span>1250 joueurs</span>
-          </div>
-        </div>
-      </ion-card-content>
-    </ion-card>
-
-    <!-- Call of Duty Mobile -->
-    <ion-card class="game-card">
-      <ion-card-content>
-        <div class="game-header">
-          <div class="game-icon cod">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Call_of_Duty_2023_logo_2.svg/2048px-Call_of_Duty_2023_logo_2.svg.png"
-              alt="Call of Duty Mobile Logo"
-              style="width: 32px; height: 32px"
-            />
-          </div>
-          <div class="game-info">
-            <h2>Call of Duty Mobile</h2>
-            <p>Action FPS mobile légendaire</p>
-          </div>
-        </div>
-
-        <ion-chip class="game-category">
-          <ion-label>FPS</ion-label>
-        </ion-chip>
-
-        <div class="game-stats">
-          <div class="stat-item">
-            <ion-icon name="trophy-outline"></ion-icon>
-            <span>2 tournois</span>
-          </div>
-          <div class="stat-item">
-            <ion-icon name="people-outline"></ion-icon>
-            <span>890 joueurs</span>
-          </div>
-        </div>
-      </ion-card-content>
-    </ion-card>
-
-    <!-- Clash of Clans -->
-    <ion-card class="game-card">
-      <ion-card-content>
-        <div class="game-header">
-          <div class="game-icon clash">
-            <img
-              src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/Call_of_Duty_2023_logo_2.svg/2048px-Call_of_Duty_2023_logo_2.svg.png"
-              alt="Clash of Clans Logo"
-              style="width: 32px; height: 32px"
-            />
-          </div>
-          <div class="game-info">
-            <h2>Clash of Clans</h2>
-            <p>Stratégie et construction d'empire</p>
-          </div>
-        </div>
-
-        <ion-chip class="game-category">
-          <ion-label>Stratégie</ion-label>
-        </ion-chip>
-
-        <div class="game-stats">
-          <div class="stat-item">
-            <ion-icon name="trophy-outline"></ion-icon>
-            <span>1 tournoi</span>
-          </div>
-          <div class="stat-item">
-            <ion-icon name="people-outline"></ion-icon>
-            <span>650 joueurs</span>
+            <span
+              >{{ game.players?.length || 0 }} joueur{{ game.players?.length > 1
+              ? 's' : '' }}</span
+            >
           </div>
         </div>
       </ion-card-content>

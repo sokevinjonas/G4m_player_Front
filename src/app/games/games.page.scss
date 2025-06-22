@@ -31,10 +31,26 @@
   font-weight: 500;
 }
 
+.category-segment {
+  margin-bottom: 20px;
+  --color: var(--ion-color-light);
+  --border-radius: 16px;
+  --padding-start: 0;
+  --padding-end: 0;
+  --min-height: 40px;
+  border-radius: 16px;
+}
+
+ion-segment-button {
+  --background: rgba(255, 255, 255, 0.08);
+  --color: var(--ion-color-light);
+  --color-checked: var(--ion-color-primary);
+  margin-right: 4px;
+}
+
 .games-list {
   display: flex;
   flex-direction: column;
-  gap: 16px;
 }
 
 .game-card {
@@ -114,4 +130,14 @@
 .stat-item ion-icon {
   font-size: 16px;
   opacity: 0.8;
+}
+
+ion-segment {
+  /* Masquer la scrollbar sur tous les navigateurs */
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+ion-segment::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
