@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
 
 @Component({
   selector: 'app-register',
@@ -9,12 +10,16 @@ import { Router } from '@angular/router';
 })
 export class RegisterPage implements OnInit {
   register = {
+    id: '', // Ajout de l'id requis par UserRegister
     name: '',
     email: '',
     password: '',
     referralCode: '', // champ optionnel
   };
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authentication: AuthenticationService
+  ) {}
 
   ngOnInit() {}
 
@@ -23,8 +28,22 @@ export class RegisterPage implements OnInit {
       console.error('Form validation failed');
       return;
     }
-    console.log('Register:', this.register);
-    this.router.navigate(['/tabs/home']);
+    const userRegister = {
+      id: this.register.id,
+      name: this.register.name,
+      email: this.register.email,
+      password: this.register.password,
+      referred_by: this.register.referralCode || undefined,
+    };
+    this.authentication.registerUser(userRegister).subscribe({
+      next: (response) => {
+        console.log('Registration successful:', response);
+        this.router.navigate(['/tabs/home']);
+      },
+      error: (error) => {
+        console.error('Registration failed:', error);
+      },
+    });
   }
   validateForm() {
     // Implémente ici la logique de validation du formulaire
