@@ -1,13 +1,41 @@
-<ion-header [translucent]="true">
+<ion-header class="ion-no-border" [translucent]="true">
   <ion-toolbar>
-    <ion-title>historique</ion-title>
+    <ion-title>
+      <ion-icon name="time-outline" color="light"></ion-icon>
+      Historique de participation
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">historique</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="profile-header">
+    <ion-avatar class="profile-avatar">
+      <img src="assets/img/default-avatar.png" alt="Avatar utilisateur" />
+    </ion-avatar>
+    <h2 class="profile-name">John Doe</h2>
+    <p class="profile-role">Mes derniers tournois</p>
+  </div>
+  <ion-list>
+    <ion-item>
+      <ion-label>
+        <h3>Tournoi FIFA 2025</h3>
+        <p>Terminé le 12/06/2025</p>
+      </ion-label>
+      <ion-badge color="success" slot="end">1er</ion-badge>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h3>Tournoi Rocket League</h3>
+        <p>Terminé le 02/06/2025</p>
+      </ion-label>
+      <ion-badge color="warning" slot="end">3e</ion-badge>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h3>Tournoi Fortnite</h3>
+        <p>Terminé le 28/05/2025</p>
+      </ion-label>
+      <ion-badge color="medium" slot="end">8e</ion-badge>
+    </ion-item>
+  </ion-list>
 </ion-content>

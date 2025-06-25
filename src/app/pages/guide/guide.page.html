@@ -1,13 +1,30 @@
-<ion-header [translucent]="true">
+<ion-header class="ion-no-border" [translucent]="true">
   <ion-toolbar>
-    <ion-title>guide</ion-title>
+    <ion-title>
+      <ion-icon name="book-outline" color="light"></ion-icon>
+      Guide d'utilisation
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">guide</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="profile-header">
+    <ion-avatar class="profile-avatar">
+      <img src="assets/img/default-avatar.png" alt="Avatar utilisateur" />
+    </ion-avatar>
+    <h2 class="profile-name">John Doe</h2>
+    <p class="profile-role">Comment utiliser G4M Player</p>
+  </div>
+  <ion-card>
+    <ion-card-content>
+      <h3>1. Explorer les jeux</h3>
+      <p>Consultez la liste des jeux et découvrez leurs compétitions.</p>
+      <h3>2. Participer à un tournoi</h3>
+      <p>Inscrivez-vous à un tournoi et tentez de gagner des récompenses.</p>
+      <h3>3. Gagner des badges</h3>
+      <p>Remplissez des objectifs pour débloquer des badges exclusifs.</p>
+      <h3>4. Classement</h3>
+      <p>Progressez dans le classement général en accumulant des points.</p>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

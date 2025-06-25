@@ -1,13 +1,49 @@
-<ion-header [translucent]="true">
+<ion-header class="ion-no-border" [translucent]="true">
   <ion-toolbar>
-    <ion-title>classement</ion-title>
+    <ion-title>
+      <ion-icon name="podium-outline" color="warning"></ion-icon>
+      Mon classement
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">classement</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="profile-header">
+    <ion-avatar class="profile-avatar">
+      <img src="assets/img/default-avatar.png" alt="Avatar utilisateur" />
+    </ion-avatar>
+    <h2 class="profile-name">John Doe</h2>
+    <p class="profile-role">Classement général</p>
+  </div>
+  <ion-card>
+    <ion-card-content>
+      <div style="text-align: center">
+        <div style="font-size: 18px; margin-bottom: 8px">Votre position</div>
+        <ion-badge color="primary" style="font-size: 22px">#12</ion-badge>
+        <div style="margin-top: 12px; color: var(--ion-color-medium)">
+          Points : <b>1 250</b>
+        </div>
+      </div>
+    </ion-card-content>
+  </ion-card>
+  <ion-list>
+    <ion-item>
+      <ion-label>
+        <h3>1. Alice</h3>
+        <p>1 800 pts</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h3>2. Bob</h3>
+        <p>1 600 pts</p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h3>3. John Doe</h3>
+        <p>1 250 pts</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>

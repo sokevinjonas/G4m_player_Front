@@ -1,13 +1,88 @@
-<ion-header [translucent]="true">
+<ion-header class="ion-no-border" [translucent]="true">
   <ion-toolbar>
-    <ion-title>parrainage</ion-title>
+    <ion-title>
+      <ion-icon name="gift-outline" color="success"></ion-icon>
+      Parrainage & Récompenses
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">parrainage</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="profile-header">
+    <ion-avatar class="profile-avatar">
+      <img src="assets/img/default-avatar.png" alt="Avatar utilisateur" />
+    </ion-avatar>
+    <h2 class="profile-name">John Doe</h2>
+    <p class="profile-role">Invitez vos amis et gagnez des points !</p>
+  </div>
+  <ion-card>
+    <ion-card-content>
+      <div style="text-align: center">
+        <div style="font-size: 18px; margin-bottom: 8px">
+          Votre code de parrainage
+        </div>
+        <ion-chip color="primary" style="font-size: 18px">ABC123</ion-chip>
+        <ion-button
+          size="small"
+          fill="outline"
+          color="primary"
+          style="margin-left: 8px"
+        >
+          Copier
+        </ion-button>
+      </div>
+      <div style="margin-top: 18px">
+        <p>
+          Partagez ce code à vos amis. Lorsqu'ils s'inscrivent, vous gagnez des
+          points !
+        </p>
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="share-social-outline" color="primary"></ion-icon>
+        Suivez-nous sur les réseaux sociaux
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list>
+        <ion-item button>
+          <ion-icon
+            name="logo-facebook"
+            slot="start"
+            color="primary"
+          ></ion-icon>
+          <ion-label>Facebook</ion-label>
+          <ion-badge color="success" slot="end">+10 pts</ion-badge>
+        </ion-item>
+        <ion-item button>
+          <ion-icon name="logo-twitter" slot="start" color="primary"></ion-icon>
+          <ion-label>Twitter</ion-label>
+          <ion-badge color="success" slot="end">+10 pts</ion-badge>
+        </ion-item>
+        <ion-item button>
+          <ion-icon
+            name="logo-instagram"
+            slot="start"
+            color="primary"
+          ></ion-icon>
+          <ion-label>Instagram</ion-label>
+          <ion-badge color="success" slot="end">+10 pts</ion-badge>
+        </ion-item>
+        <ion-item button>
+          <ion-icon name="logo-discord" slot="start" color="primary"></ion-icon>
+          <ion-label>Discord</ion-label>
+          <ion-badge color="success" slot="end">+10 pts</ion-badge>
+        </ion-item>
+      </ion-list>
+      <div
+        style="font-size: 13px; color: var(--ion-color-medium); margin-top: 8px"
+      >
+        Suivez-nous sur chaque réseau pour gagner des points bonus !
+      </div>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

@@ -1,13 +1,37 @@
-<ion-header [translucent]="true">
+<ion-header class="ion-no-border" [translucent]="true">
   <ion-toolbar>
-    <ion-title>politique</ion-title>
+    <ion-title>
+      <ion-icon name="shield-checkmark-outline" color="light"></ion-icon>
+      Politique de confidentialité
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">politique</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="profile-header">
+    <ion-avatar class="profile-avatar">
+      <img src="assets/img/default-avatar.png" alt="Avatar utilisateur" />
+    </ion-avatar>
+    <h2 class="profile-name">John Doe</h2>
+    <p class="profile-role">Vos données sont protégées</p>
+  </div>
+  <ion-card>
+    <ion-card-content>
+      <h3>Résumé</h3>
+      <p>
+        Nous respectons votre vie privée. Vos données ne sont jamais partagées
+        sans votre consentement. Vous pouvez à tout moment demander la
+        suppression de votre compte et de vos informations.
+      </p>
+      <h3>Vos droits</h3>
+      <ul>
+        <li>Accès à vos données</li>
+        <li>Suppression sur demande</li>
+        <li>Pas de revente à des tiers</li>
+      </ul>
+      <p style="color: var(--ion-color-medium); font-size: 13px">
+        Pour plus d'informations, contactez notre support.
+      </p>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

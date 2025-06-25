@@ -1,13 +1,47 @@
-<ion-header [translucent]="true">
+<ion-header class="ion-no-border" [translucent]="true">
   <ion-toolbar>
-    <ion-title>aides</ion-title>
+    <ion-title>
+      <ion-icon name="help-circle-outline" color="light"></ion-icon>
+      Centre d'aide
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">aides</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="profile-header">
+    <ion-avatar class="profile-avatar">
+      <img src="assets/img/default-avatar.png" alt="Avatar utilisateur" />
+    </ion-avatar>
+    <h2 class="profile-name">John Doe</h2>
+    <p class="profile-role">Questions fréquentes</p>
+  </div>
+  <ion-list>
+    <ion-item>
+      <ion-label>
+        <h3>Comment participer à un tournoi ?</h3>
+        <p>
+          Rendez-vous sur la page "Jeux", choisissez un tournoi et cliquez sur
+          "S'inscrire".
+        </p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h3>Comment gagner des points ?</h3>
+        <p>
+          En participant à des tournois, en remportant des victoires et en
+          complétant des défis.
+        </p>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        <h3>Comment contacter le support ?</h3>
+        <p>
+          Utilisez le bouton "Centre d'aide" ou envoyez un mail à
+          supportg4mplayer.com.
+        </p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
