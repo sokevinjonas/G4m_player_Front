@@ -12,13 +12,19 @@ export class TournamentsPage implements OnInit {
 
   constructor(private api: ApiService) {}
 
-  ngOnInit() {
+  ionViewWillEnter() {
+    console.log('TournamentsPage: ionViewWillEnter');
     this.loadCompetitions();
+  }
+  ngOnInit() {
+    console.log('TournamentsPage: ngOnInit');
+    this.ionViewWillEnter();
   }
 
   loadCompetitions(event?: any) {
     this.api.getCompetitions().subscribe((data) => {
       this.competitions = data;
+      console.log('Competitions:', this.competitions);
       if (event) {
         event.target.complete();
       }

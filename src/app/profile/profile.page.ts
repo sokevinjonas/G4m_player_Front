@@ -15,8 +15,11 @@ export class ProfilePage implements OnInit {
   ionViewWillEnter() {
     // This method can be used to refresh data when the view is about to enter
     this.user = JSON.parse(localStorage.getItem('user') || '{}');
+    console.log('User:', this.user);
   }
-  ngOnInit() {}
+  ngOnInit() {
+    this.ionViewWillEnter();
+  }
   editProfile() {
     this.router.navigate(['/modifier-mon-profil']);
   }
