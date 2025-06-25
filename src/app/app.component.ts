@@ -27,8 +27,8 @@ export class AppComponent {
       this.router.navigate(['/tabs/home']);
     } else if (firstLaunch === null) {
       // Si l'utilisateur n'est pas connecté, rediriger vers l'écran de bienvenue
-      this.router.navigate(['/welcome-screen']);
-      // this.router.navigate(['/login']);
+      // this.router.navigate(['/welcome-screen']);
+      this.router.navigate(['/tabs/tournament']);
     }
   }
 }

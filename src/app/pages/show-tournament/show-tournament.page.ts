@@ -11,6 +11,7 @@ import { ApiService } from '../../core/services/api/api.service';
 export class ShowTournamentPage implements OnInit {
   tournament: any = null;
   loading = true;
+  user: any = {};
 
   constructor(private route: ActivatedRoute, private api: ApiService) {}
 
@@ -22,5 +23,7 @@ export class ShowTournamentPage implements OnInit {
         this.loading = false;
       });
     }
+    this.user = JSON.parse(localStorage.getItem('user') || '{}');
+    console.log('User:', this.user);
   }
 }

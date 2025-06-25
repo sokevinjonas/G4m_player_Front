@@ -39,6 +39,21 @@
   --color: var(--ion-color-light);
 }
 
+.status-chip.full {
+  --background: var(--ion-color-warning);
+  --color: var(--ion-color-dark);
+}
+
+.status-chip.cancelled {
+  --background: var(--ion-color-danger);
+  --color: var(--ion-color-light);
+}
+
+.status-chip.completed {
+  --background: var(--ion-color-medium);
+  --color: var(--ion-color-light);
+}
+
 .tournament-details {
   display: flex;
   gap: 24px;
