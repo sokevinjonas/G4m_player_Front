@@ -4,12 +4,10 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-notification',
   templateUrl: './notification.page.html',
   styleUrls: ['./notification.page.scss'],
+  standalone: false,
 })
 export class NotificationPage implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

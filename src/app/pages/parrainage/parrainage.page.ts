@@ -4,12 +4,10 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-parrainage',
   templateUrl: './parrainage.page.html',
   styleUrls: ['./parrainage.page.scss'],
+  standalone: false,
 })
 export class ParrainagePage implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

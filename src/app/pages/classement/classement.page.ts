@@ -4,12 +4,10 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-classement',
   templateUrl: './classement.page.html',
   styleUrls: ['./classement.page.scss'],
+  standalone: false,
 })
 export class ClassementPage implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

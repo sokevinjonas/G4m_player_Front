@@ -4,12 +4,10 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-modifier-mon-profil',
   templateUrl: './modifier-mon-profil.page.html',
   styleUrls: ['./modifier-mon-profil.page.scss'],
+  standalone: false,
 })
 export class ModifierMonProfilPage implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

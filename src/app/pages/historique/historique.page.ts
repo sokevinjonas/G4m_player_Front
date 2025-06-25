@@ -4,12 +4,10 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-historique',
   templateUrl: './historique.page.html',
   styleUrls: ['./historique.page.scss'],
+  standalone: false,
 })
 export class HistoriquePage implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }

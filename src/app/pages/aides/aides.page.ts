@@ -4,12 +4,10 @@ import { Component, OnInit } from '@angular/core';
   selector: 'app-aides',
   templateUrl: './aides.page.html',
   styleUrls: ['./aides.page.scss'],
+  standalone: false,
 })
 export class AidesPage implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }
