@@ -16,7 +16,14 @@
     </ion-avatar>
     <h2 class="auth-title">Bienvenue !</h2>
     <p class="auth-subtitle">Connecte-toi pour rejoindre la communauté</p>
-
+    <!-- Bloc pour les messages d'erreur du backend -->
+    <div *ngIf="backendErrors.length > 0" class="error-messages">
+      <ion-text color="danger">
+        <ul>
+          <li *ngFor="let err of backendErrors">{{ err }}</li>
+        </ul>
+      </ion-text>
+    </div>
     <form (ngSubmit)="onLogin()" #loginForm="ngForm">
       <ion-item>
         <ion-icon color="primary" name="mail-outline" slot="start"></ion-icon>
@@ -40,7 +47,9 @@
           required
           [(ngModel)]="login.password"
           name="password"
-        ></ion-input>
+        >
+          <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+        </ion-input>
       </ion-item>
       <ion-button expand="block" type="submit" color="primary" class="auth-btn">
         Se connecter

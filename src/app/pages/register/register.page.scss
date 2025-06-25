@@ -52,3 +52,14 @@
   margin-bottom: 14px;
   box-shadow: none;
 }
+.error-messages {
+  margin-bottom: 16px;
+  ul {
+    margin: 0;
+    padding-left: 18px;
+  }
+  li {
+    color: var(--ion-color-danger);
+    font-size: 14px;
+  }
+}

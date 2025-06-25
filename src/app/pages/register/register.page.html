@@ -17,6 +17,15 @@
     <h2 class="auth-title">Inscription</h2>
     <p class="auth-subtitle">Rejoins la communauté G4M Player</p>
 
+    <!-- Bloc pour les messages d'erreur du backend -->
+    <div *ngIf="backendErrors.length > 0" class="error-messages">
+      <ion-text color="danger">
+        <ul>
+          <li *ngFor="let err of backendErrors">{{ err }}</li>
+        </ul>
+      </ion-text>
+    </div>
+
     <form (ngSubmit)="onRegister()" #registerForm="ngForm">
       <ion-item>
         <ion-icon color="primary" name="person-outline" slot="start"></ion-icon>
@@ -50,7 +59,9 @@
           required
           [(ngModel)]="register.password"
           name="password"
-        ></ion-input>
+        >
+          <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+        </ion-input>
       </ion-item>
       <ion-item>
         <ion-icon color="primary" name="gift-outline" slot="start"></ion-icon>

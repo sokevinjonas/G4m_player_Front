@@ -13,4 +13,10 @@ export class AuthenticationService {
   registerUser(userData: UserRegister): Observable<UserResponse> {
     return this.http.post<UserResponse>(`${BASE_URL}/register`, userData);
   }
+  loginUser(email: string, password: string): Observable<UserResponse> {
+    return this.http.post<UserResponse>(`${BASE_URL}/login`, {
+      email,
+      password,
+    });
+  }
 }
