@@ -52,6 +52,15 @@
           name="password"
         ></ion-input>
       </ion-item>
+      <ion-item>
+        <ion-icon color="primary" name="gift-outline" slot="start"></ion-icon>
+        <ion-input
+          type="text"
+          placeholder="Code de parrain (optionnel)"
+          [(ngModel)]="register.referralCode"
+          name="referralCode"
+        ></ion-input>
+      </ion-item>
       <ion-button expand="block" type="submit" color="primary" class="auth-btn">
         S'inscrire
       </ion-button>

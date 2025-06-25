@@ -12,16 +12,27 @@ export class RegisterPage implements OnInit {
     name: '',
     email: '',
     password: '',
+    referralCode: '', // champ optionnel
   };
   constructor(private router: Router) {}
 
   ngOnInit() {}
 
   onRegister() {
-    // Ajoute ici ton appel API d'inscription
+    if (!this.validateForm()) {
+      console.error('Form validation failed');
+      return;
+    }
     console.log('Register:', this.register);
-    // Redirige vers le dashboard ou la page de login après inscription
     this.router.navigate(['/tabs/home']);
+  }
+  validateForm() {
+    // Implémente ici la logique de validation du formulaire
+    return (
+      this.register.name.trim() !== '' &&
+      this.register.email.trim() !== '' &&
+      this.register.password.trim() !== ''
+    );
   }
 
   goToLogin() {
