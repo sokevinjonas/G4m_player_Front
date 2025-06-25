@@ -39,6 +39,16 @@ export class ApiService {
     return this.http.get(`${BASE_URL}/pointsCompetitionsUser`);
   }
 
+  checkExistingParticipation(competitionId: number) {
+    const token = localStorage.getItem('token');
+    return this.http.get(
+      `${BASE_URL}/checkExistingParticipation?competition_id=${competitionId}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+  }
+
   // --- GAMES ---
   getGames(): Observable<any> {
     return this.http.get(`${BASE_URL}/games`);
