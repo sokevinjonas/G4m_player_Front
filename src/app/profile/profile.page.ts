@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -9,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 export class ProfilePage implements OnInit {
   user: any;
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.user = {
@@ -18,4 +19,40 @@ export class ProfilePage implements OnInit {
       email: 'john.doe@example.com',
     };
   }
+  editProfile() {
+  this.router.navigate(['/edit-profile']);
+}
+
+goToReferral() {
+  this.router.navigate(['/referral']);
+}
+
+goToHistory() {
+  this.router.navigate(['/my-history']);
+}
+
+goToRanking() {
+  this.router.navigate(['/ranking']);
+}
+
+goToNotifications() {
+  this.router.navigate(['/settings/notifications']);
+}
+
+openPrivacyPolicy() {
+  this.router.navigate(['/privacy-policy']);
+}
+
+openUserGuide() {
+  this.router.navigate(['/user-guide']);
+}
+
+goToSupport() {
+  this.router.navigate(['/support']);
+}
+
+logout() {
+  // this.authService.logout();
+}
+
 }

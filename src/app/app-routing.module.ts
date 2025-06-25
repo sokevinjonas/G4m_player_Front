@@ -33,6 +33,38 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
   },
+  {
+    path: 'aides',
+    loadChildren: () => import('./pages/aides/aides.module').then( m => m.AidesPageModule)
+  },
+  {
+    path: 'guide',
+    loadChildren: () => import('./pages/guide/guide.module').then( m => m.GuidePageModule)
+  },
+  {
+    path: 'politique',
+    loadChildren: () => import('./pages/politique/politique.module').then( m => m.PolitiquePageModule)
+  },
+  {
+    path: 'notification',
+    loadChildren: () => import('./pages/notification/notification.module').then( m => m.NotificationPageModule)
+  },
+  {
+    path: 'classement',
+    loadChildren: () => import('./pages/classement/classement.module').then( m => m.ClassementPageModule)
+  },
+  {
+    path: 'historique',
+    loadChildren: () => import('./pages/historique/historique.module').then( m => m.HistoriquePageModule)
+  },
+  {
+    path: 'parrainage',
+    loadChildren: () => import('./pages/parrainage/parrainage.module').then( m => m.ParrainagePageModule)
+  },
+  {
+    path: 'modifier-mon-profil',
+    loadChildren: () => import('./pages/modifier-mon-profil/modifier-mon-profil.module').then( m => m.ModifierMonProfilPageModule)
+  },
 ];
 
 @NgModule({
