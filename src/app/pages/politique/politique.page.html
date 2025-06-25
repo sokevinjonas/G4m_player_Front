@@ -1,20 +1,29 @@
 <ion-header class="ion-no-border" [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      <ion-icon name="shield-checkmark-outline" color="light"></ion-icon>
-      Politique de confidentialité
-    </ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/profile"></ion-back-button>
+    </ion-buttons>
+    <ion-title> Politique de confidentialité </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
-  <div class="profile-header">
-    <ion-avatar class="profile-avatar">
-      <img src="assets/img/default-avatar.png" alt="Avatar utilisateur" />
-    </ion-avatar>
-    <h2 class="profile-name">John Doe</h2>
-    <p class="profile-role">Vos données sont protégées</p>
-  </div>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Politique de confidentialité</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>
+        Cette politique de confidentialité décrit comment nous collectons,
+        utilisons et protégeons vos informations personnelles lorsque vous
+        utilisez notre application.
+      </p>
+      <p>
+        En utilisant notre application, vous acceptez les termes de cette
+        politique.
+      </p>
+    </ion-card-content>
+  </ion-card>
   <ion-card>
     <ion-card-content>
       <h3>Résumé</h3>

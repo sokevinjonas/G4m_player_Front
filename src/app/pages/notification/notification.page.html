@@ -1,21 +1,14 @@
 <ion-header class="ion-no-border" [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      <ion-icon name="notifications-outline" color="tertiary"></ion-icon>
-      Préférences de notification
-    </ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/profile"></ion-back-button>
+    </ion-buttons>
+    <ion-title> Préférences de notification </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
-  <div class="profile-header">
-    <ion-avatar class="profile-avatar">
-      <img src="assets/img/default-avatar.png" alt="Avatar utilisateur" />
-    </ion-avatar>
-    <h2 class="profile-name">John Doe</h2>
-    <p class="profile-role">Gérez vos notifications</p>
-  </div>
-  <ion-list>
+  <ion-list class="profile-actions">
     <ion-item>
       <ion-label>Notifications générales</ion-label>
       <ion-toggle checked></ion-toggle>
@@ -27,10 +20,6 @@
     <ion-item>
       <ion-label>Promotions & nouveautés</ion-label>
       <ion-toggle></ion-toggle>
-    </ion-item>
-    <ion-item>
-      <ion-label>Messages privés</ion-label>
-      <ion-toggle checked></ion-toggle>
     </ion-item>
   </ion-list>
 </ion-content>

@@ -20,39 +20,38 @@ export class ProfilePage implements OnInit {
     };
   }
   editProfile() {
-  this.router.navigate(['/edit-profile']);
-}
+    this.router.navigate(['/modifier-mon-profil']);
+  }
 
-goToReferral() {
-  this.router.navigate(['/referral']);
-}
+  goToReferral() {
+    this.router.navigate(['/parrainage']);
+  }
 
-goToHistory() {
-  this.router.navigate(['/my-history']);
-}
+  goToHistory() {
+    this.router.navigate(['/historique']);
+  }
 
-goToRanking() {
-  this.router.navigate(['/ranking']);
-}
+  goToRanking() {
+    this.router.navigate(['/classement']);
+  }
 
-goToNotifications() {
-  this.router.navigate(['/settings/notifications']);
-}
+  goToNotifications() {
+    this.router.navigate(['/notification']);
+  }
 
-openPrivacyPolicy() {
-  this.router.navigate(['/privacy-policy']);
-}
+  openPrivacyPolicy() {
+    this.router.navigate(['/politique']);
+  }
 
-openUserGuide() {
-  this.router.navigate(['/user-guide']);
-}
+  openUserGuide() {
+    this.router.navigate(['/guide']);
+  }
 
-goToSupport() {
-  this.router.navigate(['/support']);
-}
+  goToSupport() {
+    this.router.navigate(['/aides']);
+  }
 
-logout() {
-  // this.authService.logout();
-}
-
+  logout() {
+    // this.authService.logout();
+  }
 }

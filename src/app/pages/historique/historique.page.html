@@ -1,21 +1,14 @@
 <ion-header class="ion-no-border" [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      <ion-icon name="time-outline" color="light"></ion-icon>
-      Historique de participation
-    </ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/profile"></ion-back-button>
+    </ion-buttons>
+    <ion-title> Historique de participation </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
-  <div class="profile-header">
-    <ion-avatar class="profile-avatar">
-      <img src="assets/img/default-avatar.png" alt="Avatar utilisateur" />
-    </ion-avatar>
-    <h2 class="profile-name">John Doe</h2>
-    <p class="profile-role">Mes derniers tournois</p>
-  </div>
-  <ion-list>
+  <ion-list class="profile-actions">
     <ion-item>
       <ion-label>
         <h3>Tournoi FIFA 2025</h3>

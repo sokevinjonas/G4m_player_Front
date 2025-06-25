@@ -1,21 +1,29 @@
 <ion-header class="ion-no-border" [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      <ion-icon name="help-circle-outline" color="light"></ion-icon>
-      Centre d'aide
-    </ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="tabs/profile"></ion-back-button>
+    </ion-buttons>
+    <ion-title> Centre d'aide </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
-  <div class="profile-header">
-    <ion-avatar class="profile-avatar">
-      <img src="assets/img/default-avatar.png" alt="Avatar utilisateur" />
-    </ion-avatar>
-    <h2 class="profile-name">John Doe</h2>
-    <p class="profile-role">Questions fréquentes</p>
-  </div>
-  <ion-list>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Bienvenue dans le Centre d'aide</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>
+        Vous trouverez ici des réponses aux questions fréquentes et des
+        informations utiles pour profiter au mieux de notre application.
+      </p>
+      <p>
+        Si vous ne trouvez pas la réponse à votre question, n'hésitez pas à nous
+        contacter via le support.
+      </p>
+    </ion-card-content>
+  </ion-card>
+  <ion-list class="profile-actions">
     <ion-item>
       <ion-label>
         <h3>Comment participer à un tournoi ?</h3>

@@ -1,0 +1,16 @@
+.profile-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: transparent;
+}
+ion-list.profile-actions ion-item {
+  border-radius: 12px;
+  --background: var(--ion-second-background);
+  color: var(--ion-color-light);
+}
+ion-card {
+  --background: var(--ion-second-background);
+  border-radius: 12px;
+  box-shadow: none;
+}
