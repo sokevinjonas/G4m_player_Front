@@ -12,6 +12,7 @@ export class HomePage {
   myBadges: number = 0;
   tournoisDisponibles: number = 0;
   jeuxDisponibles: number = 0;
+  user: any = {}; // Initialize user as an empty object
   constructor(protected apiService: ApiService) {}
 
   ionViewWillEnter() {
@@ -19,6 +20,8 @@ export class HomePage {
     this.getGamesCountAll();
     this.getCompetitionsPoints();
     this.getBadges();
+    this.user = JSON.parse(localStorage.getItem('user') || '{}');
+    console.log('User:', this.user);
   }
 
   getCompetitionsCountAllEnable() {

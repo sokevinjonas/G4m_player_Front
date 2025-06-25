@@ -27,6 +27,8 @@ export class WelcomeScreenPage implements OnInit {
   }
 
   async onDashboardAccess() {
+    // localStorage.setItem('isConnected', 'true');
+    localStorage.setItem('firstLaunch', 'true');
     // Navigation vers le dashboard
     this.router.navigate(['/tabs/home']);
   }

@@ -8,17 +8,15 @@ import { Router } from '@angular/router';
   standalone: false,
 })
 export class ProfilePage implements OnInit {
-  user: any;
+  user: any = {};
 
   constructor(private router: Router) {}
 
-  ngOnInit() {
-    this.user = {
-      id: 1,
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-    };
+  ionViewWillEnter() {
+    // This method can be used to refresh data when the view is about to enter
+    this.user = JSON.parse(localStorage.getItem('user') || '{}');
   }
+  ngOnInit() {}
   editProfile() {
     this.router.navigate(['/modifier-mon-profil']);
   }

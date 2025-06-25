@@ -1,6 +1,6 @@
 <ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>Bienvenue, GamerPro</ion-title>
+    <ion-title> <span class="username">G4ME</span> Por Africa</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -8,7 +8,7 @@
   <!-- Section d'accueil -->
   <div class="welcome-section">
     <h1 class="welcome-title">
-      Bienvenue, <span class="username">GamerPro</span>
+      Bienvenue, <span class="username">{{ user.name || 'Invité' }}</span>
     </h1>
     <div class="wave-emoji">👋</div>
     <p class="welcome-subtitle">Prêt pour de nouvelles aventures ?</p>
