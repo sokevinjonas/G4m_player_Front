@@ -48,6 +48,47 @@ ion-segment-button {
   margin-right: 4px;
 }
 
+/* MESSAGE AUCUN JEU */
+.no-games-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 20px;
+  min-height: 60vh;
+}
+
+.no-games-icon {
+  font-size: 80px;
+  color: rgba(148, 47, 255, 0.3);
+  margin-bottom: 20px;
+}
+
+.no-games-message h2 {
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 600;
+  margin: 0 0 12px 0;
+}
+
+.no-games-message p {
+  color: #8a91a8;
+  font-size: 16px;
+  margin: 0 0 24px 0;
+  line-height: 1.5;
+}
+
+.no-games-message ion-button {
+  --border-color: rgba(148, 47, 255, 0.5);
+  --color: #942fff;
+
+  &:hover {
+    --background: rgba(148, 47, 255, 0.1);
+  }
+}
+
+/* GAMES LIST */
 .games-list {
   display: flex;
   flex-direction: column;

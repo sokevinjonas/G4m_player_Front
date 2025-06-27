@@ -14,7 +14,7 @@
 
 <ion-content [fullscreen]="true" class="ion-padding">
   <!-- Skeleton pendant le chargement -->
-  <ng-container *ngIf="games.length === 0">
+  <ng-container *ngIf="isLoading && games.length === 0">
     <ion-card *ngFor="let skel of [1,2,3,4,5]" class="game-card">
       <ion-card-content>
         <div class="game-header">
@@ -51,13 +51,24 @@
     </ion-card>
   </ng-container>
 
+  <!-- Message d'erreur si aucun jeu n'est trouvé -->
+  <div class="no-games-message" *ngIf="showNoGamesMessage">
+    <ion-icon name="game-controller-outline" class="no-games-icon"></ion-icon>
+    <h2>Aucun jeux trouvé</h2>
+    <p>Revenez plus tard pour découvrir les jeux</p>
+    <ion-button fill="outline" color="primary" (click)="ionViewWillEnter()">
+      <ion-icon name="refresh-outline" slot="start"></ion-icon>
+      Réessayer
+    </ion-button>
+  </div>
+
   <!-- Catégories avec ion-segment -->
   <ion-segment
     mode="ios"
     scrollable
     [(ngModel)]="selectedCategory"
     (ionChange)="selectCategory($event.detail.value?.toString())"
-    *ngIf="games.length > 0"
+    *ngIf="games.length > 0 && !isLoading && !showNoGamesMessage"
   >
     <ion-segment-button *ngFor="let cat of categories" [value]="cat">
       <ion-label>{{ cat }}</ion-label>
@@ -65,7 +76,10 @@
   </ion-segment>
 
   <!-- Liste des jeux -->
-  <div class="games-list" *ngIf="games.length > 0">
+  <div
+    class="games-list"
+    *ngIf="games.length > 0 && !isLoading && !showNoGamesMessage"
+  >
     <ion-card
       class="game-card"
       button
