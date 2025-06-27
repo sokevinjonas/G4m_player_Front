@@ -56,4 +56,22 @@ export class ShowTournamentPage implements OnInit {
       console.error('Utilisateur ou tournoi non défini');
     }
   }
+
+  getRules(rules: string): string[] {
+    console.log('Rules raw:', rules);
+    try {
+      let parsed = JSON.parse(rules);
+      console.log('First parse:', parsed);
+
+      if (typeof parsed === 'string') {
+        parsed = JSON.parse(parsed);
+        console.log('Second parse:', parsed);
+      }
+
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (error) {
+      console.error('Erreur lors du parsing des règles:', error);
+      return [];
+    }
+  }
 }

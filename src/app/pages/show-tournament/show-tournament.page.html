@@ -94,9 +94,9 @@
           <p class="section-title">Règles</p>
           <ion-text class="ion-text-justify">
             <ul class="rules-list">
-              <li *ngFor="let rule of (tournament.rules | jsonParse)">
-                {{ rule }}
-              </li>
+              <ng-container *ngFor="let rule of getRules(tournament.rules)">
+                <li>{{ rule }}</li>
+              </ng-container>
             </ul>
           </ion-text>
           <ng-container *ngIf="participation">
@@ -136,7 +136,12 @@
             </ng-container>
           </ng-container>
           <ng-container *ngIf="participation === null">
-            <ion-button expand="block" shape="round" color="primary" (click)="registerForTournament()">
+            <ion-button
+              expand="block"
+              shape="round"
+              color="primary"
+              (click)="registerForTournament()"
+            >
               S'inscrire au tournoi
             </ion-button>
           </ng-container>
