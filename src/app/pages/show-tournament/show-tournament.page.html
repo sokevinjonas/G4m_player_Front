@@ -12,24 +12,135 @@
 <ion-content [fullscreen]="true" class="ion-padding">
   <!-- Skeleton pendant le chargement -->
   <ng-container *ngIf="loading">
-    <ion-card>
-      <ion-card-header>
-        <ion-skeleton-text
-          animated
-          style="width: 60%; height: 24px"
-        ></ion-skeleton-text>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-skeleton-text
-          animated
-          style="width: 100%; height: 16px; margin-bottom: 8px"
-        ></ion-skeleton-text>
-        <ion-skeleton-text
-          animated
-          style="width: 80%; height: 16px"
-        ></ion-skeleton-text>
-      </ion-card-content>
-    </ion-card>
+    <div class="skeleton-container">
+      <ion-grid>
+        <!-- Skeleton pour le titre et status -->
+        <ion-card-header>
+          <ion-skeleton-text
+            animated
+            style="width: 70%; height: 28px; margin-bottom: 16px"
+          ></ion-skeleton-text>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="card-row">
+            <div style="display: flex; align-items: center">
+              <ion-skeleton-text
+                animated
+                style="
+                  width: 32px;
+                  height: 32px;
+                  border-radius: 4px;
+                  margin-right: 8px;
+                "
+              ></ion-skeleton-text>
+              <ion-skeleton-text
+                animated
+                style="width: 120px; height: 20px"
+              ></ion-skeleton-text>
+            </div>
+            <ion-skeleton-text
+              animated
+              style="width: 80px; height: 32px; border-radius: 16px"
+            ></ion-skeleton-text>
+          </div>
+        </ion-card-content>
+
+        <!-- Skeleton pour les informations du tournoi -->
+        <ion-card class="tournament-info-card">
+          <ion-card-header>
+            <ion-skeleton-text
+              animated
+              style="width: 60%; height: 24px; margin-bottom: 8px"
+            ></ion-skeleton-text>
+            <div class="card-row">
+              <ion-skeleton-text
+                animated
+                style="width: 40%; height: 16px"
+              ></ion-skeleton-text>
+              <ion-skeleton-text
+                animated
+                style="width: 30%; height: 16px"
+              ></ion-skeleton-text>
+            </div>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-skeleton-text
+              animated
+              style="width: 30%; height: 18px; margin-bottom: 12px"
+            ></ion-skeleton-text>
+            <ion-skeleton-text
+              animated
+              style="width: 100%; height: 16px; margin-bottom: 8px"
+            ></ion-skeleton-text>
+            <ion-skeleton-text
+              animated
+              style="width: 85%; height: 16px; margin-bottom: 16px"
+            ></ion-skeleton-text>
+
+            <ion-skeleton-text
+              animated
+              style="width: 25%; height: 18px; margin-bottom: 12px"
+            ></ion-skeleton-text>
+            <ion-skeleton-text
+              animated
+              style="width: 100%; height: 16px; margin-bottom: 6px"
+            ></ion-skeleton-text>
+            <ion-skeleton-text
+              animated
+              style="width: 90%; height: 16px; margin-bottom: 6px"
+            ></ion-skeleton-text>
+            <ion-skeleton-text
+              animated
+              style="width: 75%; height: 16px; margin-bottom: 16px"
+            ></ion-skeleton-text>
+
+            <!-- Skeleton pour le bouton d'inscription -->
+            <ion-skeleton-text
+              animated
+              style="width: 100%; height: 44px; border-radius: 22px"
+            ></ion-skeleton-text>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Skeleton pour la liste des participants -->
+        <ion-card class="participants-card">
+          <ion-card-header>
+            <ion-skeleton-text
+              animated
+              style="width: 50%; height: 24px"
+            ></ion-skeleton-text>
+          </ion-card-header>
+          <div class="participants-list">
+            <ion-card class="participant-card">
+              <!-- Skeleton pour 3 participants -->
+              <div class="participant-content" *ngFor="let i of [1,2,3]">
+                <ion-skeleton-text
+                  animated
+                  style="width: 40px; height: 40px; border-radius: 50%"
+                ></ion-skeleton-text>
+                <div
+                  class="participant-info"
+                  style="flex: 1; margin-left: 12px"
+                >
+                  <ion-skeleton-text
+                    animated
+                    style="width: 60%; height: 20px; margin-bottom: 4px"
+                  ></ion-skeleton-text>
+                  <ion-skeleton-text
+                    animated
+                    style="width: 40%; height: 16px"
+                  ></ion-skeleton-text>
+                </div>
+                <ion-skeleton-text
+                  animated
+                  style="width: 60px; height: 32px; border-radius: 16px"
+                ></ion-skeleton-text>
+              </div>
+            </ion-card>
+          </div>
+        </ion-card>
+      </ion-grid>
+    </div>
   </ng-container>
 
   <!-- Affichage des données réelles -->
@@ -99,55 +210,43 @@
               </ng-container>
             </ul>
           </ion-text>
-          <ng-container *ngIf="participation">
-            <ng-container *ngIf="participation.exists">
+          <ng-container *ngIf="user && participation?.exists  === true">
+            <ion-button
+              expand="block"
+              shape="round"
+              color="medium"
+              (click)="showUnregisterAlert()"
+            >
+              Déjà inscrit
+            </ion-button>
+          </ng-container>
+          <ng-container *ngIf=" user && participation?.exists === false">
+            <ng-container *ngIf="tournament.status === 'upcoming'">
               <ion-button
                 expand="block"
                 shape="round"
-                color="medium"
-                (click)="showUnregisterAlert()"
+                color="primary"
+                (click)="registerForTournament()"
               >
-                Déjà inscrit
+                S'inscrire au tournoi
               </ion-button>
             </ng-container>
-            <ng-container *ngIf="!participation.exists">
-              <ng-container *ngIf="tournament.status === 'upcoming'">
-                <ion-button
-                  expand="block"
-                  shape="round"
-                  color="primary"
-                  (click)="registerForTournament()"
-                >
-                  S'inscrire au tournoi
-                </ion-button>
-              </ng-container>
-              <ng-container *ngIf="tournament.status === 'full'">
-                <ion-button
-                  expand="block"
-                  shape="round"
-                  color="danger"
-                  disabled
-                >
-                  Déjà plein
-                </ion-button>
-              </ng-container>
-              <ng-container
-                *ngIf="tournament.status !== 'upcoming' && tournament.status !== 'full'"
-              >
-                <ion-button
-                  expand="block"
-                  shape="round"
-                  color="primary"
-                  disabled
-                >
-                  S'inscrire au tournoi
-                </ion-button>
-              </ng-container>
+            <ng-container *ngIf="tournament.status === 'full'">
+              <ion-button expand="block" shape="round" color="danger" disabled>
+                Déjà plein
+              </ion-button>
+            </ng-container>
+            <ng-container
+              *ngIf="tournament.status !== 'upcoming' && tournament.status !== 'full'"
+            >
+              <ion-button expand="block" shape="round" color="primary" disabled>
+                S'inscrire au tournoi
+              </ion-button>
             </ng-container>
           </ng-container>
 
           <!-- Afficher le bouton même si participation est null ou utilisateur non connecté -->
-          <ng-container *ngIf="participation === null">
+          <ng-container *ngIf="!participation || !user">
             <ng-container *ngIf="tournament.status === 'upcoming'">
               <ion-button
                 expand="block"

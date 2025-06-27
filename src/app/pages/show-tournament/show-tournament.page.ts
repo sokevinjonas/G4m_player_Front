@@ -26,12 +26,19 @@ export class ShowTournamentPage implements OnInit {
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
     this.user = JSON.parse(localStorage.getItem('user') || '{}');
+
     if (id) {
+      // Délai minimum pour l'affichage du skeleton
+      const minLoadingTime = 800; // 800ms minimum
+      const startTime = Date.now();
+
       this.api.getCompetition(+id).subscribe((data) => {
         this.tournament = data;
         console.log('Tournament data:', this.tournament);
 
-        this.loading = false;
+        // Calculer le temps écoulé et attendre le minimum si nécessaire
+        const elapsedTime = Date.now() - startTime;
+        const remainingTime = Math.max(0, minLoadingTime - elapsedTime);
 
         // Vérifie la participation seulement si user et tournoi existent
         if (this.user?.id && this.tournament?.id) {
@@ -39,8 +46,12 @@ export class ShowTournamentPage implements OnInit {
             .checkExistingParticipation(this.tournament.id)
             .subscribe((res) => {
               this.participation = res;
+              console.log('Participation:', this.participation);
             });
         }
+        setTimeout(() => {
+          this.loading = false;
+        }, remainingTime);
       });
     }
     console.log('User:', this.user);

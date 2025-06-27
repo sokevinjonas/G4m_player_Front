@@ -137,3 +137,51 @@
   font-size: 13px;
   font-weight: 500;
 }
+
+// Styles pour les skeletons
+.skeleton-container {
+  ion-skeleton-text {
+    --background: rgba(255, 255, 255, 0.1);
+    --background-rgb: 255, 255, 255;
+    border-radius: 4px;
+  }
+}
+
+// Skeleton spécifique pour les participants
+.participant-card .participant-content {
+  padding: 8px 0;
+
+  ion-skeleton-text {
+    --background: rgba(255, 255, 255, 0.08);
+  }
+}
+
+// Animation plus fluide pour les skeletons
+ion-skeleton-text {
+  --background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 25%,
+    rgba(255, 255, 255, 0.15) 50%,
+    rgba(255, 255, 255, 0.05) 75%
+  );
+  border-radius: 4px;
+}
+
+// Skeleton pour les cartes
+.tournament-info-card,
+.participants-card {
+  .skeleton-content {
+    padding: 16px;
+  }
+}
+
+.no-participant-card {
+  background: #1a1f2e;
+  border-radius: 12px;
+  text-align: center;
+
+  ion-card-content p {
+    color: #bdbdbd;
+    font-style: italic;
+  }
+}
