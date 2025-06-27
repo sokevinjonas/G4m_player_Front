@@ -24,19 +24,7 @@ export class ModifierMonProfilPage implements OnInit {
     this.ionViewWillEnter();
   }
 
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files[0]) {
-      const file = input.files[0];
-      this.selectedFile = file;
-
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.previewImage = reader.result;
-      };
-      reader.readAsDataURL(file);
-    }
-  }
+  onFileSelected(): void {}
 
   saveProfile(): void {
     if (this.selectedFile) {
