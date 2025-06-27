@@ -19,4 +19,39 @@ export class AuthenticationService {
       password,
     });
   }
+  logout(): Observable<void> {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      localStorage.clear();
+      return new Observable((observer) => {
+        observer.next();
+        observer.complete();
+      });
+    }
+
+    return new Observable((observer) => {
+      this.http
+        .post(
+          `${BASE_URL}/logout`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        )
+        .subscribe({
+          next: () => {
+            console.log('Déconnexion réussie');
+            localStorage.clear();
+            observer.next();
+            observer.complete();
+          },
+          error: (error) => {
+            console.error('Erreur de déconnexion', error);
+            observer.error(error);
+          },
+        });
+    });
+  }
 }

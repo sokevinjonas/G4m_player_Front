@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthenticationService } from '../core/services/authentication/authentication.service';
+import { ToastController, AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-profile',
@@ -10,7 +12,12 @@ import { Router } from '@angular/router';
 export class ProfilePage implements OnInit {
   user: any = {};
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthenticationService,
+    private toastController: ToastController,
+    private alertController: AlertController
+  ) {}
 
   ionViewWillEnter() {
     // This method can be used to refresh data when the view is about to enter
@@ -52,7 +59,42 @@ export class ProfilePage implements OnInit {
     this.router.navigate(['/aides']);
   }
 
-  logout() {
-    // this.authService.logout();
+  async logout() {
+    const alert = await this.alertController.create({
+      header: 'Confirmation',
+      message: 'Êtes-vous sûr de vouloir vous déconnecter ?',
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+        },
+        {
+          text: 'Déconnexion',
+          handler: () => {
+            this.authService.logout().subscribe({
+              next: () => {
+                this.presentToast('Déconnexion réussie');
+                this.router.navigate(['/welcome-screen']);
+              },
+              error: (err) => {
+                this.presentToast('Veuillez vérifier votre connexion internet');
+                console.error('Erreur:', err);
+              },
+            });
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  async presentToast(message: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      position: 'bottom',
+      color: 'dark',
+    });
+    toast.present();
   }
 }
