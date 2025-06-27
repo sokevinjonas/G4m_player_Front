@@ -88,8 +88,9 @@
           <div class="game-info">
             <h2>{{ game.name }}</h2>
             <p>
-              {{ game.description.length > 50 ? (game.description | slice:0:50)
-              + '...' : game.description }}
+              {{ game.description && game.description.length > 50 ?
+              (game.description | slice:0:50) + '...' : (game.description ||
+              'Aucune description disponible') }}
             </p>
           </div>
         </div>
