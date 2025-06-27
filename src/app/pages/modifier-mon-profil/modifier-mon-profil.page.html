@@ -43,11 +43,17 @@
     <ion-item>
       <ion-label position="stacked">Bio</ion-label>
       <ion-textarea
-        value="{{ user.bio || 'Passionné de jeux vidéo comme clash of clans, Dls ...' }}"
+        value="{{ user.bio  }}"
+        placeholder="Ex: Passionné de clash of clans, Dls ..."
       ></ion-textarea>
     </ion-item>
   </ion-list>
-  <ion-button expand="block" color="primary" style="margin-top: 24px">
+  <ion-button
+    (click)="saveProfile()"
+    expand="block"
+    color="primary"
+    style="margin-top: 24px"
+  >
     Enregistrer les modifications
   </ion-button>
 </ion-content>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { Capacitor } from '@capacitor/core';
 import { AFRICAN_COUNTRIES } from 'src/app/core/mocks/mock-african-countries';
+import { ApiService } from 'src/app/core/services/api/api.service';
 
 @Component({
   selector: 'app-modifier-mon-profil',
@@ -15,7 +16,7 @@ export class ModifierMonProfilPage implements OnInit {
   selectedFile: Blob | null = null;
   countryList = AFRICAN_COUNTRIES;
 
-  constructor() {}
+  constructor(private apiService: ApiService) {}
 
   ionViewWillEnter() {
     this.user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -48,6 +49,9 @@ export class ModifierMonProfilPage implements OnInit {
         allowEditing: true,
         resultType: CameraResultType.Uri,
         source: CameraSource.Prompt, // ← permet de choisir entre appareil photo ou galerie
+        promptLabelHeader: 'Changer la Photo de Profil',
+        promptLabelPhoto: 'Choisir dans la Galerie',
+        promptLabelPicture: 'Prendre une Photo',
       });
 
       if (image.webPath) {
@@ -67,18 +71,25 @@ export class ModifierMonProfilPage implements OnInit {
     const formData = new FormData();
 
     if (this.selectedFile) {
-      formData.append('profileImage', this.selectedFile);
+      formData.append('avatar', this.selectedFile, 'avatar.jpg');
     }
 
     formData.append('name', this.user.name || '');
     formData.append('email', this.user.email || '');
     formData.append('country', this.user.country || '');
     formData.append('bio', this.user.bio || '');
-
     // Affiche dans la console pour test (remplace ça par ton appel API réel)
     console.log('FormData ready to send:', formData);
 
-    // Exemple :
-    // this.http.post(`${API_URL}/update-profile`, formData).subscribe(...)
+    this.apiService.updateUserProfile(formData).subscribe({
+      next: (res) => {
+        console.log('Profil mis à jour avec succès', res);
+        // Optionnel : mettre à jour localStorage si nécessaire
+        localStorage.setItem('user', JSON.stringify(res.user));
+      },
+      error: (err) => {
+        console.error('Erreur lors de la mise à jour', err);
+      },
+    });
   }
 }

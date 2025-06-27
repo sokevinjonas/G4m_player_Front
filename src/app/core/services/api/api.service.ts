@@ -10,6 +10,17 @@ const BASE_URL = environment.apiUrl;
 export class ApiService {
   constructor(private http: HttpClient) {}
 
+  // --- USER ---
+
+  updateUserProfile(formData: FormData): Observable<any> {
+    const token = localStorage.getItem('token');
+    return this.http.put(`${BASE_URL}/userUpdate`, formData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  }
+
   // --- COMPETITIONS ---
   getCompetitions(): Observable<any> {
     return this.http.get(`${BASE_URL}/competitions`);
