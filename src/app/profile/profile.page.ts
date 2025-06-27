@@ -29,20 +29,21 @@ export class ProfilePage implements OnInit {
   ngOnInit() {
     this.ionViewWillEnter();
   }
+  goToNewPageAuthUser(url: string) {
+    // Vérifie si l'utilisateur est authentifié
+    if (this.user && this.user.id) {
+      // Si l'utilisateur est authentifié, navigue vers la page demandée
+      this.router.navigate([url]);
+      return;
+    }
+    // Si l'utilisateur n'est pas authentifié, affficher un toast
+    this.presentToast(
+      'Veuillez vous connecter pour accéder à cette page',
+      'warning'
+    );
+  }
   editProfile() {
     this.router.navigate(['/modifier-mon-profil']);
-  }
-
-  goToReferral() {
-    this.router.navigate(['/parrainage']);
-  }
-
-  goToHistory() {
-    this.router.navigate(['/historique']);
-  }
-
-  goToRanking() {
-    this.router.navigate(['/classement']);
   }
 
   goToNotifications() {
@@ -90,12 +91,12 @@ export class ProfilePage implements OnInit {
     await alert.present();
   }
 
-  async presentToast(message: string) {
+  async presentToast(message: string, color: string = 'dark') {
     const toast = await this.toastController.create({
       message,
       duration: 2000,
       position: 'bottom',
-      color: 'dark',
+      color: color,
     });
     toast.present();
   }
