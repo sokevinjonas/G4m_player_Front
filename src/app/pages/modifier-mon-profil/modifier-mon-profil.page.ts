@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
 import { ToastController, LoadingController } from '@ionic/angular';
 import { ApiService } from 'src/app/core/services/api/api.service';
+import { FileSaveOrPreviewService } from 'src/app/core/services/fileSaveOrPreview/file-save-or-preview.service';
 import { AFRICAN_COUNTRIES } from 'src/app/core/mocks/mock-african-countries';
 
 @Component({
@@ -20,6 +20,7 @@ export class ModifierMonProfilPage implements OnInit {
   constructor(
     private fb: FormBuilder,
     private apiService: ApiService,
+    private fileSaveOrPreviewService: FileSaveOrPreviewService,
     private toastController: ToastController,
     private loadingController: LoadingController
   ) {}
@@ -35,42 +36,24 @@ export class ModifierMonProfilPage implements OnInit {
     });
 
     if (user.avatar) {
-      this.previewImage = user.avatar;
+      this.previewImage = this.fileSaveOrPreviewService.getAvatarDisplayUrl(
+        user.avatar
+      );
     }
   }
 
   async selectImage() {
     try {
-      const image = await Camera.getPhoto({
-        quality: 90,
-        allowEditing: false,
-        resultType: CameraResultType.Uri, // Utiliser Uri au lieu de DataUrl
-        source: CameraSource.Prompt,
-        promptLabelHeader: 'Changer la Photo de Profil',
-        promptLabelPhoto: 'Choisir dans la Galerie',
-        promptLabelPicture: 'Prendre une Photo',
-      });
+      const result = await this.fileSaveOrPreviewService.selectImage();
 
-      if (image.webPath) {
-        this.previewImage = image.webPath;
+      if (result) {
+        this.selectedFile = result.file;
+        this.previewImage = result.previewUrl;
 
-        // Récupérer le fichier depuis l'URI
-        const response = await fetch(image.webPath);
-        const blob = await response.blob();
-
-        // Créer un File avec le bon type MIME détecté
-        const fileType = blob.type || 'image/jpeg';
-        const fileName = `avatar.${fileType.split('/')[1] || 'jpg'}`;
-
-        this.selectedFile = new File([blob], fileName, {
-          type: fileType,
-        });
-
-        console.log('Image sélectionnée:', {
-          name: this.selectedFile.name,
-          size: this.selectedFile.size,
-          type: this.selectedFile.type,
-          isFile: this.selectedFile instanceof File,
+        console.log('Image sélectionnée via service:', {
+          name: result.file.name,
+          size: result.file.size,
+          type: result.file.type,
         });
       }
     } catch (error) {
@@ -128,7 +111,11 @@ export class ModifierMonProfilPage implements OnInit {
         this.showToast(res.message || 'Profil mis à jour');
 
         localStorage.setItem('user', JSON.stringify(res.user));
-        this.previewImage = res.user.avatar; // URL complète retournée par Laravel
+
+        // Utiliser le service pour obtenir l'URL d'affichage correcte
+        this.previewImage = this.fileSaveOrPreviewService.getAvatarDisplayUrl(
+          res.user.avatar
+        );
         this.selectedFile = null; // Reset du fichier sélectionné
       },
       error: async (err) => {
@@ -138,6 +125,10 @@ export class ModifierMonProfilPage implements OnInit {
         this.showToast('Erreur lors de la mise à jour');
       },
     });
+  }
+
+  getDefaultAvatarUrl(): string {
+    return this.fileSaveOrPreviewService.getAvatarDisplayUrl(null);
   }
 
   async showToast(message: string) {

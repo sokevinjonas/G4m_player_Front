@@ -11,7 +11,7 @@
   <div class="profile-header">
     <ion-avatar class="profile-avatar" (click)="selectImage()">
       <img
-        [src]="previewImage || 'https://www.citypng.com/public/uploads/preview/pubg-white-silhouette-soldier-with-helmet-logo-733961695143126pruerybiwc.png'"
+        [src]="previewImage || getDefaultAvatarUrl()"
         alt="Avatar utilisateur"
       />
       <ion-icon name="create-outline" class="edit-icon"></ion-icon>
@@ -48,6 +48,7 @@
         <ion-label position="stacked">Bio</ion-label>
         <ion-textarea
           formControlName="description"
+          rows="5"
           placeholder="Ex: Passionné de Clash of Clans, DLS..."
         ></ion-textarea>
       </ion-item>
