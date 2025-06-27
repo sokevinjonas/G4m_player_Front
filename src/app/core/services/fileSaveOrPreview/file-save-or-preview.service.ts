@@ -66,7 +66,7 @@ export class FileSaveOrPreviewService {
    */
   getAvatarDisplayUrl(avatarPath: string | null, baseUrl?: string): string {
     if (!avatarPath) {
-      return 'https://www.citypng.com/public/uploads/preview/pubg-white-silhouette-soldier-with-helmet-logo-733961695143126pruerybiwc.png';
+      return 'assets/icon/profile.jpeg';
     }
 
     // Si c'est déjà une URL complète, la retourner telle quelle

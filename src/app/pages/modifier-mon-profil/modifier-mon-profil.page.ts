@@ -58,13 +58,13 @@ export class ModifierMonProfilPage implements OnInit {
       }
     } catch (error) {
       console.error('Erreur image:', error);
-      this.showToast("Erreur lors de la sélection de l'image");
+      this.showToast("Erreur lors de la sélection de l'image", 'warning');
     }
   }
 
   async onSubmit() {
     if (!this.form.valid) {
-      this.showToast('Veuillez remplir tous les champs requis');
+      this.showToast('Veuillez remplir tous les champs requis', 'warning');
       return;
     }
 
@@ -108,7 +108,7 @@ export class ModifierMonProfilPage implements OnInit {
       next: async (res) => {
         await loading.dismiss();
         console.log('Réponse backend:', res);
-        this.showToast(res.message || 'Profil mis à jour');
+        this.showToast(res.message, 'success');
 
         localStorage.setItem('user', JSON.stringify(res.user));
 
@@ -122,7 +122,10 @@ export class ModifierMonProfilPage implements OnInit {
         await loading.dismiss();
         console.error('Erreur MAJ:', err);
         console.error('Détails erreur:', err.error);
-        this.showToast('Erreur lors de la mise à jour');
+        this.showToast(
+          'Erreur lors de la mise à jour, vérifier votre connexion internet',
+          'warning'
+        );
       },
     });
   }
@@ -131,12 +134,12 @@ export class ModifierMonProfilPage implements OnInit {
     return this.fileSaveOrPreviewService.getAvatarDisplayUrl(null);
   }
 
-  async showToast(message: string) {
+  async showToast(message: string, color: string = 'dark') {
     const toast = await this.toastController.create({
       message,
       duration: 2000,
       position: 'bottom',
-      color: 'dark',
+      color: color,
     });
     await toast.present();
   }
