@@ -9,18 +9,15 @@
 
 <ion-content [fullscreen]="true" class="ion-padding">
   <div class="profile-header">
-    <ion-avatar class="profile-avatar" (click)="onFileSelected()">
+    <ion-avatar class="profile-avatar" (click)="takePicture()">
       <img
         [src]="previewImage || 'https://www.citypng.com/public/uploads/preview/pubg-white-silhouette-soldier-with-helmet-logo-733961695143126pruerybiwc.png'"
         alt="Avatar utilisateur"
       />
-      <ion-icon
-        name="create-outline"
-        class="edit-icon"
-      ></ion-icon>
+      <ion-icon name="create-outline" class="edit-icon"></ion-icon>
     </ion-avatar>
-    <h2 class="profile-name">John Doe</h2>
-    <p class="profile-role">Gameur confirmé</p>
+    <h2 class="profile-name">{{ user.name || 'Invite' }}</h2>
+    <p class="profile-role">{{ user.role || 'Gameur invité' }}</p>
   </div>
 
   <ion-list class="profile-actions">
