@@ -14,7 +14,8 @@ export class BadgesPage implements OnInit {
 
   constructor(private api: ApiService) {}
 
-  ngOnInit() {
+  ionViewWillEnter() {
+    console.log('BadgesPage: ionViewWillEnter');
     this.api.getUserBadgesUnLocked(this.userId).subscribe((badges) => {
       this.unlockedBadges = badges.badges || [];
       console.log('Badges débloqués:', this.unlockedBadges);
@@ -23,5 +24,8 @@ export class BadgesPage implements OnInit {
       this.lockedBadges = badges.badges || [];
       console.log('Badges verrouillés:', this.lockedBadges);
     });
+  }
+  ngOnInit() {
+    this.ionViewWillEnter();
   }
 }

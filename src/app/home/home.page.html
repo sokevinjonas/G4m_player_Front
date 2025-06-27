@@ -14,8 +14,8 @@
     <p class="welcome-subtitle">Prêt pour de nouvelles aventures ?</p>
   </div>
 
-  <!-- Section des statistiques -->
-  <div class="stats-section">
+  <!-- Section des statistiques ou bouton créer un compte -->
+  <div class="stats-section" *ngIf="user && user.name">
     <div class="stat-card points-card">
       <div class="stat-number">{{ myPoints }}</div>
       <div class="stat-label">Mes Points</div>
@@ -24,6 +24,20 @@
       <div class="stat-number">{{ myBadges }}</div>
       <div class="stat-label">Mes Badges</div>
     </div>
+  </div>
+
+  <!-- Bouton créer un compte si pas d'utilisateur -->
+  <div class="create-account-section" *ngIf="!user || !user.name">
+    <ion-button
+      expand="block"
+      fill="solid"
+      color="primary"
+      class="create-account-btn"
+      (click)="createAccount()"
+    >
+      <ion-icon name="person-add" slot="start"></ion-icon>
+      Créer un compte
+    </ion-button>
   </div>
 
   <!-- Section des actions -->

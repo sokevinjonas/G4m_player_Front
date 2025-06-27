@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ApiService } from '../core/services/api/api.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,7 @@ export class HomePage {
   tournoisDisponibles: number = 0;
   jeuxDisponibles: number = 0;
   user: any = {}; // Initialize user as an empty object
-  constructor(protected apiService: ApiService) {}
+  constructor(protected apiService: ApiService, private router: Router) {}
 
   ionViewWillEnter() {
     this.getCompetitionsCountAllEnable();
@@ -50,5 +51,10 @@ export class HomePage {
       this.myBadges = data.count;
       console.log('Mes badges:', data.count);
     });
+  }
+  createAccount() {
+    // navigate to the create account page
+    console.log('Navigating to create account page');
+    this.router.navigate(['/register']);
   }
 }

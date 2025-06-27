@@ -15,7 +15,8 @@ export class GamesPage implements OnInit {
 
   constructor(private apiService: ApiService) {}
 
-  ngOnInit() {
+  ionViewWillEnter() {
+    console.log('GamesPage: ionViewWillEnter');
     this.apiService.getGames().subscribe((data) => {
       this.games = data;
       this.filteredGames = data;
@@ -26,6 +27,9 @@ export class GamesPage implements OnInit {
       this.categories = ['Tous', ...Array.from(new Set<string>(cats))];
       console.log(this.games);
     });
+  }
+  ngOnInit() {
+    this.ionViewWillEnter();
   }
 
   selectCategory(category: string | undefined) {

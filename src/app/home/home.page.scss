@@ -69,6 +69,29 @@
   font-weight: 500;
 }
 
+/* SECTION CREATION DE COMPTE */
+.create-account-section {
+  margin-bottom: 24px;
+  padding: 0 8px;
+}
+
+.create-account-btn {
+  --background: linear-gradient(135deg, #942fff, #7b3cd8);
+  --color: #ffffff;
+  --border-radius: 12px;
+  --box-shadow: 0 4px 12px rgba(148, 47, 255, 0.3);
+  --padding-top: 16px;
+  --padding-bottom: 16px;
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+
+  &:hover {
+    --background: linear-gradient(135deg, #a54eff, #8b4edb);
+    --box-shadow: 0 6px 16px rgba(148, 47, 255, 0.4);
+  }
+}
+
 /* SECTION ACTIONS */
 .actions-section {
   margin-top: 8px;
