@@ -3,57 +3,64 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="tabs/profile"></ion-back-button>
     </ion-buttons>
-    <ion-title> Modifier mon profil </ion-title>
+    <ion-title>Modifier mon profil</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
   <div class="profile-header">
-    <ion-avatar class="profile-avatar" (click)="takePicture()">
+    <ion-avatar class="profile-avatar" (click)="selectImage()">
       <img
         [src]="previewImage || 'https://www.citypng.com/public/uploads/preview/pubg-white-silhouette-soldier-with-helmet-logo-733961695143126pruerybiwc.png'"
         alt="Avatar utilisateur"
       />
       <ion-icon name="create-outline" class="edit-icon"></ion-icon>
     </ion-avatar>
-    <h2 class="profile-name">{{ user.name || 'Invite' }}</h2>
-    <p class="profile-role">{{ user.role || 'Gameur invité' }}</p>
+    <h2 class="profile-name">{{ form.get('name')?.value || 'Invité' }}</h2>
+    <p class="profile-role">{{ form.get('role')?.value || 'Gameur invité' }}</p>
   </div>
 
-  <ion-list class="profile-actions">
-    <ion-item>
-      <ion-label position="stacked">Nom</ion-label>
-      <ion-input value="{{ user.name || '' }}"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="stacked">Email</ion-label>
-      <ion-input value="{{ user.email || '' }}" type="email"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-label position="stacked">Pays</ion-label>
-      <ion-select value="{{ user.country || '' }}">
-        <ion-select-option
-          *ngFor="let country of countryList"
-          [value]="country.name"
-        >
-          {{ country.name }}
-        </ion-select-option>
-      </ion-select>
-    </ion-item>
-    <ion-item>
-      <ion-label position="stacked">Bio</ion-label>
-      <ion-textarea
-        value="{{ user.bio  }}"
-        placeholder="Ex: Passionné de clash of clans, Dls ..."
-      ></ion-textarea>
-    </ion-item>
-  </ion-list>
-  <ion-button
-    (click)="saveProfile()"
-    expand="block"
-    color="primary"
-    style="margin-top: 24px"
-  >
-    Enregistrer les modifications
-  </ion-button>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <ion-list class="profile-actions">
+      <ion-item>
+        <ion-label position="stacked">Nom</ion-label>
+        <ion-input formControlName="name"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input formControlName="email" type="email"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Pays</ion-label>
+        <ion-select formControlName="country" interface="popover">
+          <ion-select-option
+            *ngFor="let country of countryList"
+            [value]="country.name"
+          >
+            {{ country.name }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Bio</ion-label>
+        <ion-textarea
+          formControlName="description"
+          placeholder="Ex: Passionné de Clash of Clans, DLS..."
+        ></ion-textarea>
+      </ion-item>
+    </ion-list>
+
+    <ion-button
+      type="submit"
+      expand="block"
+      color="primary"
+      [disabled]="form.invalid"
+      style="margin-top: 24px"
+    >
+      Enregistrer les modifications
+    </ion-button>
+  </form>
 </ion-content>

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -13,8 +13,9 @@ import { ModifierMonProfilPage } from './modifier-mon-profil.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    ModifierMonProfilPageRoutingModule
+    ModifierMonProfilPageRoutingModule,
+    ReactiveFormsModule,
   ],
-  declarations: [ModifierMonProfilPage]
+  declarations: [ModifierMonProfilPage],
 })
 export class ModifierMonProfilPageModule {}

@@ -14,7 +14,9 @@ export class ApiService {
 
   updateUserProfile(formData: FormData): Observable<any> {
     const token = localStorage.getItem('token');
-    return this.http.put(`${BASE_URL}/userUpdate`, formData, {
+    // Ajouter _method pour simuler PUT avec POST (meilleur pour les fichiers)
+    formData.append('_method', 'PUT');
+    return this.http.post(`${BASE_URL}/userUpdate`, formData, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
