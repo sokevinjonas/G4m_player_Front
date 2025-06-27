@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { environment } from 'src/environments/environment';
 
 export interface ImageResult {
   file: File;
@@ -71,22 +72,26 @@ export class FileSaveOrPreviewService {
     // Si c'est déjà une URL complète, la retourner telle quelle
     if (avatarPath.startsWith('http')) {
       console.log('URL avatar complète détectée:', avatarPath);
-      // Corriger l'URL si elle utilise localhost au lieu de 127.0.0.1:8000
-      if (avatarPath.includes('localhost/storage')) {
+
+      // Si l'URL contient localhost, la corriger avec l'URL de l'environment
+      if (avatarPath.includes('localhost')) {
+        const storageBaseUrl = environment.apiUrl.replace('/api', '/storage');
         const correctedUrl = avatarPath.replace(
-          'localhost/storage',
-          '127.0.0.1:8000/storage'
+          /http:\/\/localhost(:\d+)?/,
+          storageBaseUrl.replace('/storage', '')
         );
-        console.log('URL corrigée:', correctedUrl);
+        console.log('URL corrigée avec environment:', correctedUrl);
         return correctedUrl;
       }
+
       return avatarPath;
     }
 
-    // Si c'est un chemin relatif, construire l'URL complète
-    const base = baseUrl || 'http://127.0.0.1:8000/storage';
-    const fullUrl = `${base}/${avatarPath}`;
-    console.log(`URL avatar construite: ${fullUrl}`);
+    // Si c'est un chemin relatif, construire l'URL complète avec l'environment
+    const storageBaseUrl =
+      baseUrl || environment.apiUrl.replace('/api', '/storage');
+    const fullUrl = `${storageBaseUrl}/${avatarPath}`;
+    console.log(`URL avatar construite avec environment: ${fullUrl}`);
 
     return fullUrl;
   }

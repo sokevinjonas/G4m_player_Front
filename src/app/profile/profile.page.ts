@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthenticationService } from '../core/services/authentication/authentication.service';
 import { ToastController, AlertController } from '@ionic/angular';
+import { FileSaveOrPreviewService } from '../core/services/fileSaveOrPreview/file-save-or-preview.service';
 
 @Component({
   selector: 'app-profile',
@@ -16,7 +17,8 @@ export class ProfilePage implements OnInit {
     private router: Router,
     private authService: AuthenticationService,
     private toastController: ToastController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    protected fileSaveOrPreviewService: FileSaveOrPreviewService
   ) {}
 
   ionViewWillEnter() {
