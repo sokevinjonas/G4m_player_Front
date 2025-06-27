@@ -19,8 +19,8 @@
     <p class="profile-role">{{ user.role || 'Gameur invité' }}</p>
   </div>
 
-  <!-- Statistiques -->
-  <ion-card class="profile-stats">
+  <!-- Statistiques pour utilisateur connecté -->
+  <ion-card *ngIf="isUserAuthenticated" class="profile-stats">
     <ion-card-content>
       <div class="stats-row">
         <div class="stat">
@@ -45,6 +45,31 @@
           </div>
         </div>
       </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Invitation à créer un compte pour utilisateur non connecté -->
+  <ion-card *ngIf="!isUserAuthenticated" class="profile-stats">
+    <ion-card-content class="create-account-content">
+      <ion-icon
+        name="person-add-outline"
+        size="large"
+        color="primary"
+      ></ion-icon>
+      <h3>Rejoignez-nous !</h3>
+      <p>
+        Créez votre compte pour débloquer toutes les fonctionnalités et suivre
+        vos statistiques de jeu.
+      </p>
+      <ion-button
+        expand="block"
+        fill="solid"
+        color="primary"
+        (click)="goToCreateAccount()"
+      >
+        <ion-icon name="person-add" slot="start"></ion-icon>
+        Créer un compte
+      </ion-button>
     </ion-card-content>
   </ion-card>
 

@@ -48,6 +48,7 @@ export class LoginPage implements OnInit {
           localStorage.setItem('token', response.token);
           localStorage.setItem('user', JSON.stringify(response.user));
           // Stocke le token ou l'utilisateur ici si besoin
+          localStorage.setItem('firstLaunch', 'true');
           this.router.navigate(['/tabs/home']);
         },
         error: async (error) => {

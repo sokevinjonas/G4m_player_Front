@@ -21,29 +21,59 @@ export class ProfilePage implements OnInit {
     protected fileSaveOrPreviewService: FileSaveOrPreviewService
   ) {}
 
+  /**
+   * Vérifie si l'utilisateur est authentifié
+   */
+  get isUserAuthenticated(): boolean {
+    return this.user && this.user.id;
+  }
+
   ionViewWillEnter() {
-    // This method can be used to refresh data when the view is about to enter
-    this.user = JSON.parse(localStorage.getItem('user') || '{}');
-    console.log('User:', this.user);
+    this.loadUserData();
   }
+
   ngOnInit() {
-    this.ionViewWillEnter();
+    this.loadUserData();
   }
+
+  /**
+   * Charge les données utilisateur depuis le localStorage
+   */
+  private loadUserData() {
+    try {
+      this.user = JSON.parse(localStorage.getItem('user') || '{}');
+      console.log('User:', this.user);
+    } catch (error) {
+      console.error(
+        'Erreur lors du chargement des données utilisateur:',
+        error
+      );
+      this.user = {};
+    }
+  }
+
+  /**
+   * Navigation vers une page pour utilisateur authentifié
+   */
   goToNewPageAuthUser(url: string) {
-    // Vérifie si l'utilisateur est authentifié
-    if (this.user && this.user.id) {
-      // Si l'utilisateur est authentifié, navigue vers la page demandée
+    if (this.isUserAuthenticated) {
       this.router.navigate([url]);
       return;
     }
-    // Si l'utilisateur n'est pas authentifié, affficher un toast
     this.presentToast(
       'Veuillez vous connecter pour accéder à cette page',
       'warning'
     );
   }
+
+  /**
+   * Navigation vers la page de création de compte
+   */
+  goToCreateAccount() {
+    this.router.navigate(['/register']);
+  }
   editProfile() {
-    this.router.navigate(['/modifier-mon-profil']);
+    this.goToNewPageAuthUser('/modifier-mon-profil');
   }
 
   goToNotifications() {
@@ -63,6 +93,11 @@ export class ProfilePage implements OnInit {
   }
 
   async logout() {
+    if (!this.isUserAuthenticated) {
+      this.presentToast("Vous n'êtes pas connecté", 'warning');
+      return;
+    }
+
     const alert = await this.alertController.create({
       header: 'Confirmation',
       message: 'Êtes-vous sûr de vouloir vous déconnecter ?',

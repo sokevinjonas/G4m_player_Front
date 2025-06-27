@@ -20,13 +20,13 @@ export class AppComponent {
     this.Initialisation();
   }
   Initialisation() {
-    const isConnected = localStorage.getItem('isConnected');
+    const token = localStorage.getItem('token');
     const firstLaunch = localStorage.getItem('firstLaunch');
-    if (isConnected === 'true' || firstLaunch != null) {
+    if (token != null && firstLaunch != null) {
       // Si l'utilisateur est connecté,  rediriger vers le dashboard
-      // this.router.navigate(['/tabs/home']);
-      this.router.navigate(['/tabs/profile']);
-    } else if (firstLaunch === null) {
+      this.router.navigate(['/tabs/home']);
+      // this.router.navigate(['/tabs/profile']);
+    } else {
       // Si l'utilisateur n'est pas connecté, rediriger vers l'écran de bienvenue
       this.router.navigate(['/welcome-screen']);
       // this.router.navigate(['/tabs/tournament']);
