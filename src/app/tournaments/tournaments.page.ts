@@ -9,11 +9,14 @@ import { ApiService } from '../core/services/api/api.service';
 })
 export class TournamentsPage implements OnInit {
   competitions: any[] = [];
+  isPlayer = false;
+  user: any = {};
 
   constructor(private api: ApiService) {}
 
   ionViewWillEnter() {
     console.log('TournamentsPage: ionViewWillEnter');
+    this.user = JSON.parse(localStorage.getItem('user') || '{}');
     this.loadCompetitions();
   }
   ngOnInit() {
@@ -24,6 +27,13 @@ export class TournamentsPage implements OnInit {
   loadCompetitions(event?: any) {
     this.api.getCompetitions().subscribe((data) => {
       this.competitions = data;
+
+      // Pour chaque compétition, vérifier si l'utilisateur est inscrit
+      this.competitions.forEach((comp) => {
+        comp.isUserRegistered =
+          comp.players && comp.players.some((p: any) => p.id === this.user.id);
+      });
+
       console.log('Competitions:', this.competitions);
       if (event) {
         event.target.complete();

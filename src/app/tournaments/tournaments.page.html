@@ -122,8 +122,8 @@
               <div class="detail-content">
                 <span class="detail-label">Participants</span>
                 <span class="detail-value"
-                  >{{ comp.participants || 0 }} / {{ comp.max_participants
-                  }}</span
+                  >{{ comp.current_participants || 0 }} / {{
+                  comp.max_participants }}</span
                 >
               </div>
             </div>
@@ -136,15 +136,45 @@
             <ng-container *ngIf="!comp.is_online">
               <span class="prize">En ligne : Non</span>
             </ng-container>
-            <ion-button
-              class="register-btn"
-              *ngIf="comp.status === 'upcoming'"
-              [routerLink]="['/show-tournament', comp.id]"
-              routerLinkActive="router-link-active"
-              fill="outline"
-            >
-              S'inscrire
-            </ion-button>
+
+            <!-- Bouton selon le statut de la compétition et l'inscription de l'utilisateur -->
+            <ng-container *ngIf="comp.status === 'upcoming'">
+              <!-- Si l'utilisateur est déjà inscrit -->
+              <ion-button
+                class="register-btn"
+                *ngIf="comp.isUserRegistered"
+                [routerLink]="['/show-tournament', comp.id]"
+                routerLinkActive="router-link-active"
+                fill="outline"
+                color="medium"
+              >
+                Déjà inscrit
+              </ion-button>
+
+              <!-- Si la compétition est pleine -->
+              <ion-button
+                class="register-btn"
+                *ngIf="!comp.isUserRegistered && comp.current_participants >= comp.max_participants"
+                [routerLink]="['/show-tournament', comp.id]"
+                routerLinkActive="router-link-active"
+                fill="outline"
+                color="danger"
+                disabled
+              >
+                Déjà plein
+              </ion-button>
+
+              <!-- Si l'utilisateur peut s'inscrire -->
+              <ion-button
+                class="register-btn"
+                *ngIf="!comp.isUserRegistered && comp.current_participants < comp.max_participants"
+                [routerLink]="['/show-tournament', comp.id]"
+                routerLinkActive="router-link-active"
+                fill="outline"
+              >
+                S'inscrire
+              </ion-button>
+            </ng-container>
           </div>
         </ion-card-content>
       </ion-card>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AlertController, ToastController } from '@ionic/angular';
 import { ApiService } from '../../core/services/api/api.service';
 
 @Component({
@@ -14,7 +15,13 @@ export class ShowTournamentPage implements OnInit {
   user: any = {};
   participation: any = null;
 
-  constructor(private route: ActivatedRoute, private api: ApiService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private api: ApiService,
+    private alertController: AlertController,
+    private toastController: ToastController,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -22,6 +29,8 @@ export class ShowTournamentPage implements OnInit {
     if (id) {
       this.api.getCompetition(+id).subscribe((data) => {
         this.tournament = data;
+        console.log('Tournament data:', this.tournament);
+
         this.loading = false;
 
         // Vérifie la participation seulement si user et tournoi existent
@@ -36,25 +45,127 @@ export class ShowTournamentPage implements OnInit {
     }
     console.log('User:', this.user);
   }
-  registerForTournament() {
+
+  async registerForTournament() {
+    // Vérifier si l'utilisateur est connecté
+    const token = localStorage.getItem('token');
+    if (!token || this.participation === null) {
+      await this.showLoginAlert();
+      return;
+    }
+
+    const alert = await this.alertController.create({
+      header: 'Confirmation',
+      message: 'Voulez-vous vraiment vous inscrire à ce tournoi ?',
+      buttons: [
+        {
+          text: 'Non',
+          role: 'cancel',
+          handler: () => {
+            this.showToast('Inscription annulée', 'medium');
+          },
+        },
+        {
+          text: 'Oui',
+          handler: () => {
+            this.proceedRegistration();
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  private async showLoginAlert() {
+    const alert = await this.alertController.create({
+      header: 'Connexion requise',
+      message:
+        'Vous devez créer un compte ou vous connecter pour vous inscrire à ce tournoi.',
+      buttons: [
+        {
+          text: 'Annuler',
+          role: 'cancel',
+          handler: () => {
+            this.showToast('Inscription annulée', 'medium');
+          },
+        },
+        {
+          text: 'Créer un compte',
+          handler: () => {
+            this.router.navigate(['/register']);
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  private proceedRegistration() {
     if (this.user?.id && this.tournament?.id) {
       const userData = {
         user_id: this.user.id,
         competition_id: this.tournament.id,
       };
-      this.api.registerToCompetition(this.tournament.id, userData).subscribe(
+      this.api.registerToCompetition(userData).subscribe(
         (response) => {
           console.log('Inscription réussie:', response);
           // Mettre à jour la participation locale
-          this.participation = response;
+          this.participation = { exists: true };
+          this.showToast('Inscription réussie !', 'success');
         },
         (error) => {
           console.error("Erreur lors de l'inscription:", error);
+          this.showToast("Erreur lors de l'inscription", 'danger');
         }
       );
     } else {
       console.error('Utilisateur ou tournoi non défini');
+      this.showToast('Erreur: données manquantes', 'danger');
     }
+  }
+
+  async showUnregisterAlert() {
+    const alert = await this.alertController.create({
+      header: 'Désinscription',
+      message:
+        'Vous êtes déjà inscrit à ce tournoi. Souhaitez-vous vous désinscrire ?',
+      buttons: [
+        {
+          text: 'Non',
+          role: 'cancel',
+          handler: () => {
+            this.showToast('Désinscription annulée', 'medium');
+          },
+        },
+        {
+          text: 'Oui',
+          handler: () => {
+            this.proceedUnregistration();
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+
+  private proceedUnregistration() {
+    // Ici vous devrez implémenter l'endpoint de désinscription dans votre API
+    // Pour l'instant, on simule juste la désinscription
+    this.participation = { exists: false };
+    this.showToast('Désinscription réussie !', 'success');
+  }
+
+  private async showToast(message: string, color: string) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      position: 'bottom',
+      color: color,
+    });
+    toast.present();
   }
 
   getRules(rules: string): string[] {

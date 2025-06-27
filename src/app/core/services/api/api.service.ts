@@ -19,8 +19,11 @@ export class ApiService {
     return this.http.get(`${BASE_URL}/competitions/${id}`);
   }
 
-  registerToCompetition(id: number, userData: any): Observable<any> {
-    return this.http.post(`${BASE_URL}/competitions/${id}/register`, userData);
+  registerToCompetition(userData: any): Observable<any> {
+    const token = localStorage.getItem('token');
+    return this.http.post(`${BASE_URL}/registerToCompetition`, userData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
   }
 
   getCompetitionPlayers(id: number): Observable<any> {
