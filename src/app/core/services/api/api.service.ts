@@ -23,6 +23,14 @@ export class ApiService {
     });
   }
 
+  // --- FILLEULS ---
+  getFilleuls(): Observable<any> {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${BASE_URL}/myFilleuls`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  }
+
   // --- COMPETITIONS ---
   getCompetitions(): Observable<any> {
     return this.http.get(`${BASE_URL}/competitions`);

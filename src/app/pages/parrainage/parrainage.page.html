@@ -47,7 +47,46 @@
       </div>
     </ion-card-content>
   </ion-card>
-
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="share-social-outline" color="primary"></ion-icon>
+        Suivez-nous sur les réseaux sociaux
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list class="profile-actions">
+        <ion-item button>
+          <ion-icon
+            name="logo-facebook"
+            slot="start"
+            color="primary"
+          ></ion-icon>
+          <ion-label>Facebook</ion-label>
+          <ion-badge color="success" slot="end">+5 pts</ion-badge>
+        </ion-item>
+        <ion-item button>
+          <ion-icon name="logo-tiktok" slot="start" color="primary"></ion-icon>
+          <ion-label>TikTok</ion-label>
+          <ion-badge color="success" slot="end">+5 pts</ion-badge>
+        </ion-item>
+        <ion-item button>
+          <ion-icon
+            name="logo-instagram"
+            slot="start"
+            color="primary"
+          ></ion-icon>
+          <ion-label>Instagram</ion-label>
+          <ion-badge color="success" slot="end">+5 pts</ion-badge>
+        </ion-item>
+      </ion-list>
+      <div
+        style="font-size: 13px; color: var(--ion-color-medium); margin-top: 8px"
+      >
+        Suivez-nous sur chaque réseau pour gagner des points bonus !
+      </div>
+    </ion-card-content>
+  </ion-card>
   <!-- Section des filleuls -->
   <ion-card *ngIf="filleuls.length > 0">
     <ion-card-header>
@@ -67,9 +106,8 @@
             ></ion-icon>
           </ion-avatar>
           <ion-label>
-            <h2>{{ filleul.nom }}</h2>
-            <p>{{ filleul.email }}</p>
-            <p>Inscrit le {{ filleul.dateInscription | date:'dd/MM/yyyy' }}</p>
+            <h2 style="color: azure">{{ filleul.name }}</h2>
+            <p>Inscrit le {{ filleul.created_at | date:'dd/MM/yyyy' }}</p>
           </ion-label>
           <ion-badge color="success" slot="end">
             {{ filleul.points }} pts
@@ -103,52 +141,6 @@
       <p style="color: var(--ion-color-medium)">
         Invitez vos amis à rejoindre G4M Player et gagnez des points !
       </p>
-    </ion-card-content>
-  </ion-card>
-
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>
-        <ion-icon name="share-social-outline" color="primary"></ion-icon>
-        Suivez-nous sur les réseaux sociaux
-      </ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-      <ion-list class="profile-actions">
-        <ion-item button>
-          <ion-icon
-            name="logo-facebook"
-            slot="start"
-            color="primary"
-          ></ion-icon>
-          <ion-label>Facebook</ion-label>
-          <ion-badge color="success" slot="end">+10 pts</ion-badge>
-        </ion-item>
-        <ion-item button>
-          <ion-icon name="logo-twitter" slot="start" color="primary"></ion-icon>
-          <ion-label>Twitter</ion-label>
-          <ion-badge color="success" slot="end">+10 pts</ion-badge>
-        </ion-item>
-        <ion-item button>
-          <ion-icon
-            name="logo-instagram"
-            slot="start"
-            color="primary"
-          ></ion-icon>
-          <ion-label>Instagram</ion-label>
-          <ion-badge color="success" slot="end">+10 pts</ion-badge>
-        </ion-item>
-        <ion-item button>
-          <ion-icon name="logo-discord" slot="start" color="primary"></ion-icon>
-          <ion-label>Discord</ion-label>
-          <ion-badge color="success" slot="end">+10 pts</ion-badge>
-        </ion-item>
-      </ion-list>
-      <div
-        style="font-size: 13px; color: var(--ion-color-medium); margin-top: 8px"
-      >
-        Suivez-nous sur chaque réseau pour gagner des points bonus !
-      </div>
     </ion-card-content>
   </ion-card>
 </ion-content>
