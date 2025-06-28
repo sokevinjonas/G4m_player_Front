@@ -133,7 +133,16 @@ export class FileSaveOrPreviewService {
    */
   private buildFullUrl(avatarPath: string, baseUrl?: string): string {
     const storageBaseUrl = baseUrl || this.STORAGE_BASE_URL;
-    const fullUrl = `${storageBaseUrl}/${avatarPath}`;
+
+    // Si le chemin commence par /storage/, on le retire car il est déjà dans la base URL
+    let cleanPath = avatarPath;
+    if (avatarPath.startsWith('/storage/')) {
+      cleanPath = avatarPath.substring('/storage/'.length);
+    } else if (avatarPath.startsWith('/')) {
+      cleanPath = avatarPath.substring(1);
+    }
+
+    const fullUrl = `${storageBaseUrl}/${cleanPath}`;
     console.log(`URL avatar construite avec environment: ${fullUrl}`);
     return fullUrl;
   }

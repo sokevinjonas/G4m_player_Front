@@ -74,7 +74,7 @@
               <ion-card-title>{{ comp.title }}</ion-card-title>
               <ion-card-subtitle>
                 <img
-                  [src]="'https://www.citypng.com/public/uploads/preview/pubg-white-silhouette-soldier-with-helmet-logo-733961695143126pruerybiwc.png'"
+                  [src]="fileSaveOrPreviewService.getAvatarDisplayUrl(comp.game?.logo)"
                   alt="logo"
                   style="
                     width: 24px;

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, ToastController } from '@ionic/angular';
 import { ApiService } from '../../core/services/api/api.service';
+import { FileSaveOrPreviewService } from 'src/app/core/services/fileSaveOrPreview/file-save-or-preview.service';
 
 @Component({
   selector: 'app-show-tournament',
@@ -20,7 +21,8 @@ export class ShowTournamentPage implements OnInit {
     private api: ApiService,
     private alertController: AlertController,
     private toastController: ToastController,
-    private router: Router
+    private router: Router,
+    protected fileSaveOrPreviewService: FileSaveOrPreviewService
   ) {}
 
   ngOnInit() {

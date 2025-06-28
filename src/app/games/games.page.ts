@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ApiService } from '../core/services/api/api.service';
+import { FileSaveOrPreviewService } from '../core/services/fileSaveOrPreview/file-save-or-preview.service';
 
 @Component({
   selector: 'app-games',
@@ -16,7 +17,10 @@ export class GamesPage implements OnInit, OnDestroy {
   showNoGamesMessage: boolean = false;
   private loadingTimeout: any;
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    protected fileSaveOrPreviewService: FileSaveOrPreviewService
+  ) {}
 
   ionViewWillEnter() {
     console.log('GamesPage: ionViewWillEnter');

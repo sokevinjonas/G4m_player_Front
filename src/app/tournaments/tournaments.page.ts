@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../core/services/api/api.service';
+import { FileSaveOrPreviewService } from '../core/services/fileSaveOrPreview/file-save-or-preview.service';
 
 @Component({
   selector: 'app-tournaments',
@@ -12,7 +13,10 @@ export class TournamentsPage implements OnInit {
   isPlayer = false;
   user: any = {};
 
-  constructor(private api: ApiService) {}
+  constructor(
+    private api: ApiService,
+    protected fileSaveOrPreviewService: FileSaveOrPreviewService
+  ) {}
 
   ionViewWillEnter() {
     console.log('TournamentsPage: ionViewWillEnter');

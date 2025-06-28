@@ -154,7 +154,7 @@
           <p class="game-name">
             <img
               *ngIf="tournament.game?.logo"
-              [src]="'https://www.citypng.com/public/uploads/preview/pubg-white-silhouette-soldier-with-helmet-logo-733961695143126pruerybiwc.png'"
+              [src]="fileSaveOrPreviewService.getAvatarDisplayUrl(tournament.game?.logo)"
               alt="logo"
               style="
                 width: 24px;
@@ -205,7 +205,7 @@
           <p class="section-title">Règles</p>
           <ion-text class="ion-text-justify">
             <ul class="rules-list">
-              <ng-container *ngFor="let rule of getRules(tournament.rules)">
+              <ng-container *ngFor="let rule of getRules(tournament?.rules)">
                 <li>{{ rule }}</li>
               </ng-container>
             </ul>

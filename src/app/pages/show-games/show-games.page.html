@@ -15,7 +15,7 @@
     <div class="game-header">
       <div class="game-icon-large">
         <img
-          src="https://www.citypng.com/public/uploads/preview/pubg-white-silhouette-soldier-with-helmet-logo-733961695143126pruerybiwc.png"
+          [src]="fileSaveOrPreviewService.getAvatarDisplayUrl(game?.logo)"
           alt="PUBG Mobile Logo"
         />
       </div>

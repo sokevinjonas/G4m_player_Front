@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../core/services/api/api.service';
+import { FileSaveOrPreviewService } from 'src/app/core/services/fileSaveOrPreview/file-save-or-preview.service';
 
 @Component({
   selector: 'app-show-games',
@@ -12,7 +13,11 @@ export class ShowGamesPage implements OnInit {
   game: any = null;
   loading = true;
 
-  constructor(private route: ActivatedRoute, private api: ApiService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private api: ApiService,
+    protected fileSaveOrPreviewService: FileSaveOrPreviewService
+  ) {}
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
