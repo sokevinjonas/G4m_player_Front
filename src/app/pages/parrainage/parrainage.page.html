@@ -32,7 +32,77 @@
           Partagez ce code à vos amis. Lorsqu'ils s'inscrivent, vous gagnez des
           points !
         </p>
+
+        <!-- Bouton Inviter un ami -->
+        <ion-button
+          expand="block"
+          fill="solid"
+          color="success"
+          (click)="inviterAmi()"
+          style="margin-top: 12px"
+        >
+          <ion-icon name="person-add" slot="start"></ion-icon>
+          Inviter un ami (+10 pts)
+        </ion-button>
       </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Section des filleuls -->
+  <ion-card *ngIf="filleuls.length > 0">
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="people" color="primary"></ion-icon>
+        Mes filleuls ({{ filleuls.length }})
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list class="profile-actions">
+        <ion-item *ngFor="let filleul of filleuls">
+          <ion-avatar slot="start">
+            <ion-icon
+              name="person-circle"
+              color="primary"
+              style="font-size: 2.5em"
+            ></ion-icon>
+          </ion-avatar>
+          <ion-label>
+            <h2>{{ filleul.nom }}</h2>
+            <p>{{ filleul.email }}</p>
+            <p>Inscrit le {{ filleul.dateInscription | date:'dd/MM/yyyy' }}</p>
+          </ion-label>
+          <ion-badge color="success" slot="end">
+            {{ filleul.points }} pts
+          </ion-badge>
+        </ion-item>
+      </ion-list>
+      <div
+        style="
+          font-size: 13px;
+          color: var(--ion-color-medium);
+          margin-top: 12px;
+          text-align: center;
+        "
+      >
+        Vous gagnez des points à chaque inscription de vos filleuls !
+      </div>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Message si aucun filleul -->
+  <ion-card *ngIf="filleuls.length === 0">
+    <ion-card-content style="text-align: center; padding: 2rem">
+      <ion-icon
+        name="people-outline"
+        color="medium"
+        style="font-size: 4em; margin-bottom: 1rem"
+      ></ion-icon>
+      <h3 style="color: var(--ion-color-medium)">
+        Aucun filleul pour le moment
+      </h3>
+      <p style="color: var(--ion-color-medium)">
+        Invitez vos amis à rejoindre G4M Player et gagnez des points !
+      </p>
     </ion-card-content>
   </ion-card>
 
