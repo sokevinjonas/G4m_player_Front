@@ -109,4 +109,46 @@ export class ParrainagePage implements OnInit {
       }
     }
   };
+
+  // Méthodes pour rediriger vers les réseaux sociaux
+  ouvrirFacebook = async () => {
+    const url = 'https://www.facebook.com/G4MEProAfrica'; // Remplacez par votre page Facebook
+    await this.ouvrirLien(url, 'Facebook');
+  };
+
+  ouvrirTikTok = async () => {
+    const url = 'https://www.tiktok.com/@g4meproafrica'; // Remplacez par votre compte TikTok
+    await this.ouvrirLien(url, 'TikTok');
+  };
+
+  ouvrirInstagram = async () => {
+    const url = 'https://www.instagram.com/g4meproafrica'; // Remplacez par votre compte Instagram
+    await this.ouvrirLien(url, 'Instagram');
+  };
+
+  private ouvrirLien = async (url: string, plateforme: string) => {
+    try {
+      // Ouvrir le lien dans le navigateur/app
+      window.open(url, '_blank');
+
+      // Toast de confirmation avec points bonus
+      const toast = await this.toastController.create({
+        message: `🎉 +5 points pour avoir visité ${plateforme} !`,
+        duration: 2000,
+        position: 'bottom',
+        color: 'success',
+        icon: 'trophy',
+      });
+      toast.present();
+    } catch (error) {
+      console.error(`Erreur lors de l'ouverture de ${plateforme}:`, error);
+      const errorToast = await this.toastController.create({
+        message: `❌ Impossible d'ouvrir ${plateforme}`,
+        duration: 2000,
+        position: 'bottom',
+        color: 'danger',
+      });
+      errorToast.present();
+    }
+  };
 }

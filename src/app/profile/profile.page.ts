@@ -76,10 +76,6 @@ export class ProfilePage implements OnInit {
     this.goToNewPageAuthUser('/modifier-mon-profil');
   }
 
-  goToNotifications() {
-    this.router.navigate(['/notification']);
-  }
-
   openPrivacyPolicy() {
     this.router.navigate(['/politique']);
   }

@@ -56,7 +56,7 @@
     </ion-card-header>
     <ion-card-content>
       <ion-list class="profile-actions">
-        <ion-item button>
+        <ion-item button (click)="ouvrirFacebook()">
           <ion-icon
             name="logo-facebook"
             slot="start"
@@ -65,12 +65,12 @@
           <ion-label>Facebook</ion-label>
           <ion-badge color="success" slot="end">+5 pts</ion-badge>
         </ion-item>
-        <ion-item button>
+        <ion-item button (click)="ouvrirTikTok()">
           <ion-icon name="logo-tiktok" slot="start" color="primary"></ion-icon>
           <ion-label>TikTok</ion-label>
           <ion-badge color="success" slot="end">+5 pts</ion-badge>
         </ion-item>
-        <ion-item button>
+        <ion-item button (click)="ouvrirInstagram()">
           <ion-icon
             name="logo-instagram"
             slot="start"

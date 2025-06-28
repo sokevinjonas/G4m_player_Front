@@ -23,47 +23,67 @@ const routes: Routes = [
   },
   {
     path: 'welcome-screen',
-    loadChildren: () => import('./welcome-screen/welcome-screen.module').then( m => m.WelcomeScreenPageModule)
+    loadChildren: () =>
+      import('./welcome-screen/welcome-screen.module').then(
+        (m) => m.WelcomeScreenPageModule
+      ),
   },
   {
     path: 'register',
-    loadChildren: () => import('./pages/register/register.module').then( m => m.RegisterPageModule)
+    loadChildren: () =>
+      import('./pages/register/register.module').then(
+        (m) => m.RegisterPageModule
+      ),
   },
   {
     path: 'login',
-    loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () =>
+      import('./pages/login/login.module').then((m) => m.LoginPageModule),
   },
   {
     path: 'aides',
-    loadChildren: () => import('./pages/aides/aides.module').then( m => m.AidesPageModule)
+    loadChildren: () =>
+      import('./pages/aides/aides.module').then((m) => m.AidesPageModule),
   },
   {
     path: 'guide',
-    loadChildren: () => import('./pages/guide/guide.module').then( m => m.GuidePageModule)
+    loadChildren: () =>
+      import('./pages/guide/guide.module').then((m) => m.GuidePageModule),
   },
   {
     path: 'politique',
-    loadChildren: () => import('./pages/politique/politique.module').then( m => m.PolitiquePageModule)
-  },
-  {
-    path: 'notification',
-    loadChildren: () => import('./pages/notification/notification.module').then( m => m.NotificationPageModule)
+    loadChildren: () =>
+      import('./pages/politique/politique.module').then(
+        (m) => m.PolitiquePageModule
+      ),
   },
   {
     path: 'classement',
-    loadChildren: () => import('./pages/classement/classement.module').then( m => m.ClassementPageModule)
+    loadChildren: () =>
+      import('./pages/classement/classement.module').then(
+        (m) => m.ClassementPageModule
+      ),
   },
   {
     path: 'historique',
-    loadChildren: () => import('./pages/historique/historique.module').then( m => m.HistoriquePageModule)
+    loadChildren: () =>
+      import('./pages/historique/historique.module').then(
+        (m) => m.HistoriquePageModule
+      ),
   },
   {
     path: 'parrainage',
-    loadChildren: () => import('./pages/parrainage/parrainage.module').then( m => m.ParrainagePageModule)
+    loadChildren: () =>
+      import('./pages/parrainage/parrainage.module').then(
+        (m) => m.ParrainagePageModule
+      ),
   },
   {
     path: 'modifier-mon-profil',
-    loadChildren: () => import('./pages/modifier-mon-profil/modifier-mon-profil.module').then( m => m.ModifierMonProfilPageModule)
+    loadChildren: () =>
+      import('./pages/modifier-mon-profil/modifier-mon-profil.module').then(
+        (m) => m.ModifierMonProfilPageModule
+      ),
   },
 ];
 
