@@ -17,7 +17,7 @@
   <!-- Section des statistiques ou bouton créer un compte -->
   <div class="stats-section" *ngIf="user && user.name">
     <div class="stat-card points-card">
-      <div class="stat-number">{{ myPoints }}</div>
+      <div class="stat-number">{{ user.points }}</div>
       <div class="stat-label">Mes Points</div>
     </div>
     <div class="stat-card badges-card">

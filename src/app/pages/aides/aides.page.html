@@ -47,9 +47,66 @@
         <h3>Comment contacter le support ?</h3>
         <p>
           Utilisez le bouton "Centre d'aide" ou envoyez un mail à
-          supportg4mplayer.com.
+          support&#64;g4mplayer.com.
         </p>
       </ion-label>
     </ion-item>
   </ion-list>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Rejoignez notre communauté</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-list class="profile-actions">
+        <ion-item button (click)="openWhatsAppCommunity()">
+          <ion-icon
+            name="logo-whatsapp"
+            slot="start"
+            color="success"
+          ></ion-icon>
+          <ion-label>
+            <h3>Communauté WhatsApp</h3>
+            <p>Rejoignez notre groupe de joueurs</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item button (click)="openWhatsAppAdmin1()">
+          <ion-icon
+            name="logo-whatsapp"
+            slot="start"
+            color="success"
+          ></ion-icon>
+          <ion-label>
+            <h3>Admin 1 - Support</h3>
+            <p>Contactez l'administrateur principal</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item button (click)="openWhatsAppAdmin2()">
+          <ion-icon
+            name="logo-whatsapp"
+            slot="start"
+            color="success"
+          ></ion-icon>
+          <ion-label>
+            <h3>Admin 2 - Tournois</h3>
+            <p>Questions sur les tournois et compétitions</p>
+          </ion-label>
+        </ion-item>
+
+        <ion-item button (click)="openFacebookPage()">
+          <ion-icon
+            name="logo-facebook"
+            slot="start"
+            color="primary"
+          ></ion-icon>
+          <ion-label>
+            <h3>Page Facebook</h3>
+            <p>Suivez-nous pour les dernières actualités</p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
 </ion-content>

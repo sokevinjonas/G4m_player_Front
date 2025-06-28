@@ -9,7 +9,6 @@ import { Router } from '@angular/router';
   standalone: false,
 })
 export class HomePage {
-  myPoints: number = 0;
   myBadges: number = 0;
   tournoisDisponibles: number = 0;
   jeuxDisponibles: number = 0;
@@ -19,7 +18,6 @@ export class HomePage {
   ionViewWillEnter() {
     this.getCompetitionsCountAllEnable();
     this.getGamesCountAll();
-    this.getCompetitionsPoints();
     this.getBadges();
     this.user = JSON.parse(localStorage.getItem('user') || '{}');
     console.log('User:', this.user);
@@ -36,13 +34,6 @@ export class HomePage {
     this.apiService.getGamesCountAll().subscribe((data) => {
       this.jeuxDisponibles = data.count;
       console.log('Jeux disponibles:', data.count);
-    });
-  }
-
-  getCompetitionsPoints() {
-    this.apiService.getCompetitionsPoints().subscribe((data) => {
-      this.myPoints = data.points;
-      console.log('Mes points:', data.points);
     });
   }
 

@@ -112,7 +112,7 @@ export class ParrainagePage implements OnInit {
 
   // Méthodes pour rediriger vers les réseaux sociaux
   ouvrirFacebook = async () => {
-    const url = 'https://www.facebook.com/G4MEProAfrica'; // Remplacez par votre page Facebook
+    const url = 'https://www.facebook.com/g4meproafrica'; // Remplacez par votre page Facebook
     await this.ouvrirLien(url, 'Facebook');
   };
 
