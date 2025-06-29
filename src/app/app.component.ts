@@ -26,8 +26,8 @@ export class AppComponent {
     const firstLaunch = localStorage.getItem('firstLaunch');
     if (token != null && firstLaunch != null) {
       // Si l'utilisateur est connecté,  rediriger vers le dashboard
-      // this.router.navigate(['/tabs/home']);
-      this.router.navigate(['/tabs/profile']);
+      this.router.navigate(['/tabs/home']);
+      // this.router.navigate(['/tabs/profile']);
     } else {
       // Si l'utilisateur n'est pas connecté, rediriger vers l'écran de bienvenue
       this.router.navigate(['/welcome-screen']);
