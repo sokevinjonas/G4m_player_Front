@@ -30,33 +30,36 @@ export class ShowTournamentPage implements OnInit {
     this.user = JSON.parse(localStorage.getItem('user') || '{}');
 
     if (id) {
-      // Délai minimum pour l'affichage du skeleton
-      const minLoadingTime = 800; // 800ms minimum
-      const startTime = Date.now();
-
-      this.api.getCompetition(+id).subscribe((data) => {
-        this.tournament = data;
-        console.log('Tournament data:', this.tournament);
-
-        // Calculer le temps écoulé et attendre le minimum si nécessaire
-        const elapsedTime = Date.now() - startTime;
-        const remainingTime = Math.max(0, minLoadingTime - elapsedTime);
-
-        // Vérifie la participation seulement si user et tournoi existent
-        if (this.user?.id && this.tournament?.id) {
-          this.api
-            .checkExistingParticipation(this.tournament.id)
-            .subscribe((res) => {
-              this.participation = res;
-              console.log('Participation:', this.participation);
-            });
-        }
-        setTimeout(() => {
-          this.loading = false;
-        }, remainingTime);
-      });
+      this.loadDataCompetition(+id);
     }
     console.log('User:', this.user);
+  }
+
+  loadDataCompetition(id: number) {
+    // Délai minimum pour l'affichage du skeleton
+    const minLoadingTime = 800; // 800ms minimum
+    const startTime = Date.now();
+    this.api.getCompetition(id).subscribe((data) => {
+      this.tournament = data;
+      console.log('Tournament data:', this.tournament);
+
+      // Calculer le temps écoulé et attendre le minimum si nécessaire
+      const elapsedTime = Date.now() - startTime;
+      const remainingTime = Math.max(0, minLoadingTime - elapsedTime);
+
+      // Vérifie la participation seulement si user et tournoi existent
+      if (this.user?.id && this.tournament?.id) {
+        this.api
+          .checkExistingParticipation(this.tournament.id)
+          .subscribe((res) => {
+            this.participation = res;
+            console.log('Participation:', this.participation);
+          });
+      }
+      setTimeout(() => {
+        this.loading = false;
+      }, remainingTime);
+    });
   }
 
   async registerForTournament() {
@@ -121,10 +124,11 @@ export class ShowTournamentPage implements OnInit {
         user_id: this.user.id,
         competition_id: this.tournament.id,
       };
-      this.api.registerToCompetition(userData).subscribe(
+      this.api.registerToCompetition(userData.competition_id).subscribe(
         (response) => {
           console.log('Inscription réussie:', response);
           // Mettre à jour la participation locale
+          this.loadDataCompetition(userData.competition_id);
           this.participation = { exists: true };
           this.showToast('Inscription réussie !', 'success');
         },
@@ -165,8 +169,20 @@ export class ShowTournamentPage implements OnInit {
   }
 
   private proceedUnregistration() {
-    // Ici vous devrez implémenter l'endpoint de désinscription dans votre API
-    // Pour l'instant, on simule juste la désinscription
+    this.api.unregisterToCompetition(this.tournament.id).subscribe(
+      (response) => {
+        console.log('Désinscription réussie:', response);
+        this.loadDataCompetition(this.tournament.id);
+        this.updateParticipationAfterUnregistration();
+      },
+      (error) => {
+        console.error('Erreur lors de la désinscription:', error);
+        this.showToast('Erreur lors de la désinscription', 'danger');
+      }
+    );
+  }
+
+  private updateParticipationAfterUnregistration() {
     this.participation = { exists: false };
     this.showToast('Désinscription réussie !', 'success');
   }

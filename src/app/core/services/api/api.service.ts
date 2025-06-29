@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -40,11 +40,24 @@ export class ApiService {
     return this.http.get(`${BASE_URL}/competitions/${id}`);
   }
 
-  registerToCompetition(userData: any): Observable<any> {
+  registerToCompetition(id: number): Observable<any> {
     const token = localStorage.getItem('token');
-    return this.http.post(`${BASE_URL}/registerToCompetition`, userData, {
-      headers: { Authorization: `Bearer ${token}` },
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
     });
+
+    const url = `${BASE_URL}/registerToCompetition?competition_id=${id}`;
+    return this.http.post(url, {}, { headers });
+  }
+  // unregisterToCompetition
+  unregisterToCompetition(id: number): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    const url = `${BASE_URL}/unregisterToCompetition?competition_id=${id}`;
+    return this.http.post(url, {}, { headers });
   }
 
   getCompetitionPlayers(id: number): Observable<any> {
@@ -66,7 +79,7 @@ export class ApiService {
   checkExistingParticipation(competitionId: number) {
     const token = localStorage.getItem('token');
     return this.http.get(
-      `${BASE_URL}/checkExistingParticipation?competition_id=${competitionId}`,
+      `${BASE_URL}/checkExistingParticipate?competition_id=${competitionId}`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }

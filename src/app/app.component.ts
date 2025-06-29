@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { StatusBar, Style } from '@capacitor/status-bar';
 import { Platform } from '@ionic/angular';
+import { AuthenticationService } from './core/services/authentication/authentication.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -10,7 +11,11 @@ import { Platform } from '@ionic/angular';
   standalone: false,
 })
 export class AppComponent {
-  constructor(private platform: Platform, private router: Router) {
+  constructor(
+    private platform: Platform,
+    private router: Router,
+    private authService: AuthenticationService
+  ) {
     if (this.platform.is('ios') || this.platform.is('android')) {
       StatusBar.setStyle({ style: Style.Dark });
       StatusBar.setOverlaysWebView({ overlay: false });
@@ -24,21 +29,22 @@ export class AppComponent {
   Initialisation() {
     const token = localStorage.getItem('token');
     const firstLaunch = localStorage.getItem('firstLaunch');
-    if (token != null && firstLaunch != null) {
-      // Si l'utilisateur est connecté,  rediriger vers le dashboard
-      this.router.navigate(['/tabs/home']);
-      // this.router.navigate(['/tabs/profile']);
+
+    if (token && firstLaunch) {
+      // On vérifie si le token est encore valide
+      this.authService.isAuthenticated().subscribe((isAuth) => {
+        if (isAuth) {
+          this.router.navigate(['/tabs/home']);
+        } else {
+          localStorage.clear();
+          this.router.navigate(['/welcome-screen']);
+        }
+      });
     } else {
-      // Si l'utilisateur n'est pas connecté, rediriger vers l'écran de bienvenue
       this.router.navigate(['/welcome-screen']);
-      // this.router.navigate(['/tabs/tournament']);
     }
   }
   async SplashScreen() {
-    // Afficher l'écran de démarrage pendant 2 secondes
-    await SplashScreen.show({
-      showDuration: 2000,
-      autoHide: true,
-    });
+    await SplashScreen.hide();
   }
 }

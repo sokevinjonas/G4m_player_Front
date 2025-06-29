@@ -1,8 +1,13 @@
-import { HttpClient } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserRegister, UserResponse } from '../../interfaces/user.interface';
 import { Observable } from 'rxjs/internal/Observable';
 import { environment } from 'src/environments/environment';
+import { catchError, map, of } from 'rxjs';
 const BASE_URL = environment.apiUrl;
 @Injectable({
   providedIn: 'root',
@@ -53,5 +58,24 @@ export class AuthenticationService {
           },
         });
     });
+  }
+
+  isAuthenticated(): Observable<boolean> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http
+      .get<{ authenticated: boolean }>(`${BASE_URL}/is-authenticated`, {
+        headers,
+      })
+      .pipe(
+        map((response) => response.authenticated),
+        catchError((error: HttpErrorResponse) => {
+          // Si erreur 401 ou autre => non authentifié
+          return of(false);
+        })
+      );
   }
 }
