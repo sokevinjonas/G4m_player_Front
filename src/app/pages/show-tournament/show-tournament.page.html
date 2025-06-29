@@ -281,30 +281,31 @@
           >
         </ion-card-header>
         <div class="participants-list">
-          <ion-card
-            class="participant-card"
+          <ng-container
             *ngIf="tournament.players && tournament.players.length > 0; else noParticipants"
           >
-            <div
-              class="participant-content"
+            <ion-card
+              class="participant-card"
               *ngFor="let participant of tournament.players"
             >
-              <ion-avatar>
-                <img
-                  [src]="participant.avatar || 'https://placehold.co/40'"
-                  alt="ProGamer_77"
-                />
-              </ion-avatar>
-              <div class="participant-info">
-                <h2>{{ participant.name }}</h2>
-                <p>Rang #{{ participant.rank }}</p>
-              </div>
+              <div class="participant-content">
+                <ion-avatar>
+                  <img
+                    [src]="fileSaveOrPreviewService.getAvatarDisplayUrl(participant.avatar)"
+                    alt="ProGamer_77"
+                  />
+                </ion-avatar>
+                <div class="participant-info">
+                  <h2>{{ participant.name }}</h2>
+                  <p>Rang #0</p>
+                </div>
 
-              <ion-button fill="clear" size="small" color="primary">
-                {{ participant.points }} pts
-              </ion-button>
-            </div>
-          </ion-card>
+                <ion-button fill="clear" size="small" color="primary">
+                  {{ participant.points }} pts
+                </ion-button>
+              </div>
+            </ion-card>
+          </ng-container>
           <ng-template #noParticipants>
             <ion-card class="no-participant-card">
               <ion-card-content>

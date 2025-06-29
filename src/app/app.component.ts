@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { SplashScreen } from '@capacitor/splash-screen';
 import { StatusBar, Style } from '@capacitor/status-bar';
-import { Platform } from '@ionic/angular';
+import { Platform, ToastController } from '@ionic/angular';
 import { AuthenticationService } from './core/services/authentication/authentication.service';
+import { Network } from '@capacitor/network';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -14,7 +15,8 @@ export class AppComponent {
   constructor(
     private platform: Platform,
     private router: Router,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private toastController: ToastController
   ) {
     if (this.platform.is('ios') || this.platform.is('android')) {
       StatusBar.setStyle({ style: Style.Dark });
@@ -26,23 +28,63 @@ export class AppComponent {
     // Initialisation du statut de la barre
     this.Initialisation();
   }
-  Initialisation() {
+  async Initialisation() {
     const token = localStorage.getItem('token');
     const firstLaunch = localStorage.getItem('firstLaunch');
 
+    // 1. Vérifier connexion réseau
+    const isOnline = (await Network.getStatus()).connected;
+    console.log('Network status:', isOnline);
+
     if (token && firstLaunch) {
-      // On vérifie si le token est encore valide
-      this.authService.isAuthenticated().subscribe((isAuth) => {
-        if (isAuth) {
-          this.router.navigate(['/tabs/home']);
-        } else {
-          localStorage.clear();
-          this.router.navigate(['/welcome-screen']);
-        }
-      });
+      if (isOnline) {
+        // On vérifie si le token est encore valide
+        this.authService.isAuthenticated().subscribe({
+          next: (isAuth) => {
+            if (isAuth) {
+              this.router.navigate(['/tabs/home']);
+            } else {
+              this.handleSessionExpired();
+            }
+          },
+          error: (error) => {
+            console.error('Erreur lors de la vérification du token:', error);
+            this.handleSessionExpired();
+          },
+        });
+      } else {
+        // Si pas de connexion, on redirige vers l'écran de bienvenue
+        this.showToast('Aucune connexion réseau détectée', 'warning');
+        this.router.navigate(['/welcome-screen']);
+      }
     } else {
       this.router.navigate(['/welcome-screen']);
     }
+  }
+
+  private async handleSessionExpired() {
+    localStorage.clear();
+    await this.showToast(
+      'Votre session a expiré. Veuillez vous reconnecter.',
+      'warning'
+    );
+    this.router.navigate(['/welcome-screen']);
+  }
+
+  private async showToast(message: string, color: string = 'primary') {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 3000,
+      position: 'top',
+      color: color,
+      buttons: [
+        {
+          text: 'Fermer',
+          role: 'cancel',
+        },
+      ],
+    });
+    await toast.present();
   }
   async SplashScreen() {
     await SplashScreen.hide();
