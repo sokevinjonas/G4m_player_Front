@@ -71,7 +71,10 @@
         <ion-card-header>
           <div class="card-header-content">
             <div class="tournament-info">
-              <ion-card-title>{{ comp.title }}</ion-card-title>
+              <ion-card-title
+                >{{ comp.tournois && comp.tournois.length > 0 ?
+                comp.tournois[0].name : comp.title }}</ion-card-title
+              >
               <ion-card-subtitle>
                 <img
                   [src]="fileSaveOrPreviewService.getAvatarDisplayUrl(comp.game?.logo)"

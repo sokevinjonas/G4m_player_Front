@@ -36,4 +36,30 @@ export class ShowGamesPage implements OnInit {
       });
     }
   }
+  getGameModeLabel(mode: string): string {
+    switch (mode) {
+      case 'un':
+        return 'Solo (1 joueur)';
+      case 'deux':
+        return 'Duo (2 joueurs)';
+      case 'trois':
+        return 'Trio (3 joueurs)';
+      case 'quatre':
+        return 'Squad (4 joueurs)';
+      case 'cinq':
+        return 'équipe (5 joueurs)';
+      case 'six':
+        return 'équipe (6 joueurs)';
+      case 'sept':
+        return 'équipe (7 joueurs)';
+      case 'huit':
+        return 'équipe (8 joueurs)';
+      case 'neuf':
+        return 'équipe (9 joueurs)';
+      case 'dix':
+        return 'équipe (10 joueurs)';
+      default:
+        return 'Inconnu';
+    }
+  }
 }

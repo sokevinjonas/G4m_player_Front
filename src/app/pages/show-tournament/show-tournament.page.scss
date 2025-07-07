@@ -18,6 +18,20 @@
   --color: var(--ion-color-light);
 }
 
+.date-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  div {
+    font-size: 14px;
+
+    strong {
+      margin-right: 5px;
+    }
+  }
+}
+
 .status-chip.upcoming {
   --background: var(--ion-color-primary);
   --color: var(--ion-color-light);

@@ -53,10 +53,14 @@
         >
           <div class="competition-header">
             <div class="competition-info">
-              <h3>{{ competition.title }}</h3>
+              <h3>
+                {{ competition.tournois && competition.tournois.length > 0 ?
+                competition.tournois[0].name : competition.title }}
+              </h3>
               <div class="competition-meta">
                 <span class="date">
-                  {{ competition.date | date: 'dd/MM/yyyy' }}
+                  {{ competition.start_date | date: 'dd/MM/yyyy' }} au {{
+                  competition.end_date | date: 'dd/MM/yyyy' }}
                 </span>
                 <ion-chip class="status-chip" [ngClass]="competition.status">
                   <ion-label>
@@ -66,7 +70,7 @@
                 </ion-chip>
               </div>
             </div>
-            <div class="prize">Gratuit</div>
+            <div class="prize">{{ getGameModeLabel(competition.mode) }}</div>
           </div>
           <ion-button
             size="small"
