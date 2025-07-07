@@ -1,6 +1,8 @@
 .game-detail-container {
   padding: 20px;
   padding-bottom: 100px;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 .game-header {
@@ -17,6 +19,13 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+}
+
+.game-icon-large img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 20px;
 }
 
 .game-icon-large ion-icon {
@@ -111,6 +120,16 @@
   background: var(--ion-second-background);
   border-radius: 12px;
   padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.competition-card ion-button {
+  align-self: flex-end;
+  --border-radius: 8px;
+  margin-top: 8px;
+  --box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .competition-header,
@@ -118,27 +137,38 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
+  width: 100%;
+}
+
+.competition-info {
+  flex: 1;
 }
 
 .competition-info h3,
 .group-info h3 {
   margin: 0 0 8px 0;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   color: white;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 90%;
 }
 
 .competition-meta {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 12px;
 }
 
 .date {
   font-size: 14px;
-  opacity: 0.7;
+  opacity: 0.8;
   color: white;
+  white-space: nowrap;
 }
 
 .status-chip {
@@ -157,10 +187,41 @@
   --color: var(--ion-color-success);
 }
 
+.status-chip.upcoming {
+  --background: rgba(56, 128, 255, 0.2);
+  --color: var(--ion-color-primary);
+}
+
+.status-chip.ongoing {
+  --background: rgba(45, 211, 111, 0.2);
+  --color: var(--ion-color-success);
+}
+
+.status-chip.completed,
+.status-chip.finished {
+  --background: rgba(106, 100, 255, 0.2);
+  --color: var(--ion-color-tertiary);
+}
+
+.status-chip.full {
+  --background: rgba(235, 68, 90, 0.2);
+  --color: var(--ion-color-danger);
+}
+
+.status-chip.cancelled {
+  --background: rgba(92, 92, 92, 0.2);
+  --color: var(--ion-color-medium);
+}
+
 .prize {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--ion-color-secondary);
+  white-space: nowrap;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: rgba(255, 196, 9, 0.1);
+  margin-left: auto;
 }
 
 .group-header {
@@ -246,4 +307,36 @@
   height: 36px;
   --border-radius: 8px;
   font-weight: 500;
+}
+
+@media (max-width: 576px) {
+  .game-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .game-icon-large {
+    width: 100px;
+    height: 100px;
+  }
+
+  .game-meta {
+    justify-content: center;
+  }
+
+  .competition-header {
+    flex-direction: column;
+  }
+
+  .competition-info {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .prize {
+    margin-left: 0;
+    align-self: flex-start;
+    margin-bottom: 10px;
+  }
 }
