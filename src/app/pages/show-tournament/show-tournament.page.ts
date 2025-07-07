@@ -197,10 +197,12 @@ export class ShowTournamentPage implements OnInit {
     toast.present();
   }
 
-  getRules(rules: string): string[] {
-    console.log('Rules raw:', rules);
+  getRules(data: string): string[] {
+    console.log('Data raw:', data);
+    if (!data) return [];
+
     try {
-      let parsed = JSON.parse(rules);
+      let parsed = JSON.parse(data);
       console.log('First parse:', parsed);
 
       if (typeof parsed === 'string') {
@@ -208,10 +210,46 @@ export class ShowTournamentPage implements OnInit {
         console.log('Second parse:', parsed);
       }
 
-      return Array.isArray(parsed) ? parsed : [];
-    } catch (error) {
-      console.error('Erreur lors du parsing des règles:', error);
+      // Handle array format (for rules)
+      if (Array.isArray(parsed)) {
+        return parsed;
+      }
+
+      // Handle object format (for rewards)
+      if (typeof parsed === 'object' && parsed !== null) {
+        return Object.entries(parsed).map(([key, value]) => `${key}: ${value}`);
+      }
+
       return [];
+    } catch (error) {
+      console.error('Erreur lors du parsing des données:', error);
+      return [];
+    }
+  }
+  getGameModeLabel(mode: string): string {
+    switch (mode) {
+      case 'un':
+        return 'Solo (1 joueur)';
+      case 'deux':
+        return 'Duo (2 joueurs)';
+      case 'trois':
+        return 'Trio (3 joueurs)';
+      case 'quatre':
+        return 'Squad (4 joueurs)';
+      case 'cinq':
+        return 'équipe (5 joueurs)';
+      case 'six':
+        return 'équipe (6 joueurs)';
+      case 'sept':
+        return 'équipe (7 joueurs)';
+      case 'huit':
+        return 'équipe (8 joueurs)';
+      case 'neuf':
+        return 'équipe (9 joueurs)';
+      case 'dix':
+        return 'équipe (10 joueurs)';
+      default:
+        return 'Inconnu';
     }
   }
 }

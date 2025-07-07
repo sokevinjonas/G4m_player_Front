@@ -187,12 +187,14 @@
           </ion-card-title>
           <ion-card-subtitle>
             <div class="card-row">
-              <span
-                ><strong>Date :</strong> {{ tournament.date | date:'dd/MM/yyyy'
-                }}</span
-              >
+              <span>
+                <strong>Date Debut :</strong> {{ tournament.start_date |
+                date:'dd/MM/yyyy' }} <strong>Date Fin :</strong> {{
+                tournament.end_date | date:'dd/MM/yyyy' }}
+              </span>
               <span class="prize"
-                ><strong>Mode :</strong> {{ tournament.mode }}</span
+                ><strong>Mode :</strong> {{ getGameModeLabel(tournament.mode)
+                }}</span
               >
             </div>
           </ion-card-subtitle>
@@ -201,6 +203,14 @@
           <p class="section-title">Description</p>
           <ion-text class="ion-text-justify">
             <p>{{ tournament.description }}</p>
+          </ion-text>
+          <p class="section-title">Récompenses</p>
+          <ion-text class="ion-text-justify">
+            <ul class="rules-list">
+              <ng-container *ngFor="let reward of getRules(tournament?.reward)">
+                <li>{{ reward }}</li>
+              </ng-container>
+            </ul>
           </ion-text>
           <p class="section-title">Règles</p>
           <ion-text class="ion-text-justify">
