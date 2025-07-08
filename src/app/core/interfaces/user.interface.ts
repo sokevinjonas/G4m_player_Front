@@ -2,6 +2,7 @@ export interface User {
   id: number;
   name: string;
   email: string;
+  avatar?: string; // Ajoutez l'avatar (optionnel)
 }
 
 export interface UserRegister {

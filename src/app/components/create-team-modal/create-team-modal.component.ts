@@ -10,6 +10,13 @@ import { User } from 'src/app/core/interfaces/user.interface';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 import { ApiService } from 'src/app/core/services/api/api.service';
+import { Subject, Observable, of } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  switchMap,
+  catchError,
+} from 'rxjs/operators';
 
 @Component({
   selector: 'app-create-team-modal',
@@ -21,7 +28,8 @@ import { ApiService } from 'src/app/core/services/api/api.service';
 export class CreateTeamModalComponent implements OnInit {
   @Input() competitionId!: string;
   teamForm: FormGroup;
-  searchResults: User[] = [];
+  searchResults$!: Observable<User[]>;
+  private searchTerms = new Subject<string>();
   invitedMembers: User[] = [];
 
   constructor(
@@ -34,27 +42,37 @@ export class CreateTeamModalComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.searchResults$ = this.searchTerms.pipe(
+      debounceTime(400),
+      distinctUntilChanged(),
+      switchMap((term: string) => {
+        if (term.length > 2) {
+          return this.apiService.searchUsers(term).pipe(
+            catchError(() => {
+              return of([]); // Retourne un tableau vide en cas d'erreur
+            })
+          );
+        } else {
+          return of([]);
+        }
+      })
+    );
+  }
 
   dismissModal() {
     this.modalController.dismiss();
   }
 
   searchUsers(event: any) {
-    const query = event.target.value;
-    if (query.length > 2) {
-      this.apiService.searchUsers(query).subscribe((users) => {
-        this.searchResults = users;
-        console.log('Search results:', this.searchResults);
-      });
-    }
+    this.searchTerms.next(event.target.value);
   }
 
   inviteUser(user: User) {
     if (!this.invitedMembers.find((member) => member.id === user.id)) {
       this.invitedMembers.push(user);
     }
-    this.searchResults = [];
+    this.searchTerms.next(''); // Vide les résultats de recherche
   }
 
   removeInvitedUser(user: User) {
@@ -63,8 +81,12 @@ export class CreateTeamModalComponent implements OnInit {
     );
   }
 
+  isFormSubmittable(): boolean {
+    return this.teamForm.valid && this.invitedMembers.length > 0;
+  }
+
   submitForm() {
-    if (this.teamForm.valid) {
+    if (this.isFormSubmittable()) {
       const teamData = {
         name: this.teamForm.value.name,
         members: this.invitedMembers.map((member) => member.id),
