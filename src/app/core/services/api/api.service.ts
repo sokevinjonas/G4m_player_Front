@@ -40,26 +40,6 @@ export class ApiService {
     return this.http.get(`${BASE_URL}/competitions/${id}`);
   }
 
-  registerToCompetition(id: number): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-    });
-
-    const url = `${BASE_URL}/registerToCompetition?competition_id=${id}`;
-    return this.http.post(url, {}, { headers });
-  }
-  // unregisterToCompetition
-  unregisterToCompetition(id: number): Observable<any> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-    });
-
-    const url = `${BASE_URL}/unregisterToCompetition?competition_id=${id}`;
-    return this.http.post(url, {}, { headers });
-  }
-
   getCompetitionPlayers(id: number): Observable<any> {
     return this.http.get(`${BASE_URL}/competitions/${id}/players`);
   }
@@ -74,16 +54,6 @@ export class ApiService {
 
   getCompetitionsPoints(): Observable<any> {
     return this.http.get(`${BASE_URL}/pointsCompetitionsUser`);
-  }
-
-  checkExistingParticipation(competitionId: number) {
-    const token = localStorage.getItem('token');
-    return this.http.get(
-      `${BASE_URL}/checkExistingParticipate?competition_id=${competitionId}`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
   }
 
   // --- GAMES ---
