@@ -269,7 +269,7 @@
           </ng-container>
 
           <!-- If user is not logged in -->
-          <ng-container *ngIf="!user && tournament.status === 'upcoming'">
+          <ng-container *ngIf="!authenticationService.isAuthenticated">
             <ion-button
               expand="block"
               shape="round"

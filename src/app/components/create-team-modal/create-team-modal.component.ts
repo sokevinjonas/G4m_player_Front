@@ -7,7 +7,7 @@ import {
 } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
-import { UserResponse } from 'src/app/core/interfaces/user.interface';
+import { User } from 'src/app/core/interfaces/user.interface';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
 
@@ -21,8 +21,8 @@ import { IonicModule } from '@ionic/angular';
 export class CreateTeamModalComponent implements OnInit {
   @Input() competitionId!: string;
   teamForm: FormGroup;
-  searchResults: UserResponse[] = [];
-  invitedMembers: UserResponse[] = [];
+  searchResults: User[] = [];
+  invitedMembers: User[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -49,18 +49,16 @@ export class CreateTeamModalComponent implements OnInit {
     }
   }
 
-  inviteUser(user: UserResponse) {
-    if (
-      !this.invitedMembers.find((member) => member.user.id === user.user.id)
-    ) {
+  inviteUser(user: User) {
+    if (!this.invitedMembers.find((member) => member.id === user.id)) {
       this.invitedMembers.push(user);
     }
     this.searchResults = [];
   }
 
-  removeInvitedUser(user: UserResponse) {
+  removeInvitedUser(user: User) {
     this.invitedMembers = this.invitedMembers.filter(
-      (member) => member.user.id !== user.user.id
+      (member) => member.id !== user.id
     );
   }
 
@@ -68,7 +66,7 @@ export class CreateTeamModalComponent implements OnInit {
     if (this.teamForm.valid) {
       const teamData = {
         name: this.teamForm.value.name,
-        members: this.invitedMembers.map((member) => member.user.id),
+        members: this.invitedMembers.map((member) => member.id),
       };
       this.modalController.dismiss({ teamData });
     }

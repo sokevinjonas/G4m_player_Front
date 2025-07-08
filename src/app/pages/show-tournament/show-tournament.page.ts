@@ -27,7 +27,7 @@ export class ShowTournamentPage implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private apiService: ApiService,
-    private authenticationService: AuthenticationService,
+    protected authenticationService: AuthenticationService,
     private router: Router,
     private modalController: ModalController,
     private toastController: ToastController,
@@ -43,11 +43,6 @@ export class ShowTournamentPage implements OnInit {
 
       if (tournamentId) {
         this.getTournamentDetails(tournamentId);
-      }
-    });
-    this.authenticationService.currentUser.subscribe((user) => {
-      this.user = user;
-      if (this.user && this.tournament) {
         this.checkRegistrationStatus();
       }
     });
@@ -87,16 +82,16 @@ export class ShowTournamentPage implements OnInit {
   }
 
   getRules(data: string): string[] {
-    console.log('Data raw:', data);
+    // console.log('Data raw:', data);
     if (!data) return [];
 
     try {
       let parsed = JSON.parse(data);
-      console.log('First parse:', parsed);
+      // console.log('First parse:', parsed);
 
       if (typeof parsed === 'string') {
         parsed = JSON.parse(parsed);
-        console.log('Second parse:', parsed);
+        // console.log('Second parse:', parsed);
       }
 
       // Handle array format (for rules)
@@ -152,6 +147,7 @@ export class ShowTournamentPage implements OnInit {
       this.apiService.checkTeamRegistrationStatus(competitionId).subscribe(
         (status) => {
           this.registrationStatus = status;
+          console.log('Registration status:', this.registrationStatus);
         },
         (error) => {
           console.error('Error checking registration status', error);

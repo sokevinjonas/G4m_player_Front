@@ -24,7 +24,7 @@
 
     <ion-list *ngIf="searchResults.length > 0">
       <ion-item *ngFor="let user of searchResults">
-        <ion-label>{{ user.user.name }}</ion-label>
+        <ion-label>{{ user.name }}</ion-label>
         <ion-button slot="end" (click)="inviteUser(user)">Inviter</ion-button>
       </ion-item>
     </ion-list>
@@ -32,7 +32,7 @@
     <ion-list>
       <ion-list-header> Membres invités </ion-list-header>
       <ion-item *ngFor="let member of invitedMembers">
-        <ion-label>{{ member.user.name }}</ion-label>
+        <ion-label>{{ member.name }}</ion-label>
         <ion-button
           slot="end"
           color="danger"

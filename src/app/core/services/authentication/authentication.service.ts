@@ -1,80 +1,69 @@
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders,
-} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { UserRegister, UserResponse } from '../../interfaces/user.interface';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import {
+  User,
+  UserRegister,
+  UserResponse,
+} from '../../interfaces/user.interface';
+
 const BASE_URL = environment.apiUrl;
+
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService {
-  private currentUserSubject = new BehaviorSubject<UserResponse | null>(null);
+  private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser = this.currentUserSubject.asObservable();
 
   constructor(private http: HttpClient) {
-    this.loadInitialUser();
-  }
-
-  private loadInitialUser() {
-    const token = localStorage.getItem('token');
-    if (token) {
-      this.getUserProfile().subscribe();
-    }
+    this.isAuthenticated;
   }
 
   registerUser(userData: UserRegister): Observable<UserResponse> {
     return this.http.post<UserResponse>(`${BASE_URL}/register`, userData);
   }
+
   loginUser(email: string, password: string): Observable<UserResponse> {
     return this.http
       .post<UserResponse>(`${BASE_URL}/login`, { email, password })
       .pipe(
-        tap((user) => {
-          localStorage.setItem('token', user.token);
-          this.currentUserSubject.next(user);
+        tap((response) => {
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('user', JSON.stringify(response.user)); // Sauvegarder l'utilisateur
+          this.currentUserSubject.next(response.user);
         })
       );
   }
-  logout(): Observable<void> {
-    const token = localStorage.getItem('token');
-    if (!token) {
-      localStorage.clear();
-      this.currentUserSubject.next(null);
-      return of(undefined);
-    }
 
-    return this.http.post(`${BASE_URL}/logout`, {}).pipe(
-      tap(() => {
-        localStorage.clear();
-        this.currentUserSubject.next(null);
-      }),
-      map(() => undefined),
-      catchError((error) => {
-        console.error('Logout error', error);
-        localStorage.clear();
-        this.currentUserSubject.next(null);
-        return of(undefined);
-      })
+  logout(): Observable<void> {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.currentUserSubject.next(null);
+
+    // L'appel au backend est optionnel mais recommandé
+    return this.http.post<void>(`${BASE_URL}/logout`, {}).pipe(
+      catchError(() => of(undefined)) // Gérer les erreurs si le serveur est inaccessible
     );
   }
-  getUserProfile(): Observable<UserResponse> {
-    return this.http.get<UserResponse>(`${BASE_URL}/user`).pipe(
+
+  getUserProfile(): Observable<User> {
+    return this.http.get<User>(`${BASE_URL}/user`).pipe(
       tap((user) => {
+        localStorage.setItem('user', JSON.stringify(user)); // Mettre à jour l'utilisateur
         this.currentUserSubject.next(user);
       })
     );
   }
 
-  searchUsers(query: string): Observable<UserResponse[]> {
-    return this.http.get<UserResponse[]>(`${BASE_URL}/users/search?q=${query}`);
+  searchUsers(query: string): Observable<User[]> {
+    return this.http.get<User[]>(`${BASE_URL}/users/search?q=${query}`);
   }
 
-  isAuthenticated(): Observable<boolean> {
-    return this.currentUser.pipe(map((user) => !!user));
+  isAuthenticated(): boolean {
+    // Vérification synchrone pour les gardes de route
+    return !!localStorage.getItem('token');
   }
 }
