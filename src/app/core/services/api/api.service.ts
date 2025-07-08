@@ -8,6 +8,8 @@ const BASE_URL = environment.apiUrl;
   providedIn: 'root',
 })
 export class ApiService {
+  private apiUrl = environment.apiUrl;
+
   constructor(private http: HttpClient) {}
 
   // --- USER ---
@@ -67,5 +69,29 @@ export class ApiService {
 
   getGamesCountAll(): Observable<any> {
     return this.http.get(`${BASE_URL}/countAllGame`);
+  }
+
+  // --- TEAMS ---
+  checkTeamRegistrationStatus(competitionId: string): Observable<any> {
+    return this.http.get<any>(
+      `${this.apiUrl}/api/competitions/${competitionId}/check-team-registration`
+    );
+  }
+
+  createTeamAndParticipate(
+    competitionId: string,
+    teamData: any
+  ): Observable<any> {
+    return this.http.post<any>(
+      `${this.apiUrl}/api/competitions/${competitionId}/participate`,
+      teamData
+    );
+  }
+
+  inviteToTeam(teamId: string, userId: string): Observable<any> {
+    return this.http.post<any>(
+      `${this.apiUrl}/api/teams/${teamId}/invitation`,
+      { userId }
+    );
   }
 }

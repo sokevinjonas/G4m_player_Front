@@ -224,50 +224,60 @@
               </ng-container>
             </ul>
           </ion-text>
-          <ng-container *ngIf="user && participation?.exists  === true">
-            <ion-button expand="block" shape="round" color="medium">
-              Déjà inscrit
-            </ion-button>
-          </ng-container>
-          <ng-container *ngIf=" user && participation?.exists === false">
-            <ng-container *ngIf="tournament.status === 'upcoming'">
-              <ion-button expand="block" shape="round" color="primary">
-                S'inscrire au tournoi
+          <!-- New team-based registration buttons -->
+          <ng-container *ngIf="user && tournament.status === 'upcoming'">
+            <!-- User is registered and in a team -->
+            <ng-container *ngIf="registrationStatus?.isRegistered">
+              <ion-button
+                expand="block"
+                shape="round"
+                color="success"
+                (click)="manageTeam()"
+              >
+                <ion-icon name="people-outline" slot="start"></ion-icon>
+                Gérer mon équipe
               </ion-button>
             </ng-container>
-            <ng-container *ngIf="tournament.status === 'full'">
-              <ion-button expand="block" shape="round" color="danger" disabled>
-                Déjà plein
-              </ion-button>
-            </ng-container>
-            <ng-container
-              *ngIf="tournament.status !== 'upcoming' && tournament.status !== 'full'"
-            >
-              <ion-button expand="block" shape="round" color="primary" disabled>
-                S'inscrire au tournoi
+
+            <!-- User is not registered -->
+            <ng-container *ngIf="!registrationStatus?.isRegistered">
+              <ion-button
+                expand="block"
+                shape="round"
+                color="primary"
+                (click)="createTeam()"
+              >
+                <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+                Créer une équipe et s'inscrire
               </ion-button>
             </ng-container>
           </ng-container>
 
-          <!-- Afficher le bouton même si participation est null ou utilisateur non connecté -->
-          <ng-container *ngIf="!participation || !user">
-            <ng-container *ngIf="tournament.status === 'upcoming'">
-              <ion-button expand="block" shape="round" color="primary">
-                S'inscrire au tournoi
-              </ion-button>
-            </ng-container>
-            <ng-container *ngIf="tournament.status === 'full'">
-              <ion-button expand="block" shape="round" color="danger" disabled>
-                Déjà plein
-              </ion-button>
-            </ng-container>
-            <ng-container
-              *ngIf="tournament.status !== 'upcoming' && tournament.status !== 'full'"
+          <!-- Handle other tournament statuses -->
+          <ng-container *ngIf="tournament.status === 'full'">
+            <ion-button expand="block" shape="round" color="danger" disabled>
+              Tournoi complet
+            </ion-button>
+          </ng-container>
+
+          <ng-container
+            *ngIf="tournament.status !== 'upcoming' && tournament.status !== 'full'"
+          >
+            <ion-button expand="block" shape="round" color="medium" disabled>
+              Les inscriptions sont fermées
+            </ion-button>
+          </ng-container>
+
+          <!-- If user is not logged in -->
+          <ng-container *ngIf="!user && tournament.status === 'upcoming'">
+            <ion-button
+              expand="block"
+              shape="round"
+              color="primary"
+              (click)="login()"
             >
-              <ion-button expand="block" shape="round" color="primary" disabled>
-                S'inscrire au tournoi
-              </ion-button>
-            </ng-container>
+              Connectez-vous pour vous inscrire
+            </ion-button>
           </ng-container>
         </ion-card-content>
       </ion-card>

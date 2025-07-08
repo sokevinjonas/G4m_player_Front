@@ -5,77 +5,71 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UserRegister, UserResponse } from '../../interfaces/user.interface';
-import { Observable } from 'rxjs/internal/Observable';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { catchError, map, of } from 'rxjs';
 const BASE_URL = environment.apiUrl;
 @Injectable({
   providedIn: 'root',
 })
 export class AuthenticationService {
-  constructor(private http: HttpClient) {}
+  private currentUserSubject = new BehaviorSubject<UserResponse | null>(null);
+  public currentUser = this.currentUserSubject.asObservable();
+
+  constructor(private http: HttpClient) {
+    this.loadInitialUser();
+  }
+
+  private loadInitialUser() {
+    const token = localStorage.getItem('token');
+    if (token) {
+      this.getUserProfile().subscribe();
+    }
+  }
 
   registerUser(userData: UserRegister): Observable<UserResponse> {
     return this.http.post<UserResponse>(`${BASE_URL}/register`, userData);
   }
   loginUser(email: string, password: string): Observable<UserResponse> {
-    return this.http.post<UserResponse>(`${BASE_URL}/login`, {
-      email,
-      password,
-    });
+    return this.http
+      .post<UserResponse>(`${BASE_URL}/login`, { email, password })
+      .pipe(
+        tap((user) => {
+          localStorage.setItem('token', user.token);
+          this.currentUserSubject.next(user);
+        })
+      );
   }
   logout(): Observable<void> {
     const token = localStorage.getItem('token');
     if (!token) {
       localStorage.clear();
-      return new Observable((observer) => {
-        observer.next();
-        observer.complete();
-      });
+      this.currentUserSubject.next(null);
+      return of(undefined);
     }
 
-    return new Observable((observer) => {
-      this.http
-        .post(
-          `${BASE_URL}/logout`,
-          {},
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        )
-        .subscribe({
-          next: () => {
-            console.log('Déconnexion réussie');
-            localStorage.clear();
-            observer.next();
-            observer.complete();
-          },
-          error: (error) => {
-            console.error('Erreur de déconnexion', error);
-            observer.error(error);
-          },
-        });
-    });
-  }
-
-  isAuthenticated(): Observable<boolean> {
-    const token = localStorage.getItem('token');
-    const headers = new HttpHeaders({
-      Authorization: `Bearer ${token}`,
-    });
-
-    return this.http
-      .get<{ authenticated: boolean }>(`${BASE_URL}/is-authenticated`, {
-        headers,
+    return this.http.post(`${BASE_URL}/logout`, {}).pipe(
+      tap(() => {
+        localStorage.clear();
+        this.currentUserSubject.next(null);
+      }),
+      map(() => undefined),
+      catchError((error) => {
+        console.error('Logout error', error);
+        localStorage.clear();
+        this.currentUserSubject.next(null);
+        return of(undefined);
       })
-      .pipe(
-        map((response) => response.authenticated),
-        catchError((error: HttpErrorResponse) => {
-          // Si erreur 401 ou autre => non authentifié
-          return of(false);
-        })
-      );
+    );
+  }
+  getUserProfile(): Observable<UserResponse> {
+    return this.http.get<UserResponse>(`${BASE_URL}/user`).pipe(
+      tap((user) => {
+        this.currentUserSubject.next(user);
+      })
+    );
+  }
+  isAuthenticated(): Observable<boolean> {
+    return this.currentUser.pipe(map((user) => !!user));
   }
 }

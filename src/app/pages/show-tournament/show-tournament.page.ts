@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, ToastController } from '@ionic/angular';
-import { ApiService } from '../../core/services/api/api.service';
+import {
+  ActionSheetController,
+  AlertController,
+  ModalController,
+  ToastController,
+} from '@ionic/angular';
+import { ApiService } from 'src/app/core/services/api/api.service';
+import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
 import { FileSaveOrPreviewService } from 'src/app/core/services/fileSaveOrPreview/file-save-or-preview.service';
 
 @Component({
@@ -15,31 +21,42 @@ export class ShowTournamentPage implements OnInit {
   loading = true;
   user: any = {};
   participation: any = null;
+  registrationStatus: any;
 
   constructor(
     private route: ActivatedRoute,
-    private api: ApiService,
-    private alertController: AlertController,
-    private toastController: ToastController,
+    private apiService: ApiService,
+    private authenticationService: AuthenticationService,
     private router: Router,
+    private modalController: ModalController,
+    private toastController: ToastController,
+    private alertController: AlertController,
+    public actionSheetCtrl: ActionSheetController,
     protected fileSaveOrPreviewService: FileSaveOrPreviewService
   ) {}
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.user = JSON.parse(localStorage.getItem('user') || '{}');
+    this.route.params.subscribe((params) => {
+      const tournamentId = params['id'];
+      this.user = JSON.parse(localStorage.getItem('user') || '{}');
 
-    if (id) {
-      this.loadDataCompetition(+id);
-    }
-    console.log('User:', this.user);
+      if (tournamentId) {
+        this.getTournamentDetails(tournamentId);
+      }
+    });
+    this.authenticationService.currentUser.subscribe((user) => {
+      this.user = user;
+      if (this.user && this.tournament) {
+        this.checkRegistrationStatus();
+      }
+    });
   }
 
-  loadDataCompetition(id: number) {
+  getTournamentDetails(id: string) {
     // Délai minimum pour l'affichage du skeleton
     const minLoadingTime = 800; // 800ms minimum
     const startTime = Date.now();
-    this.api.getCompetition(id).subscribe((data) => {
+    this.apiService.getCompetition(+id).subscribe((data) => {
       this.tournament = data;
       console.log('Tournament data:', this.tournament);
 
@@ -48,6 +65,9 @@ export class ShowTournamentPage implements OnInit {
       const remainingTime = Math.max(0, minLoadingTime - elapsedTime);
 
       // La logique de participation sera ajoutée ici avec la nouvelle méthode
+      if (this.user) {
+        this.checkRegistrationStatus();
+      }
 
       setTimeout(() => {
         this.loading = false;
@@ -119,5 +139,38 @@ export class ShowTournamentPage implements OnInit {
       default:
         return 'Inconnu';
     }
+  }
+
+  checkRegistrationStatus() {
+    if (
+      this.tournament &&
+      this.tournament.competitions &&
+      this.tournament.competitions.length > 0
+    ) {
+      const competitionId = this.tournament.competitions[0].id;
+      this.apiService.checkTeamRegistrationStatus(competitionId).subscribe(
+        (status) => {
+          this.registrationStatus = status;
+        },
+        (error) => {
+          console.error('Error checking registration status', error);
+          this.registrationStatus = { isRegistered: false };
+        }
+      );
+    }
+  }
+
+  async createTeam() {
+    // Logic to open a modal for team creation
+    console.log('Create team clicked');
+  }
+
+  async manageTeam() {
+    // Logic to open a modal for team management
+    console.log('Manage team clicked');
+  }
+
+  login() {
+    this.router.navigate(['/login']);
   }
 }
