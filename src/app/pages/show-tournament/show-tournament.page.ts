@@ -161,7 +161,7 @@ export class ShowTournamentPage implements OnInit {
     const modal = await this.modalController.create({
       component: CreateTeamModalComponent,
       componentProps: {
-        competitionId: this.tournament.competitions[0].id,
+        competitionId: this.tournament.id,
       },
     });
 
@@ -170,10 +170,7 @@ export class ShowTournamentPage implements OnInit {
     const { data } = await modal.onDidDismiss();
     if (data && data.teamData) {
       this.apiService
-        .createTeamAndParticipate(
-          this.tournament.competitions[0].id,
-          data.teamData
-        )
+        .createTeamAndParticipate(this.tournament.id, data.teamData)
         .subscribe(
           (response) => {
             this.showToast('Équipe créée et inscrite avec succès!', 'success');

@@ -1,0 +1,13 @@
+.profile-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--ion-background);
+}
+ion-item {
+  --background: var(--ion-second-background);
+  --color: var(--ion-color-light);
+  border-radius: 12px;
+  margin-bottom: 14px;
+  box-shadow: none;
+}
