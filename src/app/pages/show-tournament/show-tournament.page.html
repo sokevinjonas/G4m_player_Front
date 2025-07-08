@@ -147,10 +147,7 @@
   <ng-container *ngIf="!loading && tournament">
     <ion-grid>
       <ion-card-header>
-        <ion-card-title
-          >{{ tournament.tournois && tournament.tournois.length > 0 ?
-          tournament.tournois[0].name : tournament.title }}</ion-card-title
-        >
+        <ion-card-title>{{ tournament.tournoi?.name }}</ion-card-title>
       </ion-card-header>
       <ion-card-content>
         <div class="card-row">

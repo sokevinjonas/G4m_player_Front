@@ -59,6 +59,8 @@ export class AppComponent {
       }
     } else {
       this.router.navigate(['/welcome-screen']);
+      this.router.navigate(['/tabs/tournaments']);
+      // tournaments;
     }
   }
 
