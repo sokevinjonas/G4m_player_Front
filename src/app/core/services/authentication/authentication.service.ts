@@ -69,6 +69,11 @@ export class AuthenticationService {
       })
     );
   }
+
+  searchUsers(query: string): Observable<UserResponse[]> {
+    return this.http.get<UserResponse[]>(`${BASE_URL}/users/search?q=${query}`);
+  }
+
   isAuthenticated(): Observable<boolean> {
     return this.currentUser.pipe(map((user) => !!user));
   }

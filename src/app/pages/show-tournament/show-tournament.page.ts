@@ -9,6 +9,7 @@ import {
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
 import { FileSaveOrPreviewService } from 'src/app/core/services/fileSaveOrPreview/file-save-or-preview.service';
+import { CreateTeamModalComponent } from 'src/app/components/create-team-modal/create-team-modal.component';
 
 @Component({
   selector: 'app-show-tournament',
@@ -161,8 +162,33 @@ export class ShowTournamentPage implements OnInit {
   }
 
   async createTeam() {
-    // Logic to open a modal for team creation
-    console.log('Create team clicked');
+    const modal = await this.modalController.create({
+      component: CreateTeamModalComponent,
+      componentProps: {
+        competitionId: this.tournament.competitions[0].id,
+      },
+    });
+
+    await modal.present();
+
+    const { data } = await modal.onDidDismiss();
+    if (data && data.teamData) {
+      this.apiService
+        .createTeamAndParticipate(
+          this.tournament.competitions[0].id,
+          data.teamData
+        )
+        .subscribe(
+          (response) => {
+            this.showToast('Équipe créée et inscrite avec succès!', 'success');
+            this.checkRegistrationStatus();
+          },
+          (error) => {
+            console.error('Error creating team', error);
+            this.showToast("Erreur lors de la création de l'équipe.", 'danger');
+          }
+        );
+    }
   }
 
   async manageTeam() {

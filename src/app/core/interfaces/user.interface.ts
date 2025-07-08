@@ -1,3 +1,9 @@
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+}
+
 export interface UserRegister {
   name: string;
   email: string;
@@ -5,6 +11,6 @@ export interface UserRegister {
   referred_by?: string;
 }
 export interface UserResponse {
-  user: any;
+  user: User;
   token: string;
 }
