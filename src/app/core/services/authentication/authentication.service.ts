@@ -58,10 +58,6 @@ export class AuthenticationService {
     );
   }
 
-  searchUsers(query: string): Observable<User[]> {
-    return this.http.get<User[]>(`${BASE_URL}/users/search?q=${query}`);
-  }
-
   isAuthenticated(): boolean {
     // Vérification synchrone pour les gardes de route
     return !!localStorage.getItem('token');

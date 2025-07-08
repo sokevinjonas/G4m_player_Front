@@ -2,13 +2,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { User } from '../../interfaces/user.interface';
 
 const BASE_URL = environment.apiUrl;
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  private apiUrl = environment.apiUrl;
+  // private apiUrl = environment.apiUrl;
 
   constructor(private http: HttpClient) {}
 
@@ -22,6 +23,12 @@ export class ApiService {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+    });
+  }
+  searchUsers(query: string): Observable<User[]> {
+    const token = localStorage.getItem('token');
+    return this.http.get<User[]>(`${BASE_URL}/userSearch?q=${query}`, {
+      headers: { Authorization: `Bearer ${token}` },
     });
   }
 
@@ -74,7 +81,7 @@ export class ApiService {
   // --- TEAMS ---
   checkTeamRegistrationStatus(competitionId: string): Observable<any> {
     return this.http.get<any>(
-      `${this.apiUrl}/api/competitions/${competitionId}/check-team-registration`
+      `${BASE_URL}/api/competitions/${competitionId}/check-team-registration`
     );
   }
 
@@ -83,15 +90,14 @@ export class ApiService {
     teamData: any
   ): Observable<any> {
     return this.http.post<any>(
-      `${this.apiUrl}/api/competitions/${competitionId}/participate`,
+      `${BASE_URL}/api/competitions/${competitionId}/participate`,
       teamData
     );
   }
 
   inviteToTeam(teamId: string, userId: string): Observable<any> {
-    return this.http.post<any>(
-      `${this.apiUrl}/api/teams/${teamId}/invitation`,
-      { userId }
-    );
+    return this.http.post<any>(`${BASE_URL}/api/teams/${teamId}/invitation`, {
+      userId,
+    });
   }
 }

@@ -6,10 +6,10 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-import { AuthenticationService } from 'src/app/core/services/authentication/authentication.service';
 import { User } from 'src/app/core/interfaces/user.interface';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
+import { ApiService } from 'src/app/core/services/api/api.service';
 
 @Component({
   selector: 'app-create-team-modal',
@@ -27,7 +27,7 @@ export class CreateTeamModalComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private modalController: ModalController,
-    private authService: AuthenticationService
+    private apiService: ApiService
   ) {
     this.teamForm = this.fb.group({
       name: ['', Validators.required],
@@ -43,8 +43,9 @@ export class CreateTeamModalComponent implements OnInit {
   searchUsers(event: any) {
     const query = event.target.value;
     if (query.length > 2) {
-      this.authService.searchUsers(query).subscribe((users) => {
+      this.apiService.searchUsers(query).subscribe((users) => {
         this.searchResults = users;
+        console.log('Search results:', this.searchResults);
       });
     }
   }

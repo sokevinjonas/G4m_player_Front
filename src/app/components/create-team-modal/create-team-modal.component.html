@@ -25,6 +25,7 @@
     <ion-list class="profile-actions" *ngIf="searchResults.length > 0">
       <ion-item *ngFor="let user of searchResults">
         <ion-label>{{ user.name }}</ion-label>
+        <ion-label>{{ user.email }}</ion-label>
         <ion-button slot="end" (click)="inviteUser(user)">Inviter</ion-button>
       </ion-item>
     </ion-list>
