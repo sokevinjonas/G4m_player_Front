@@ -26,9 +26,11 @@ const routes: Routes = [
           import('../games/games.module').then((m) => m.GamesPageModule),
       },
       {
-        path: 'badges',
+        path: 'classement',
         loadChildren: () =>
-          import('../badges/badges.module').then((m) => m.BadgesPageModule),
+          import('../classement/classement.module').then(
+            (m) => m.ClassementPageModule
+          ),
       },
       {
         path: 'profile',

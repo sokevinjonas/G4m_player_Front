@@ -30,45 +30,6 @@
   margin: 0;
 }
 
-/* SECTION STATISTIQUES */
-.stats-section {
-  display: flex;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.stat-card {
-  flex: 1;
-  padding: 20px 16px;
-  border-radius: 12px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
-.points-card {
-  background: linear-gradient(135deg, #942fff, #7b3cd8);
-  color: #ffffff;
-}
-
-.badges-card {
-  background: linear-gradient(135deg, #d88f00, #b5750a);
-  color: #ffffff;
-}
-
-.stat-number {
-  font-size: 32px;
-  font-weight: 700;
-  line-height: 1;
-  margin-bottom: 4px;
-}
-
-.stat-label {
-  font-size: 14px;
-  opacity: 0.9;
-  font-weight: 500;
-}
-
 /* SECTION CREATION DE COMPTE */
 .create-account-section {
   margin-bottom: 24px;

@@ -4,17 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { BadgesPageRoutingModule } from './badges-routing.module';
+import { ClassementPageRoutingModule } from './classement-routing.module';
 
-import { BadgesPage } from './badges.page';
+import { ClassementPage } from './classement.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    BadgesPageRoutingModule
+    ClassementPageRoutingModule
   ],
-  declarations: [BadgesPage]
+  declarations: [ClassementPage]
 })
-export class BadgesPageModule {}
+export class ClassementPageModule {}

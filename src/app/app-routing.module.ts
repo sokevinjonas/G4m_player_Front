@@ -85,6 +85,10 @@ const routes: Routes = [
         (m) => m.ModifierMonProfilPageModule
       ),
   },
+  {
+    path: 'classement',
+    loadChildren: () => import('./classement/classement.module').then( m => m.ClassementPageModule)
+  },
 ];
 
 @NgModule({

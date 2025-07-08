@@ -18,9 +18,12 @@ export class HomePage {
   ionViewWillEnter() {
     this.getCompetitionsCountAllEnable();
     this.getGamesCountAll();
-    this.getBadges();
     this.user = JSON.parse(localStorage.getItem('user') || '{}');
     console.log('User:', this.user);
+  }
+
+  ngOnInit() {
+    this.user = JSON.parse(localStorage.getItem('user') || '{}');
   }
 
   getCompetitionsCountAllEnable() {
@@ -34,13 +37,6 @@ export class HomePage {
     this.apiService.getGamesCountAll().subscribe((data) => {
       this.jeuxDisponibles = data.count;
       console.log('Jeux disponibles:', data.count);
-    });
-  }
-
-  getBadges() {
-    this.apiService.getBadgesCount().subscribe((data) => {
-      this.myBadges = data.count;
-      console.log('Mes badges:', data.count);
     });
   }
   createAccount() {

@@ -98,26 +98,4 @@ export class ApiService {
   getGamesCountAll(): Observable<any> {
     return this.http.get(`${BASE_URL}/countAllGame`);
   }
-
-  // --- BADGES ---
-  getBadges(): Observable<any> {
-    return this.http.get(`${BASE_URL}/badges`);
-  }
-
-  getBadge(id: number): Observable<any> {
-    return this.http.get(`${BASE_URL}/badges/${id}`);
-  }
-
-  getBadgesCount(): Observable<any> {
-    return this.http.get(`${BASE_URL}/countUsersBadge`);
-  }
-
-  // Nouveaux endpoints pour les badges verrouillés/déverrouillés d'un utilisateur
-  getUserBadgesLocked(userId: number): Observable<any> {
-    return this.http.get(`${BASE_URL}/LoadUsersBadgeLocked/${userId}`);
-  }
-
-  getUserBadgesUnLocked(userId: number): Observable<any> {
-    return this.http.get(`${BASE_URL}/LoadUsersBadgeUnLocked/${userId}`);
-  }
 }
