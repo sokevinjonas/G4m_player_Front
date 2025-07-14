@@ -29,26 +29,37 @@ export class AppComponent {
     this.Initialisation();
   }
   async Initialisation() {
-    const token = localStorage.getItem('token');
     const firstLaunch = localStorage.getItem('firstLaunch');
 
     // 1. Vérifier connexion réseau
     const isOnline = (await Network.getStatus()).connected;
     console.log('Network status:', isOnline);
 
-    // La méthode isAuthenticated est maintenant synchrone
-    if (token && firstLaunch) {
-      if (this.authService.isAuthenticated()) {
-        // Si le token existe localement, on suppose que l'utilisateur est connecté.
-        // Le service d'authentification validera le token en arrière-plan.
-        this.router.navigate(['/tabs/home']);
+    if (this.authService.isAuthenticated() && firstLaunch) {
+      if (isOnline) {
+        // On vérifie si le token est encore valide
+        this.authService.isAuthenticatedValide().subscribe({
+          next: (isAuth) => {
+            if (isAuth) {
+              // this.router.navigate(['/tabs/home']);
+              this.router.navigate(['/tabs/tournaments']); //tournaments
+            } else {
+              this.handleSessionExpired();
+            }
+          },
+          error: (error) => {
+            console.error('Erreur lors de la vérification du token:', error);
+            this.handleSessionExpired();
+          },
+        });
       } else {
-        // Si le token n'est pas valide ou a été effacé
-        this.handleSessionExpired();
+        // Si pas de connexion, on redirige vers l'écran de bienvenue
+        this.showToast('Aucune connexion réseau détectée', 'warning');
+        this.router.navigate(['/welcome-screen']);
       }
     } else {
-      // Pas de token ou premier lancement
-      this.router.navigate(['/welcome-screen']);
+      // this.router.navigate(['/welcome-screen']); //tournaments
+      this.router.navigate(['/tabs/tournaments']); //tournaments
     }
   }
 

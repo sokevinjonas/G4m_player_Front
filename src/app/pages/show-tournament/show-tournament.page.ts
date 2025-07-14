@@ -46,6 +46,10 @@ export class ShowTournamentPage implements OnInit {
         this.checkRegistrationStatus();
       }
     });
+    console.log(
+      this.authenticationService.isAuthenticated(),
+      this.registrationStatus
+    );
   }
 
   getTournamentDetails(id: string) {
@@ -64,6 +68,7 @@ export class ShowTournamentPage implements OnInit {
       if (this.user) {
         this.checkRegistrationStatus();
       }
+      console.log('User data:', this.user, this.checkRegistrationStatus());
 
       setTimeout(() => {
         this.loading = false;
@@ -154,6 +159,7 @@ export class ShowTournamentPage implements OnInit {
           this.registrationStatus = { isRegistered: false };
         }
       );
+      console.log('registrationStatus:', this.registrationStatus);
     }
   }
 

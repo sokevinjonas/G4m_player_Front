@@ -19,7 +19,7 @@
       <ion-input (ionInput)="searchUsers($event)" type="text"></ion-input>
     </ion-item>
 
-    <ion-list *ngIf="searchResults$ | async as users">
+    <ion-list class="profile-actions" *ngIf="searchResults$ | async as users">
       <ion-item *ngFor="let user of users">
         <ion-avatar slot="start">
           <img [src]="user.avatar || 'assets/icon/profile.jpeg'" />
@@ -32,8 +32,8 @@
       </ion-item>
     </ion-list>
 
-    <ion-list>
-      <ion-list-header>Membres invités</ion-list-header>
+    <ion-list class="profile-actions">
+      <ion-list-header color="light">Membres invités</ion-list-header>
       <ion-item *ngFor="let member of invitedMembers">
         <ion-avatar slot="start">
           <img

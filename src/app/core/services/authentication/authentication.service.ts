@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpErrorResponse,
+  HttpHeaders,
+} from '@angular/common/http';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -61,5 +65,23 @@ export class AuthenticationService {
   isAuthenticated(): boolean {
     // Vérification synchrone pour les gardes de route
     return !!localStorage.getItem('token');
+  }
+  isAuthenticatedValide(): Observable<boolean> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http
+      .get<{ authenticated: boolean }>(`${BASE_URL}/is-authenticated`, {
+        headers,
+      })
+      .pipe(
+        map((response) => response.authenticated),
+        catchError((error: HttpErrorResponse) => {
+          // Si erreur 401 ou autre => non authentifié
+          return of(false);
+        })
+      );
   }
 }

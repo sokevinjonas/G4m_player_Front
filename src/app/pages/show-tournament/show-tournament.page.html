@@ -240,7 +240,9 @@
             </ng-container>
 
             <!-- User is not registered -->
-            <ng-container *ngIf="!registrationStatus?.isRegistered">
+            <ng-container
+              *ngIf="!registrationStatus?.isRegistered && authenticationService.isAuthenticated()"
+            >
               <ion-button
                 expand="block"
                 shape="round"
@@ -269,7 +271,7 @@
           </ng-container>
 
           <!-- If user is not logged in -->
-          <ng-container *ngIf="!authenticationService.isAuthenticated">
+          <ng-container *ngIf="!authenticationService.isAuthenticated()">
             <ion-button
               expand="block"
               shape="round"
