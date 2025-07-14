@@ -80,8 +80,14 @@ export class ApiService {
 
   // --- TEAMS ---
   checkTeamRegistrationStatus(competitionId: string): Observable<any> {
+    const token = localStorage.getItem('token');
     return this.http.get<any>(
-      `${BASE_URL}/api/competitions/${competitionId}/check-team-registration`
+      `${BASE_URL}/check-team-registration/${competitionId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
   }
 
@@ -89,9 +95,15 @@ export class ApiService {
     competitionId: string,
     teamData: any
   ): Observable<any> {
+    const token = localStorage.getItem('token');
     return this.http.post<any>(
-      `${BASE_URL}/api/competitions/${competitionId}/participate`,
-      teamData
+      `${BASE_URL}/participate/${competitionId}`,
+      teamData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
     );
   }
 

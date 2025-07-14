@@ -164,29 +164,89 @@ export class ShowTournamentPage implements OnInit {
   }
 
   async createTeam() {
-    const modal = await this.modalController.create({
-      component: CreateTeamModalComponent,
-      componentProps: {
-        competitionId: this.tournament.id,
-      },
-    });
-
-    await modal.present();
-
-    const { data } = await modal.onDidDismiss();
-    if (data && data.teamData) {
-      this.apiService
-        .createTeamAndParticipate(this.tournament.id, data.teamData)
-        .subscribe(
-          (response) => {
-            this.showToast('Équipe créée et inscrite avec succès!', 'success');
-            this.checkRegistrationStatus();
+    if (this.tournament.mode === 'un') {
+      const alert = await this.alertController.create({
+        header: 'Inscription Solo',
+        message:
+          "Veuillez saisir votre pseudo ou ID de jeu pour l'inscription :",
+        inputs: [
+          {
+            name: 'gameId',
+            type: 'text',
+            placeholder: 'Pseudo ou ID du jeu',
           },
-          (error) => {
-            console.error('Error creating team', error);
-            this.showToast("Erreur lors de la création de l'équipe.", 'danger');
-          }
-        );
+        ],
+        buttons: [
+          {
+            text: 'Annuler',
+            role: 'cancel',
+          },
+          {
+            text: 'Valider',
+            handler: (data: { gameId: string }) => {
+              if (!data.gameId || !data.gameId.trim()) {
+                this.showToast(
+                  'Veuillez saisir un pseudo ou ID valide.',
+                  'danger'
+                );
+                return false;
+              }
+
+              // Correction ici : on envoie un objet, pas une string
+              this.apiService
+                .createTeamAndParticipate(this.tournament.id, {
+                  team_name: data.gameId,
+                })
+                .subscribe(
+                  (_response: any) => {
+                    this.showToast('Inscription solo réussie !', 'success');
+                    this.checkRegistrationStatus();
+                  },
+                  (_error: any) => {
+                    this.showToast(
+                      "Erreur lors de l'inscription solo.",
+                      'danger'
+                    );
+                  }
+                );
+              return true;
+            },
+          },
+        ],
+      });
+      await alert.present();
+      return;
+    } else {
+      const modal = await this.modalController.create({
+        component: CreateTeamModalComponent,
+        componentProps: {
+          competitionId: this.tournament.id,
+        },
+      });
+
+      await modal.present();
+
+      const { data } = await modal.onDidDismiss();
+      if (data && data.teamData) {
+        this.apiService
+          .createTeamAndParticipate(this.tournament.id, data.teamData)
+          .subscribe(
+            (response) => {
+              this.showToast(
+                'Équipe créée et inscrite avec succès!',
+                'success'
+              );
+              this.checkRegistrationStatus();
+            },
+            (error) => {
+              console.error('Error creating team', error);
+              this.showToast(
+                "Erreur lors de la création de l'équipe.",
+                'danger'
+              );
+            }
+          );
+      }
     }
   }
 

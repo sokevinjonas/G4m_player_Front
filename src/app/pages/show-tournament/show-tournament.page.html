@@ -287,17 +287,17 @@
         <ion-card-header>
           <ion-card-title
             ><ion-icon color="success" name="people-outline"></ion-icon>
-            Participants inscrits ({{ tournament.players ?
-            tournament.players.length : 0 }})</ion-card-title
+            Participants inscrits ({{ tournament.participants ?
+            tournament.participants.length : 0 }})</ion-card-title
           >
         </ion-card-header>
         <div class="participants-list">
           <ng-container
-            *ngIf="tournament.players && tournament.players.length > 0; else noParticipants"
+            *ngIf="tournament.participants && tournament.participants.length > 0; else noParticipants"
           >
             <ion-card
               class="participant-card"
-              *ngFor="let participant of tournament.players"
+              *ngFor="let participant of tournament.participants"
             >
               <div class="participant-content">
                 <ion-avatar>
