@@ -40,16 +40,13 @@ export class ShowTournamentPage implements OnInit {
     this.route.params.subscribe((params) => {
       const tournamentId = params['id'];
       this.user = JSON.parse(localStorage.getItem('user') || '{}');
+      console.log('tournamentId:', tournamentId);
 
       if (tournamentId) {
         this.getTournamentDetails(tournamentId);
-        this.checkRegistrationStatus();
+        this.checkRegistrationStatus(tournamentId);
       }
     });
-    console.log(
-      this.authenticationService.isAuthenticated(),
-      this.registrationStatus
-    );
   }
 
   getTournamentDetails(id: string) {
@@ -66,9 +63,8 @@ export class ShowTournamentPage implements OnInit {
 
       // La logique de participation sera ajoutée ici avec la nouvelle méthode
       if (this.user) {
-        this.checkRegistrationStatus();
+        this.checkRegistrationStatus(this.tournament.id);
       }
-      console.log('User data:', this.user, this.checkRegistrationStatus());
 
       setTimeout(() => {
         this.loading = false;
@@ -142,25 +138,16 @@ export class ShowTournamentPage implements OnInit {
     }
   }
 
-  checkRegistrationStatus() {
-    if (
-      this.tournament &&
-      this.tournament.competitions &&
-      this.tournament.competitions.length > 0
-    ) {
-      const competitionId = this.tournament.competitions[0].id;
-      this.apiService.checkTeamRegistrationStatus(competitionId).subscribe(
-        (status) => {
-          this.registrationStatus = status;
-          console.log('Registration status:', this.registrationStatus);
-        },
-        (error) => {
-          console.error('Error checking registration status', error);
-          this.registrationStatus = { isRegistered: false };
-        }
-      );
-      console.log('registrationStatus:', this.registrationStatus);
-    }
+  checkRegistrationStatus(tournamentId: number) {
+    this.apiService.checkTeamRegistrationStatus(tournamentId).subscribe(
+      (status) => {
+        console.log(' status:', status);
+        this.registrationStatus = { isRegistered: status.is_registered };
+      },
+      (error) => {
+        this.registrationStatus = { isRegistered: false };
+      }
+    );
   }
 
   async createTeam() {
@@ -200,7 +187,7 @@ export class ShowTournamentPage implements OnInit {
                 .subscribe(
                   (_response: any) => {
                     this.showToast('Inscription solo réussie !', 'success');
-                    this.checkRegistrationStatus();
+                    this.checkRegistrationStatus(this.tournament.id);
                   },
                   (_error: any) => {
                     this.showToast(
@@ -236,7 +223,7 @@ export class ShowTournamentPage implements OnInit {
                 'Équipe créée et inscrite avec succès!',
                 'success'
               );
-              this.checkRegistrationStatus();
+              this.checkRegistrationStatus(this.tournament.id);
             },
             (error) => {
               console.error('Error creating team', error);

@@ -79,7 +79,7 @@ export class ApiService {
   }
 
   // --- TEAMS ---
-  checkTeamRegistrationStatus(competitionId: string): Observable<any> {
+  checkTeamRegistrationStatus(competitionId: number): Observable<any> {
     const token = localStorage.getItem('token');
     return this.http.get<any>(
       `${BASE_URL}/check-team-registration/${competitionId}`,
