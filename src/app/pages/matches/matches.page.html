@@ -26,16 +26,13 @@
       <ion-label>Tous</ion-label>
     </ion-segment-button>
     <ion-segment-button value="À venir">
-      <ion-label>À venir</ion-label>
+      <ion-label>Programmé</ion-label>
     </ion-segment-button>
     <ion-segment-button value="En cours">
       <ion-label>En cours</ion-label>
     </ion-segment-button>
     <ion-segment-button value="Terminé">
       <ion-label>Terminé</ion-label>
-    </ion-segment-button>
-    <ion-segment-button value="Programmé">
-      <ion-label>Programmé</ion-label>
     </ion-segment-button>
   </ion-segment>
 
@@ -56,75 +53,47 @@
       class="match-card"
       [class.live-match]="match.status === 'live'"
     >
-      <!-- En-tête du match -->
-      <ion-card-header class="match-header">
-        <div class="match-info">
-          <ion-badge
-            [color]="getStatusColor(match.status)"
-            class="status-badge"
-          >
-            {{ getStatusLabel(match.status) }}
-          </ion-badge>
-          <ion-text class="competition-name">
-            {{ match.competition.name }}
-          </ion-text>
-          <ion-text color="medium" class="phase">
-            {{ getPhaseLabel(match.phase) }}
-          </ion-text>
-        </div>
-      </ion-card-header>
-
       <!-- Contenu du match -->
-      <ion-card-content class="match-content">
-        <div class="teams-container">
-          <!-- Équipe 1 -->
-          <div class="team">
-            <div class="team-info">
-              <div class="team-logo">
-                <ion-icon name="shield-outline" size="small"></ion-icon>
-              </div>
-              <div class="team-details">
-                <h6>{{ match.team1.name }}</h6>
-              </div>
-            </div>
-            <div
-              class="team-score"
-              [class.winner]="match.team1_score && match.team2_score && match.team1_score > match.team2_score"
-            >
-              {{ match.team1_score ?? '-' }}
-            </div>
-          </div>
-
-          <!-- VS -->
-          <div class="vs-section">
-            <ion-text color="medium">VS</ion-text>
-          </div>
-
-          <!-- Équipe 2 -->
-          <div class="team">
-            <div
-              class="team-score"
-              [class.winner]="match.team1_score && match.team2_score && match.team2_score > match.team1_score"
-            >
-              {{ match.team2_score ?? '-' }}
-            </div>
-            <div class="team-info reverse">
-              <div class="team-details reverse">
-                <h3>{{ match.team2.name }}</h3>
-              </div>
-              <div class="team-logo">
-                <ion-icon name="shield-outline" size="small"></ion-icon>
-              </div>
-            </div>
-          </div>
+      <ion-card-content>
+        <div class="match-header">
+          <span class="competition-name">{{ match.competition.name }}</span>
+          <ion-chip [color]="getStatusColor(match.status)" class="status-chip">
+            <ion-label>{{ getStatusLabel(match.status) }}</ion-label>
+          </ion-chip>
         </div>
 
-        <!-- Indicateur live -->
-        <div *ngIf="match.status === 'live'" class="live-indicator">
-          <ion-chip color="danger" class="live-chip">
-            <ion-icon name="radio-outline"></ion-icon>
-            <ion-label>EN DIRECT</ion-label>
-          </ion-chip>
+        <div class="match-phase">{{ getPhaseLabel(match.phase) }}</div>
+
+        <div class="teams-container">
+          <div class="team team1">
+            <div class="team-info">
+              <ion-icon name="shield-outline" size="small"></ion-icon>
+              <span class="team-name">{{ match.team1.name }}</span>
+            </div>
+            <span
+              class="team-score"
+              [class.winner]="match.status === 'completed' && match.team1_score !== null && match.team2_score !== null && match.team1_score > match.team2_score"
+            >
+              {{ match.team1_score !== null ? match.team1_score : '-' }}
+            </span>
+          </div>
+
+          <div class="vs-separator">
+            <span>VS</span>
+          </div>
+
+          <div class="team team2">
+            <span
+              class="team-score"
+              [class.winner]="match.status === 'completed' && match.team1_score !== null && match.team2_score !== null && match.team2_score > match.team1_score"
+            >
+              {{ match.team2_score !== null ? match.team2_score : '-' }}
+            </span>
+            <div class="team-info">
+              <span class="team-name">{{ match.team2.name }}</span>
+              <ion-icon name="shield-outline" size="small"></ion-icon>
+            </div>
+          </div>
         </div>
       </ion-card-content>
     </ion-card>

@@ -7,7 +7,7 @@ interface Match {
   team2: { id: number; name: string; logo: string | null };
   team1_score: number | null;
   team2_score: number | null;
-  status: 'pending' | 'live' | 'completed' | 'scheduled';
+  status: 'pending' | 'live' | 'completed';
   phase: string;
   competition: { name: string };
 }
@@ -22,13 +22,7 @@ export class MatchesPage implements OnInit {
   matches: Match[] = [];
   filteredMatches: Match[] = [];
   selectedStatus: string = 'Tous';
-  statusOptions: string[] = [
-    'Tous',
-    'À venir',
-    'En cours',
-    'Terminé',
-    'Programmé',
-  ];
+  statusOptions: string[] = ['Tous', 'À venir', 'En cours', 'Terminé'];
 
   constructor() {
     this.initializeMatches();
@@ -124,7 +118,7 @@ export class MatchesPage implements OnInit {
         team2: { id: 16, name: 'Nitro Force', logo: null },
         team1_score: null,
         team2_score: null,
-        status: 'scheduled',
+        status: 'pending',
         phase: 'semi_final',
         competition: { name: 'Rocket League Championship' },
       },
@@ -183,8 +177,6 @@ export class MatchesPage implements OnInit {
         return 'En cours';
       case 'completed':
         return 'Terminé';
-      case 'scheduled':
-        return 'Programmé';
       default:
         return status;
     }
@@ -237,7 +229,6 @@ export class MatchesPage implements OnInit {
         'À venir': 'pending',
         'En cours': 'live',
         Terminé: 'completed',
-        Programmé: 'scheduled',
       };
       const apiStatus = statusMap[this.selectedStatus];
       filtered = filtered.filter((match) => match.status === apiStatus);

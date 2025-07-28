@@ -3,6 +3,9 @@ ion-segment {
   overflow-x: auto;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE 10+ */
+  margin: 16px;
+  border-radius: 12px;
+  //   background: var(--ion-color-light);
 }
 ion-segment::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
@@ -21,24 +24,28 @@ ion-segment-button {
 
 .matches-container {
   padding: 0 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .match-card {
-  margin-bottom: 16px;
-  border-radius: 12px;
-  overflow: hidden;
+  background: rgba(26, 31, 46, 0.8);
+  border-radius: 16px;
+  border: 1px solid rgba(148, 47, 255, 0.1);
+  margin: 0;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
 
-.match-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-}
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  }
 
-.live-match {
-  border-left: 4px solid var(--ion-color-danger);
-  animation: pulse 2s infinite;
+  &.live-match {
+    border-left: 4px solid var(--ion-color-danger);
+    animation: pulse 2s infinite;
+  }
 }
 
 @keyframes pulse {
@@ -52,48 +59,56 @@ ion-segment-button {
 }
 
 .match-header {
-  padding: 12px 16px 8px;
-  background: var(--ion-color-light);
-}
-
-.match-info {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
+  margin-bottom: 8px;
+
+  .competition-name {
+    font-size: 12px;
+    color: #8a91a8;
+    font-weight: 500;
+  }
+
+  .status-chip {
+    font-size: 10px;
+    height: 20px;
+    --color: white;
+  }
 }
 
-.status-badge {
-  font-size: 0.75rem;
+.match-phase {
+  font-size: 14px;
+  color: var(--ion-color-primary);
   font-weight: 600;
-  text-transform: uppercase;
-}
-
-.competition-name {
-  font-weight: 600;
-  color: var(--ion-color-dark);
-  flex: 1;
-  min-width: 0;
-}
-
-.phase {
-  font-size: 0.8rem;
-  font-style: italic;
-}
-
-.match-content {
-  padding: 16px;
+  text-align: center;
+  margin-bottom: 16px;
 }
 
 .teams-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
 }
 
 .team {
   display: flex;
+  align-items: center;
+  flex: 1;
+
+  &.team1 {
+    .team-info {
+      flex-direction: row;
+    }
+  }
+
+  &.team2 {
+    flex-direction: row-reverse;
+
+    .team-info {
+      flex-direction: row-reverse;
+    }
+  }
   align-items: center;
   gap: 12px;
   flex: 1;
