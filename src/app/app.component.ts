@@ -62,8 +62,8 @@ export class AppComponent {
         this.router.navigate(['/onboarding']);
       }
     } else {
-      this.router.navigate(['/onboarding']); //tournaments
-      // this.router.navigate(['/matches']); //tournaments
+      // this.router.navigate(['/onboarding']); //tournaments
+      this.router.navigate(['/tabs/classement']); //tournaments
     }
   }
 

@@ -25,8 +25,9 @@ ion-content {
   border: 1px solid rgba(255, 255, 255, 0.2);
 
   ion-segment-button {
-    --background-checked: #942fff;
-    --color-checked: white;
+    --background: rgba(255, 255, 255, 0.08);
+    --color: var(--ion-color-light);
+    --color-checked: var(--ion-color-primary);
     --border-radius: 8px;
     margin: 4px;
 
@@ -37,6 +38,7 @@ ion-content {
     }
   }
 }
+
 ion-segment {
   /* Masquer la scrollbar sur tous les navigateurs */
   overflow-x: auto;
@@ -50,37 +52,6 @@ ion-segment::-webkit-scrollbar {
 // Ranking Type Selector
 .ranking-selector {
   padding: 0 16px 24px;
-}
-
-.ranking-segment {
-  --background: rgba(255, 255, 255, 0.1);
-  --color: rgba(255, 255, 255, 0.8);
-  border-radius: 12px;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-
-  ion-segment-button {
-    --background-checked: #942fff;
-    --color-checked: white;
-    --border-radius: 8px;
-    margin: 4px;
-
-    ion-label {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
-
-      ion-icon {
-        font-size: 18px;
-      }
-
-      span {
-        font-size: 0.9rem;
-        font-weight: 500;
-      }
-    }
-  }
 }
 
 // Rankings Section
