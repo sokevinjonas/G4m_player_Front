@@ -59,7 +59,7 @@ export class OnboardingPage implements OnInit {
   }
 
   skip() {
-    this.goToAuth();
+    this.currentStep = this.totalSteps - 1; // Aller directement à la dernière étape
   }
 
   getStarted() {
@@ -68,7 +68,7 @@ export class OnboardingPage implements OnInit {
 
   private goToAuth() {
     localStorage.setItem('onboardingCompleted', 'true');
-    this.router.navigate(['/auth-choice']);
+    this.router.navigate(['/tabs/home']); // Rediriger vers l'accueil plutôt que vers une page inexistante
   }
 
   async onConnect() {
