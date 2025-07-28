@@ -210,7 +210,7 @@
               <!-- Si la compétition est pleine -->
               <ion-button
                 class="register-btn"
-                *ngIf="!comp.isUserRegistered && comp.current_participants >= comp.max_participants"
+                *ngIf="comp.status === 'full'"
                 [routerLink]="['/show-tournament', comp.id]"
                 routerLinkActive="router-link-active"
                 fill="outline"
@@ -223,7 +223,7 @@
               <!-- Si l'utilisateur peut s'inscrire -->
               <ion-button
                 class="register-btn"
-                *ngIf="!comp.isUserRegistered && comp.current_participants < comp.max_participants"
+                *ngIf="comp.status === 'upcoming'"
                 [routerLink]="['/show-tournament', comp.id]"
                 routerLinkActive="router-link-active"
                 fill="outline"

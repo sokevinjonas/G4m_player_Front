@@ -108,7 +108,7 @@ export class ProfilePage implements OnInit {
             this.authService.logout().subscribe({
               next: () => {
                 this.presentToast('Déconnexion réussie');
-                this.router.navigate(['/welcome-screen']);
+                this.router.navigate(['/onboarding']);
               },
               error: (err) => {
                 this.presentToast('Veuillez vérifier votre connexion internet');

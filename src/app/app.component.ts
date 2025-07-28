@@ -28,6 +28,10 @@ export class AppComponent {
     // Initialisation du statut de la barre
     this.Initialisation();
   }
+  ionViewWillEnter() {
+    // Vérification de la connexion réseau
+    this.Initialisation();
+  }
   async Initialisation() {
     const firstLaunch = localStorage.getItem('firstLaunch');
 

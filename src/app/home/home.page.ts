@@ -39,7 +39,10 @@ export class HomePage {
   }
 
   ngOnInit() {
+    this.getCompetitionsCountAllEnable();
+    this.getGamesCountAll();
     this.user = JSON.parse(localStorage.getItem('user') || '{}');
+    console.log('User:', this.user);
   }
 
   getCompetitionsCountAllEnable() {
