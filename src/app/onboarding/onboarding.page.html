@@ -1,0 +1,128 @@
+<ion-content [fullscreen]="true" class="onboarding-content">
+  <!-- Progress indicator -->
+  <div class="progress-container">
+    <div class="progress-bar">
+      <div
+        class="progress-fill"
+        [style.width.%]="((currentStep + 1) / totalSteps) * 100"
+      ></div>
+    </div>
+    <div class="step-counter">{{ currentStep + 1 }} / {{ totalSteps }}</div>
+  </div>
+
+  <!-- Skip button -->
+  <ion-button
+    fill="clear"
+    class="skip-btn"
+    (click)="skip()"
+    *ngIf="currentStep < totalSteps - 1"
+  >
+    Passer
+  </ion-button>
+
+  <!-- Onboarding content -->
+  <div class="onboarding-container">
+    <div
+      class="step-content"
+      [class.active]="currentStep === i"
+      *ngFor="let step of onboardingSteps; let i = index"
+    >
+      <!-- Icon section -->
+      <div class="icon-container">
+        <div class="icon-circle" [class]="step.color + '-gradient'">
+          <ion-icon [name]="step.icon" class="step-icon"></ion-icon>
+        </div>
+        <div class="icon-glow" [class]="step.color + '-glow'"></div>
+      </div>
+
+      <!-- Text content -->
+      <div class="text-content">
+        <h1 class="step-title">{{ step.title }}</h1>
+        <h2 class="step-subtitle">{{ step.subtitle }}</h2>
+        <p class="step-description">{{ step.description }}</p>
+      </div>
+
+      <!-- Features list for specific steps -->
+      <div class="features-list" *ngIf="i === 1">
+        <div class="feature-item">
+          <ion-icon name="medal" color="secondary"></ion-icon>
+          <span>Classements en temps réel</span>
+        </div>
+        <div class="feature-item">
+          <ion-icon name="gift" color="secondary"></ion-icon>
+          <span>Récompenses exclusives</span>
+        </div>
+        <div class="feature-item">
+          <ion-icon name="flash" color="secondary"></ion-icon>
+          <span>Matchs instantanés</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation -->
+  <div class="navigation-section">
+    <!-- Dots indicator -->
+    <div class="dots-container">
+      <span
+        class="dot"
+        [class.active]="currentStep === i"
+        (click)="currentStep = i"
+        *ngFor="let step of onboardingSteps; let i = index"
+      >
+      </span>
+    </div>
+
+    <!-- Action buttons -->
+    <div class="action-buttons">
+      <!-- Last step: Authentication choices -->
+      <div *ngIf="currentStep === totalSteps - 1" class="auth-section">
+        <ion-button
+          expand="block"
+          class="cta-primary"
+          (click)="onCreateAccount()"
+        >
+          <ion-icon name="person-add" slot="start"></ion-icon>
+          Créer un compte
+        </ion-button>
+
+        <ion-button
+          expand="block"
+          fill="outline"
+          class="cta-secondary"
+          (click)="onConnect()"
+        >
+          <ion-icon name="log-in" slot="start"></ion-icon>
+          Se connecter
+        </ion-button>
+
+        <ion-button
+          fill="clear"
+          class="guest-btn"
+          (click)="onDashboardAccess()"
+        >
+          <ion-icon name="eye-outline" slot="start"></ion-icon>
+          Explorer sans compte
+        </ion-button>
+      </div>
+
+      <!-- Navigation buttons for other steps -->
+      <div *ngIf="currentStep < totalSteps - 1" class="nav-buttons">
+        <ion-button
+          fill="outline"
+          class="nav-btn prev-btn"
+          (click)="prevStep()"
+          [disabled]="currentStep === 0"
+        >
+          <ion-icon name="chevron-back" slot="start"></ion-icon>
+          Précédent
+        </ion-button>
+
+        <ion-button class="nav-btn next-btn" (click)="nextStep()">
+          Suivant
+          <ion-icon name="chevron-forward" slot="end"></ion-icon>
+        </ion-button>
+      </div>
+    </div>
+  </div>
+</ion-content>

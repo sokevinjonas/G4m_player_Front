@@ -1,0 +1,416 @@
+/* Onboarding Styles - G4ME Pro Africa */
+.onboarding-content {
+  --background: var(--ion-background);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Progress indicator */
+.progress-container {
+  position: absolute;
+  top: 40px;
+  left: 20px;
+  right: 20px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.progress-bar {
+  flex: 1;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: var(--ion-color-primary);
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.step-counter {
+  color: var(--ion-color-light);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Skip button */
+.skip-btn {
+  position: absolute;
+  top: 40px;
+  right: 20px;
+  z-index: 10;
+  --color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+
+  &:hover {
+    --color: var(--ion-color-light);
+  }
+}
+
+/* Main container */
+.onboarding-container {
+  position: relative;
+  min-height: 100vh;
+  padding: 120px 20px 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-content {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 320px;
+  width: 100%;
+
+  &.active {
+    display: flex;
+    animation: fadeInUp 0.6s ease-out;
+  }
+}
+
+/* Icon section */
+.icon-container {
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.icon-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  animation: pulse 3s infinite;
+
+  &.primary-gradient {
+    background: linear-gradient(
+      135deg,
+      var(--ion-color-primary) 0%,
+      #7b3cd8 100%
+    );
+  }
+
+  &.secondary-gradient {
+    background: linear-gradient(
+      135deg,
+      var(--ion-color-secondary) 0%,
+      #ff8c00 100%
+    );
+  }
+
+  &.tertiary-gradient {
+    background: linear-gradient(
+      135deg,
+      var(--ion-color-tertiary) 0%,
+      #00cc99 100%
+    );
+  }
+}
+
+.step-icon {
+  font-size: 48px;
+  color: white;
+}
+
+.icon-glow {
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+  border-radius: 50%;
+  opacity: 0.3;
+
+  &.primary-glow {
+    background: radial-gradient(
+      circle,
+      var(--ion-color-primary) 0%,
+      transparent 70%
+    );
+  }
+
+  &.secondary-glow {
+    background: radial-gradient(
+      circle,
+      var(--ion-color-secondary) 0%,
+      transparent 70%
+    );
+  }
+
+  &.tertiary-glow {
+    background: radial-gradient(
+      circle,
+      var(--ion-color-tertiary) 0%,
+      transparent 70%
+    );
+  }
+}
+
+/* Text content */
+.text-content {
+  margin-bottom: 30px;
+}
+
+.step-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--ion-color-light);
+  margin: 0 0 8px 0;
+  line-height: 1.2;
+}
+
+.step-subtitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ion-color-primary);
+  margin: 0 0 16px 0;
+}
+
+.step-description {
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Features list */
+.features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--ion-second-background);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+
+  ion-icon {
+    font-size: 20px;
+  }
+
+  span {
+    color: var(--ion-color-light);
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+/* Navigation */
+.navigation-section {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--ion-background);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 30px 20px;
+  z-index: 10;
+}
+
+.dots-container {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 30px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+
+  &.active {
+    background: var(--ion-color-primary);
+    transform: scale(1.5);
+  }
+}
+
+/* Action buttons */
+.action-buttons {
+  width: 100%;
+}
+
+.auth-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cta-primary {
+  --background: linear-gradient(
+    135deg,
+    var(--ion-color-primary) 0%,
+    #7b3cd8 100%
+  );
+  --color: white;
+  --border-radius: 16px;
+  height: 56px;
+  font-weight: 600;
+  font-size: 16px;
+  box-shadow: 0 8px 25px rgba(148, 47, 255, 0.4);
+
+  &:hover {
+    --background: linear-gradient(135deg, #a54eff 0%, #8b4edb 100%);
+    box-shadow: 0 12px 30px rgba(148, 47, 255, 0.5);
+  }
+}
+
+.cta-secondary {
+  --background: transparent;
+  --color: var(--ion-color-light);
+  --border-radius: 16px;
+  --border-color: rgba(255, 255, 255, 0.2);
+  --border-width: 1px;
+  height: 56px;
+  font-weight: 600;
+  font-size: 16px;
+
+  &:hover {
+    --background: var(--ion-second-background);
+  }
+}
+
+.guest-btn {
+  --color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
+  margin-top: 8px;
+
+  &:hover {
+    --color: var(--ion-color-light);
+  }
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 16px;
+}
+
+.nav-btn {
+  flex: 1;
+  --border-radius: 16px;
+  height: 50px;
+  font-weight: 600;
+
+  &.prev-btn {
+    --background: transparent;
+    --color: rgba(255, 255, 255, 0.8);
+    --border-color: rgba(255, 255, 255, 0.2);
+    --border-width: 1px;
+
+    &:disabled {
+      --color: rgba(255, 255, 255, 0.3);
+      --border-color: rgba(255, 255, 255, 0.1);
+    }
+  }
+
+  &.next-btn {
+    --background: var(--ion-color-primary);
+    --color: white;
+    box-shadow: 0 4px 16px rgba(148, 47, 255, 0.3);
+  }
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .onboarding-container {
+    padding: 100px 15px 180px;
+  }
+
+  .step-title {
+    font-size: 24px;
+  }
+
+  .step-subtitle {
+    font-size: 16px;
+  }
+
+  .icon-circle {
+    width: 100px;
+    height: 100px;
+  }
+
+  .step-icon {
+    font-size: 40px;
+  }
+
+  .community-stats {
+    gap: 8px;
+  }
+
+  .stat-card {
+    padding: 12px 6px;
+  }
+
+  .stat-number {
+    font-size: 16px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navigation-section {
+    padding: 20px 15px;
+  }
+
+  .nav-buttons {
+    gap: 12px;
+  }
+
+  .nav-btn {
+    height: 46px;
+    font-size: 14px;
+  }
+
+  .cta-primary,
+  .cta-secondary {
+    height: 52px;
+    font-size: 15px;
+  }
+}

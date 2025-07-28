@@ -41,8 +41,8 @@ export class AppComponent {
         this.authService.isAuthenticatedValide().subscribe({
           next: (isAuth) => {
             if (isAuth) {
-              // this.router.navigate(['/tabs/home']);
-              this.router.navigate(['/tabs/tournaments']); //tournaments
+              this.router.navigate(['/tabs/home']);
+              // this.router.navigate(['/tabs/tournaments']); //tournaments
             } else {
               this.handleSessionExpired();
             }
@@ -53,13 +53,13 @@ export class AppComponent {
           },
         });
       } else {
-        // Si pas de connexion, on redirige vers l'écran de bienvenue
+        // Si pas de connexion, on redirige vers l'écran d'onboarding
         this.showToast('Aucune connexion réseau détectée', 'warning');
-        this.router.navigate(['/welcome-screen']);
+        this.router.navigate(['/onboarding']);
       }
     } else {
-      // this.router.navigate(['/welcome-screen']); //tournaments
-      this.router.navigate(['/matches']); //tournaments
+      this.router.navigate(['/onboarding']); //tournaments
+      // this.router.navigate(['/matches']); //tournaments
     }
   }
 
@@ -69,7 +69,7 @@ export class AppComponent {
       'Votre session a expiré. Veuillez vous reconnecter.',
       'warning'
     );
-    this.router.navigate(['/welcome-screen']);
+    this.router.navigate(['/onboarding']);
   }
 
   private async showToast(message: string, color: string = 'primary') {

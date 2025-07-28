@@ -22,10 +22,10 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'welcome-screen',
+    path: 'onboarding',
     loadChildren: () =>
-      import('./welcome-screen/welcome-screen.module').then(
-        (m) => m.WelcomeScreenPageModule
+      import('./onboarding/onboarding.module').then(
+        (m) => m.OnboardingPageModule
       ),
   },
   {
@@ -87,11 +87,15 @@ const routes: Routes = [
   },
   {
     path: 'classement',
-    loadChildren: () => import('./classement/classement.module').then( m => m.ClassementPageModule)
+    loadChildren: () =>
+      import('./classement/classement.module').then(
+        (m) => m.ClassementPageModule
+      ),
   },
   {
     path: 'matches',
-    loadChildren: () => import('./pages/matches/matches.module').then( m => m.MatchesPageModule)
+    loadChildren: () =>
+      import('./pages/matches/matches.module').then((m) => m.MatchesPageModule),
   },
 ];
 
