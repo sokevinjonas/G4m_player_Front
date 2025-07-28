@@ -228,14 +228,12 @@
           <ng-container *ngIf="user && tournament.status === 'upcoming'">
             <!-- User is registered and in a team -->
             <ng-container *ngIf="registrationStatus?.isRegistered">
-              <ion-button
-                expand="block"
-                shape="round"
-                color="success"
-                (click)="manageTeam()"
-              >
-                <ion-icon name="people-outline" slot="start"></ion-icon>
-                Gérer mon équipe
+              <ion-button expand="block" shape="round" color="success" disabled>
+                <ion-icon
+                  name="checkmark-circle-outline"
+                  slot="start"
+                ></ion-icon>
+                Inscrit au tournoi
               </ion-button>
             </ng-container>
 
@@ -286,29 +284,43 @@
       <ion-card class="participants-card">
         <ion-card-header>
           <ion-card-title
-            ><ion-icon color="success" name="people-outline"></ion-icon>
-            Participants inscrits ({{ teamByCompetition ?
-            teamByCompetition.length : 0 }})</ion-card-title
+            ><ion-icon color="success" name="people-outline"></ion-icon> Équipes
+            inscrites ({{ teamByCompetition ? teamByCompetition.length : 0
+            }})</ion-card-title
           >
         </ion-card-header>
         <div class="participants-list">
           <ng-container *ngIf="teamByCompetition; else noParticipants">
             <ion-card
               class="participant-card"
-              *ngFor="let participant of teamByCompetition"
+              *ngFor="let team of teamByCompetition"
             >
-              <div class="participant-content">
-                <ion-avatar>
-                  <img
-                    [src]="fileSaveOrPreviewService.getAvatarDisplayUrl(participant.members.avatar)"
-                    alt="ProGamer_77"
-                  />
-                </ion-avatar>
-                <div class="participant-info">
-                  <h2>{{ participant.name }}</h2>
-                  <!-- <p>Rang #0</p> -->
+              <ion-card-header>
+                <ion-card-title>{{ team.name }}</ion-card-title>
+                <ion-card-subtitle
+                  >Équipe - {{ team.members.length }}
+                  membre(s)</ion-card-subtitle
+                >
+              </ion-card-header>
+              <ion-card-content>
+                <div class="team-members">
+                  <div
+                    class="participant-content"
+                    *ngFor="let member of team.members"
+                  >
+                    <ion-avatar>
+                      <img
+                        [src]="fileSaveOrPreviewService.getAvatarDisplayUrl(member.avatar)"
+                        alt="{{ member.name }}"
+                      />
+                    </ion-avatar>
+                    <div class="participant-info">
+                      <h3>{{ member.name }}</h3>
+                      <p>{{ member.email }}</p>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </ion-card-content>
             </ion-card>
           </ng-container>
           <ng-template #noParticipants>

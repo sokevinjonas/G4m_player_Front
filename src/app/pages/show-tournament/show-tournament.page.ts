@@ -21,9 +21,8 @@ export class ShowTournamentPage implements OnInit {
   tournament: any = null;
   loading = true;
   user: any = {};
-  participation: any = null;
   registrationStatus: any;
-  teamByCompetition: any = null;
+  teamByCompetition: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -202,7 +201,9 @@ export class ShowTournamentPage implements OnInit {
                 .subscribe(
                   (_response: any) => {
                     this.showToast('Inscription solo réussie !', 'success');
+                    this.getTournamentDetails(this.tournament.id);
                     this.checkRegistrationStatus(this.tournament.id);
+                    this.LoadteamByCompetition(this.tournament.id);
                   },
                   (_error: any) => {
                     this.showToast(
@@ -239,6 +240,9 @@ export class ShowTournamentPage implements OnInit {
                 'success'
               );
               this.checkRegistrationStatus(this.tournament.id);
+              this.LoadteamByCompetition(this.tournament.id);
+              // Émettre un événement pour informer la page des tournois
+              this.notifyTournamentListUpdate();
             },
             (error) => {
               console.error('Error creating team', error);
@@ -252,9 +256,13 @@ export class ShowTournamentPage implements OnInit {
     }
   }
 
-  async manageTeam() {
-    // Logic to open a modal for team management
-    console.log('Manage team clicked');
+  /**
+   * Notifie la page des tournois qu'une inscription a eu lieu
+   * pour qu'elle puisse mettre à jour la liste
+   */
+  private notifyTournamentListUpdate() {
+    // Stocker dans localStorage pour informer la page des tournois
+    localStorage.setItem('tournamentListNeedsUpdate', 'true');
   }
 
   login() {

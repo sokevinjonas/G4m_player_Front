@@ -10,7 +10,6 @@ import { FileSaveOrPreviewService } from '../core/services/fileSaveOrPreview/fil
 })
 export class TournamentsPage implements OnInit {
   competitions: any[] = [];
-  isPlayer = false;
   user: any = {};
 
   constructor(
@@ -21,7 +20,15 @@ export class TournamentsPage implements OnInit {
   ionViewWillEnter() {
     console.log('TournamentsPage: ionViewWillEnter');
     this.user = JSON.parse(localStorage.getItem('user') || '{}');
-    this.loadCompetitions();
+
+    // Vérifier si la liste doit être mise à jour après une inscription
+    const needsUpdate = localStorage.getItem('tournamentListNeedsUpdate');
+    if (needsUpdate === 'true') {
+      localStorage.removeItem('tournamentListNeedsUpdate');
+      this.loadCompetitions();
+    } else {
+      this.loadCompetitions();
+    }
   }
   ngOnInit() {
     console.log('TournamentsPage: ngOnInit');
