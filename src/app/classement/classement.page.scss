@@ -1,0 +1,466 @@
+ion-content {
+  --background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+// Section Titles
+.section-title {
+  color: #942fff;
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 20px 16px 16px;
+  text-shadow: 0 0 10px rgba(148, 47, 255, 0.3);
+}
+
+// Games Selection
+.games-section {
+  margin-bottom: 24px;
+  padding: 0 16px;
+}
+
+.games-segment {
+  --background: rgba(255, 255, 255, 0.1);
+  --color: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  ion-segment-button {
+    --background-checked: #942fff;
+    --color-checked: white;
+    --border-radius: 8px;
+    margin: 4px;
+
+    ion-label {
+      font-weight: 600;
+      font-size: 0.9rem;
+      padding: 8px 12px;
+    }
+  }
+}
+ion-segment {
+  /* Masquer la scrollbar sur tous les navigateurs */
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+ion-segment::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+// Ranking Type Selector
+.ranking-selector {
+  padding: 0 16px 24px;
+}
+
+.ranking-segment {
+  --background: rgba(255, 255, 255, 0.1);
+  --color: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  ion-segment-button {
+    --background-checked: #942fff;
+    --color-checked: white;
+    --border-radius: 8px;
+    margin: 4px;
+
+    ion-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+
+      ion-icon {
+        font-size: 18px;
+      }
+
+      span {
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+// Rankings Section
+.rankings-section {
+  padding: 0 16px;
+}
+
+.rankings-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+
+  h3 {
+    color: white;
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0;
+  }
+}
+
+.game-chip {
+  --background: rgba(255, 255, 255, 0.9);
+  --color: white;
+  font-weight: 600;
+
+  ion-icon {
+    margin-right: 4px;
+  }
+}
+
+// Podium with Ion-Grid
+.podium-container {
+  padding: 16px;
+  margin-bottom: 24px;
+}
+
+.podium-card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  margin: 0;
+
+  &.first {
+    transform: scale(1.05);
+    background: rgba(255, 215, 0, 0.15);
+    border-color: rgba(255, 215, 0, 0.3);
+    box-shadow: 0 8px 32px rgba(255, 215, 0, 0.2);
+
+    .podium-position {
+      background: linear-gradient(135deg, #ffd700, #ffed4e);
+      color: #1a1a2e;
+    }
+
+    .crown {
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 24px;
+      filter: drop-shadow(0 0 8px rgba(255, 215, 0, 0.5));
+    }
+  }
+
+  &.second {
+    .podium-position {
+      background: linear-gradient(135deg, #c0c0c0, #e8e8e8);
+      color: #1a1a2e;
+    }
+  }
+
+  &.third {
+    .podium-position {
+      background: linear-gradient(135deg, #cd7f32, #daa520);
+      color: white;
+    }
+  }
+
+  ion-card-content {
+    text-align: center;
+    padding: 16px 8px;
+    position: relative;
+
+    .podium-position {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+      margin: 0 auto 12px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .podium-avatar {
+      --size: 40px;
+      margin: 0 auto 8px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+
+      ion-icon {
+        font-size: 20px;
+        color: rgba(255, 255, 255, 0.8);
+      }
+    }
+
+    h5 {
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin: 0 0 4px;
+      line-height: 1.2;
+    }
+
+    .points {
+      color: #d88f00;
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin: 0 0 4px;
+    }
+
+    .country-flag {
+      font-size: 1rem;
+    }
+  }
+}
+
+// Rankings List with Ion-List
+.rankings-list {
+  background: transparent;
+  padding: 0 16px;
+
+  .ranking-item {
+    --background: rgba(255, 255, 255, 0.1);
+    --border-color: rgba(255, 255, 255, 0.2);
+    --border-width: 1px;
+    --border-style: solid;
+    --border-radius: 16px;
+    --padding-start: 16px;
+    --padding-end: 16px;
+    --inner-padding-end: 0;
+    --inner-padding-start: 0;
+    --min-height: 80px;
+    margin-bottom: 12px;
+    backdrop-filter: blur(10px);
+
+    &.current-user {
+      --background: rgba(148, 47, 255, 0.15);
+      --border-color: #942fff;
+      box-shadow: 0 8px 32px rgba(148, 47, 255, 0.3);
+    }
+
+    &:hover {
+      --background: rgba(255, 255, 255, 0.15);
+      --border-color: rgba(148, 47, 255, 0.3);
+    }
+  }
+}
+
+.rank-avatar {
+  --size: 45px;
+  border: none;
+  background: transparent;
+
+  .rank-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+
+    &.rank-1 {
+      background: linear-gradient(135deg, #ffd700, #ffed4e);
+      color: #1a1a2e;
+      border-color: #ffd700;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+    }
+
+    &.rank-2 {
+      background: linear-gradient(135deg, #c0c0c0, #e8e8e8);
+      color: #1a1a2e;
+      border-color: #c0c0c0;
+    }
+
+    &.rank-3 {
+      background: linear-gradient(135deg, #cd7f32, #daa520);
+      color: white;
+      border-color: #cd7f32;
+    }
+  }
+}
+
+.player-name {
+  color: white !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  margin: 0 0 4px !important;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  ion-badge {
+    font-size: 0.7rem;
+    padding: 2px 6px;
+  }
+}
+
+.player-info {
+  color: rgba(255, 255, 255, 0.7) !important;
+  font-size: 0.85rem !important;
+  margin: 0 !important;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  .country-flag {
+    font-size: 1rem;
+  }
+
+  .country-name {
+    font-size: 0.8rem;
+  }
+}
+
+.points-section {
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+
+  .points-value {
+    color: #d88f00 !important;
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    line-height: 1;
+  }
+
+  .points-label {
+    color: rgba(255, 255, 255, 0.6) !important;
+    font-size: 0.7rem !important;
+  }
+
+  .rank-change {
+    font-size: 14px;
+  }
+}
+
+// Empty State & Selection Prompt
+.empty-state,
+.selection-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 60px 20px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 20px 16px;
+
+  ion-icon {
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+
+  h3 {
+    color: white;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin: 0 0 8px;
+  }
+
+  p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    margin: 0;
+    line-height: 1.4;
+  }
+}
+
+// Responsive Design
+@media (min-width: 768px) {
+  .games-segment {
+    ion-segment-button {
+      ion-label {
+        font-size: 1rem;
+        padding: 10px 16px;
+      }
+    }
+  }
+
+  .podium-container {
+    padding: 24px;
+
+    .podium-card {
+      ion-card-content {
+        padding: 20px 12px;
+
+        .podium-position {
+          width: 32px;
+          height: 32px;
+          font-size: 1.1rem;
+        }
+
+        .podium-avatar {
+          --size: 50px;
+
+          ion-icon {
+            font-size: 24px;
+          }
+        }
+
+        h5 {
+          font-size: 0.9rem;
+        }
+
+        .points {
+          font-size: 0.8rem;
+        }
+
+        .country-flag {
+          font-size: 1.2rem;
+        }
+      }
+    }
+  }
+
+  .rankings-list {
+    .ranking-item {
+      --min-height: 90px;
+      --padding-start: 20px;
+      --padding-end: 20px;
+    }
+
+    .rank-avatar {
+      --size: 50px;
+
+      .rank-number {
+        width: 45px;
+        height: 45px;
+        font-size: 1.1rem;
+      }
+    }
+
+    .player-name {
+      font-size: 1.1rem !important;
+    }
+
+    .points-section {
+      .points-value {
+        font-size: 1.2rem !important;
+      }
+
+      .points-label {
+        font-size: 0.8rem !important;
+      }
+    }
+  }
+}
+
+@media (min-width: 1024px) {
+  .games-segment {
+    ion-segment-button {
+      ion-label {
+        padding: 12px 20px;
+      }
+    }
+  }
+
+  .rankings-list {
+    padding: 0 32px;
+  }
+}

@@ -1,13 +1,183 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>classement</ion-title>
+    <ion-title>Classements</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">classement</ion-title>
+      <ion-title size="large">Classements</ion-title>
     </ion-toolbar>
   </ion-header>
+
+  <!-- Games Selection -->
+  <div class="games-section">
+    <h3 class="section-title">Choisir un jeu</h3>
+    <ion-segment
+      [value]="selectedGame?.id"
+      (ionChange)="selectGameById($any($event.detail.value))"
+      class="games-segment"
+      scrollable="true"
+    >
+      <ion-segment-button [value]="game.id" *ngFor="let game of games">
+        <ion-label>{{ game.name }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <!-- Ranking Type Selector -->
+  <div class="ranking-selector" *ngIf="selectedGame">
+    <ion-segment
+      [value]="selectedRankingType"
+      (ionChange)="selectRankingType($any($event.detail.value))"
+      class="ranking-segment"
+    >
+      <ion-segment-button value="general">
+        <ion-label>
+          <ion-icon name="globe-outline"></ion-icon>
+          <span>Général</span>
+        </ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="country">
+        <ion-label>
+          <ion-icon name="flag-outline"></ion-icon>
+          <span>{{ userCountry }}</span>
+        </ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
+  <!-- Rankings Display -->
+  <div class="rankings-section" *ngIf="selectedGame">
+    <div class="rankings-header">
+      <h3>
+        <span *ngIf="selectedRankingType === 'general'"
+          >Classement Général</span
+        >
+        <span *ngIf="selectedRankingType === 'country'"
+          >Classement {{ userCountry }}</span
+        >
+      </h3>
+      <ion-chip class="game-chip" [style.background-color]="selectedGame.color">
+        <ion-icon [name]="selectedGame.icon"></ion-icon>
+        <ion-label>{{ selectedGame.name }}</ion-label>
+      </ion-chip>
+    </div>
+
+    <!-- Top 3 Podium -->
+    <ion-grid class="podium-container" *ngIf="getCurrentRankings().length >= 3">
+      <ion-row class="ion-justify-content-center ion-align-items-end">
+        <!-- 2nd Place -->
+        <ion-col size="4" class="ion-text-center">
+          <ion-card class="podium-card second">
+            <ion-card-content>
+              <div class="podium-position">2</div>
+              <ion-avatar class="podium-avatar">
+                <ion-icon name="person"></ion-icon>
+              </ion-avatar>
+              <h5>{{ getCurrentRankings()[1].username }}</h5>
+              <p class="points">{{ getCurrentRankings()[1].points }} pts</p>
+              <span class="country-flag"
+                >{{ getCurrentRankings()[1].countryFlag }}</span
+              >
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <!-- 1st Place -->
+        <ion-col size="4" class="ion-text-center">
+          <ion-card class="podium-card first">
+            <ion-card-content>
+              <ion-icon name="trophy" class="crown" color="warning"></ion-icon>
+              <div class="podium-position">1</div>
+              <ion-avatar class="podium-avatar">
+                <ion-icon name="person"></ion-icon>
+              </ion-avatar>
+              <h5>{{ getCurrentRankings()[0].username }}</h5>
+              <p class="points">{{ getCurrentRankings()[0].points }} pts</p>
+              <span class="country-flag"
+                >{{ getCurrentRankings()[0].countryFlag }}</span
+              >
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+
+        <!-- 3rd Place -->
+        <ion-col size="4" class="ion-text-center">
+          <ion-card class="podium-card third">
+            <ion-card-content>
+              <div class="podium-position">3</div>
+              <ion-avatar class="podium-avatar">
+                <ion-icon name="person"></ion-icon>
+              </ion-avatar>
+              <h5>{{ getCurrentRankings()[2].username }}</h5>
+              <p class="points">{{ getCurrentRankings()[2].points }} pts</p>
+              <span class="country-flag"
+                >{{ getCurrentRankings()[2].countryFlag }}</span
+              >
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- Rankings List -->
+    <ion-list class="rankings-list">
+      <ion-item
+        class="ranking-item"
+        [class.current-user]="player.isCurrentUser"
+        *ngFor="let player of getCurrentRankings()"
+      >
+        <ion-avatar slot="start" class="rank-avatar">
+          <div class="rank-number" [class]="'rank-' + player.rank">
+            {{ player.rank }}
+          </div>
+        </ion-avatar>
+
+        <ion-label>
+          <h3 class="player-name">
+            {{ player.username }}
+            <ion-badge color="primary" *ngIf="player.isCurrentUser"
+              >Vous</ion-badge
+            >
+          </h3>
+          <p class="player-info">
+            <span class="country-flag">{{ player.countryFlag }}</span>
+            <span class="country-name">{{ player.country }}</span>
+          </p>
+        </ion-label>
+
+        <ion-note slot="end" class="points-section">
+          <div class="points-value">{{ player.points }}</div>
+          <div class="points-label">points</div>
+          <ion-icon
+            [name]="getRankChangeIcon(player)"
+            [color]="getRankChangeColor(player)"
+            size="small"
+            class="rank-change"
+          >
+          </ion-icon>
+        </ion-note>
+      </ion-item>
+    </ion-list>
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="getCurrentRankings().length === 0">
+      <ion-icon name="trophy-outline" size="large" color="medium"></ion-icon>
+      <h3>Aucun classement disponible</h3>
+      <p>Les classements pour ce jeu ne sont pas encore disponibles.</p>
+    </div>
+  </div>
+
+  <!-- Game Selection Prompt -->
+  <div class="selection-prompt" *ngIf="!selectedGame">
+    <ion-icon
+      name="game-controller-outline"
+      size="large"
+      color="medium"
+    ></ion-icon>
+    <h3>Sélectionnez un jeu</h3>
+    <p>Choisissez un jeu pour voir les classements</p>
+  </div>
 </ion-content>
