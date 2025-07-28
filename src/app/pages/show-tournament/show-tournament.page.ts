@@ -23,6 +23,7 @@ export class ShowTournamentPage implements OnInit {
   user: any = {};
   participation: any = null;
   registrationStatus: any;
+  teamByCompetition: any = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -45,8 +46,22 @@ export class ShowTournamentPage implements OnInit {
       if (tournamentId) {
         this.getTournamentDetails(tournamentId);
         this.checkRegistrationStatus(tournamentId);
+        this.LoadteamByCompetition(+tournamentId);
       }
     });
+  }
+
+  LoadteamByCompetition(id: number) {
+    this.apiService.teamByCompetition(id).subscribe(
+      (data) => {
+        this.teamByCompetition = data;
+        console.log('Team by competition:', this.teamByCompetition);
+      },
+      (error) => {
+        console.error('Error fetching team by competition:', error);
+        this.showToast('Erreur lors de la récupération de l’équipe.', 'danger');
+      }
+    );
   }
 
   getTournamentDetails(id: string) {

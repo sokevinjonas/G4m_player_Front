@@ -49,8 +49,11 @@ export class ApiService {
     return this.http.get(`${BASE_URL}/competitions/${id}`);
   }
 
-  getCompetitionPlayers(id: number): Observable<any> {
-    return this.http.get(`${BASE_URL}/competitions/${id}/players`);
+  teamByCompetition(id: number): Observable<any> {
+    const token = localStorage.getItem('token');
+    return this.http.get(`${BASE_URL}/teams-by-competition/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
   }
 
   getCompetitionsCountAllEnable(): Observable<any> {
