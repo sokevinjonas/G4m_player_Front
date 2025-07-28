@@ -52,7 +52,7 @@
   </div>
 
   <!-- Skeleton loader pendant le chargement -->
-  <ng-container *ngIf="competitions.length === 0">
+  <ng-container *ngIf="isLoading">
     <ion-card *ngFor="let skel of [1,2]" class="tournament-card">
       <ion-card-header>
         <ion-skeleton-text

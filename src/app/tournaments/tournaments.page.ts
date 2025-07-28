@@ -14,6 +14,7 @@ export class TournamentsPage implements OnInit {
   user: any = {};
   searchTerm: string = '';
   selectedStatus: string = 'Tous';
+  isLoading: boolean = false;
   statusOptions: string[] = [
     'Tous',
     'À venir',
@@ -29,40 +30,58 @@ export class TournamentsPage implements OnInit {
 
   ionViewWillEnter() {
     console.log('TournamentsPage: ionViewWillEnter');
+    // Rafraîchir les données utilisateur à chaque entrée sur la page
     this.user = JSON.parse(localStorage.getItem('user') || '{}');
 
-    // Vérifier si la liste doit être mise à jour après une inscription
-    const needsUpdate = localStorage.getItem('tournamentListNeedsUpdate');
-    if (needsUpdate === 'true') {
-      localStorage.removeItem('tournamentListNeedsUpdate');
-      this.loadCompetitions();
-    } else {
-      this.loadCompetitions();
-    }
+    // Toujours recharger les compétitions pour avoir les données les plus récentes
+    this.loadCompetitions();
   }
+
   ngOnInit() {
     console.log('TournamentsPage: ngOnInit');
-    this.ionViewWillEnter();
+    // Pas besoin de charger ici car ionViewWillEnter sera appelé après
   }
 
   loadCompetitions(event?: any) {
-    this.api.getCompetitions().subscribe((data) => {
-      this.competitions = data;
+    if (!event) {
+      this.isLoading = true;
+    }
 
-      // Pour chaque compétition, vérifier si l'utilisateur est inscrit
-      this.competitions.forEach((comp) => {
-        comp.isUserRegistered =
-          comp.players && comp.players.some((p: any) => p.id === this.user.id);
-      });
+    console.log('Chargement des compétitions...');
 
-      // Initialiser les compétitions filtrées
-      this.filteredCompetitions = [...this.competitions];
-      this.applyFilters();
+    this.api.getCompetitions().subscribe({
+      next: (data) => {
+        console.log('Données reçues:', data);
+        this.competitions = data || [];
 
-      console.log('Competitions:', this.competitions);
-      if (event) {
-        event.target.complete();
-      }
+        // Pour chaque compétition, vérifier si l'utilisateur est inscrit
+        this.competitions.forEach((comp) => {
+          comp.isUserRegistered =
+            comp.players &&
+            comp.players.some((p: any) => p.id === this.user.id);
+        });
+
+        // Initialiser les compétitions filtrées
+        this.filteredCompetitions = [...this.competitions];
+        this.applyFilters();
+
+        console.log('Competitions chargées:', this.competitions.length);
+
+        this.isLoading = false;
+
+        if (event) {
+          event.target.complete();
+        }
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des compétitions:', error);
+
+        this.isLoading = false;
+
+        if (event) {
+          event.target.complete();
+        }
+      },
     });
   }
 
@@ -125,6 +144,18 @@ export class TournamentsPage implements OnInit {
   }
 
   doRefresh(event: any) {
+    console.log('Rafraîchissement manuel des données...');
     this.loadCompetitions(event);
+  }
+
+  /**
+   * Méthode pour forcer le rafraîchissement des données
+   * Utile pour debugger ou forcer la mise à jour
+   */
+  forceRefresh() {
+    console.log('Rafraîchissement forcé des données...');
+    this.competitions = [];
+    this.filteredCompetitions = [];
+    this.loadCompetitions();
   }
 }
