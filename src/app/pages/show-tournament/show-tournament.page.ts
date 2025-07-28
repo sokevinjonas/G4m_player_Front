@@ -58,7 +58,7 @@ export class ShowTournamentPage implements OnInit {
       },
       (error) => {
         console.error('Error fetching team by competition:', error);
-        this.showToast('Erreur lors de la récupération de l’équipe.', 'danger');
+        // this.showToast('Erreur lors de la récupération de l’équipe.', 'danger');
       }
     );
   }
