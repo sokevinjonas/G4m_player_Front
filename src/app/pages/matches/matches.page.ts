@@ -1,8 +1,6 @@
-import { Component } from '@angular/core';
-import { ApiService } from '../core/services/api/api.service';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 
-interface FakeMatch {
+interface Match {
   id: number;
   competition_id: number;
   team1: { id: number; name: string; logo: string | null };
@@ -15,54 +13,33 @@ interface FakeMatch {
 }
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: 'app-matches',
+  templateUrl: './matches.page.html',
+  styleUrls: ['./matches.page.scss'],
   standalone: false,
 })
-export class HomePage {
-  myBadges: number = 0;
-  tournoisDisponibles: number = 0;
-  jeuxDisponibles: number = 0;
-  user: any = {}; // Initialize user as an empty object
-  fakeMatches: FakeMatch[] = [];
+export class MatchesPage implements OnInit {
+  matches: Match[] = [];
+  filteredMatches: Match[] = [];
+  selectedStatus: string = 'Tous';
+  statusOptions: string[] = [
+    'Tous',
+    'À venir',
+    'En cours',
+    'Terminé',
+    'Programmé',
+  ];
 
-  constructor(protected apiService: ApiService, private router: Router) {
-    this.initializeFakeMatches();
-  }
-
-  ionViewWillEnter() {
-    this.getCompetitionsCountAllEnable();
-    this.getGamesCountAll();
-    this.user = JSON.parse(localStorage.getItem('user') || '{}');
-    console.log('User:', this.user);
+  constructor() {
+    this.initializeMatches();
   }
 
   ngOnInit() {
-    this.user = JSON.parse(localStorage.getItem('user') || '{}');
+    this.filteredMatches = [...this.matches];
   }
 
-  getCompetitionsCountAllEnable() {
-    this.apiService.getCompetitionsCountAllEnable().subscribe((data) => {
-      this.tournoisDisponibles = data.count;
-      console.log('Tournois disponibles:', data.count);
-    });
-  }
-
-  getGamesCountAll() {
-    this.apiService.getGamesCountAll().subscribe((data) => {
-      this.jeuxDisponibles = data.count;
-      console.log('Jeux disponibles:', data.count);
-    });
-  }
-  createAccount() {
-    // navigate to the create account page
-    console.log('Navigating to create account page');
-    this.router.navigate(['/register']);
-  }
-
-  initializeFakeMatches() {
-    this.fakeMatches = [
+  initializeMatches() {
+    this.matches = [
       {
         id: 1,
         competition_id: 1,
@@ -173,6 +150,28 @@ export class HomePage {
         phase: 'round_of_32',
         competition: { name: 'CS:GO Major' },
       },
+      {
+        id: 11,
+        competition_id: 6,
+        team1: { id: 21, name: 'Mystic Warriors', logo: null },
+        team2: { id: 22, name: 'Solar Flare', logo: null },
+        team1_score: null,
+        team2_score: null,
+        status: 'pending',
+        phase: 'quarter_final',
+        competition: { name: 'Fortnite Battle Royale' },
+      },
+      {
+        id: 12,
+        competition_id: 6,
+        team1: { id: 23, name: 'Neon Knights', logo: null },
+        team2: { id: 24, name: 'Cosmic Raiders', logo: null },
+        team1_score: 3,
+        team2_score: 1,
+        status: 'completed',
+        phase: 'semi_final',
+        competition: { name: 'Fortnite Battle Royale' },
+      },
     ];
   }
 
@@ -223,11 +222,27 @@ export class HomePage {
     }
   }
 
-  getRecentMatches() {
-    return this.fakeMatches.slice(0, 5); // Afficher seulement les 5 premiers matches
+  selectStatus(event: any) {
+    const status = event as string;
+    if (!status) return;
+    this.selectedStatus = status;
+    this.applyFilters();
   }
 
-  viewAllMatches() {
-    this.router.navigate(['/matches']);
+  applyFilters() {
+    let filtered = [...this.matches];
+
+    if (this.selectedStatus !== 'Tous') {
+      const statusMap: { [key: string]: string } = {
+        'À venir': 'pending',
+        'En cours': 'live',
+        Terminé: 'completed',
+        Programmé: 'scheduled',
+      };
+      const apiStatus = statusMap[this.selectedStatus];
+      filtered = filtered.filter((match) => match.status === apiStatus);
+    }
+
+    this.filteredMatches = filtered;
   }
 }

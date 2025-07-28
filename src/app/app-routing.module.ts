@@ -89,6 +89,10 @@ const routes: Routes = [
     path: 'classement',
     loadChildren: () => import('./classement/classement.module').then( m => m.ClassementPageModule)
   },
+  {
+    path: 'matches',
+    loadChildren: () => import('./pages/matches/matches.module').then( m => m.MatchesPageModule)
+  },
 ];
 
 @NgModule({

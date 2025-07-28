@@ -62,7 +62,12 @@
   <div class="matches-section">
     <div class="section-header">
       <h2>Affrontements récents</h2>
-      <ion-button fill="clear" size="small" color="primary">
+      <ion-button
+        fill="clear"
+        size="small"
+        color="primary"
+        (click)="viewAllMatches()"
+      >
         <span>Voir tout</span>
         <ion-icon name="chevron-forward" slot="end"></ion-icon>
       </ion-button>
@@ -86,12 +91,7 @@
           <div class="teams-container">
             <div class="team team1">
               <div class="team-info">
-                <ion-avatar class="team-avatar">
-                  <img
-                    [src]="match.team1.logo || 'assets/icon/favicon.png'"
-                    [alt]="match.team1.name"
-                  />
-                </ion-avatar>
+                <ion-icon name="shield-outline" size="small"></ion-icon>
                 <span class="team-name">{{ match.team1.name }}</span>
               </div>
               <span
@@ -115,12 +115,7 @@
               </span>
               <div class="team-info">
                 <span class="team-name">{{ match.team2.name }}</span>
-                <ion-avatar class="team-avatar">
-                  <img
-                    [src]="match.team2.logo || 'assets/icon/favicon.png'"
-                    [alt]="match.team2.name"
-                  />
-                </ion-avatar>
+                <ion-icon name="shield-outline" size="small"></ion-icon>
               </div>
             </div>
           </div>

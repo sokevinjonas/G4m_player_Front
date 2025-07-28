@@ -129,22 +129,11 @@
   padding: 0;
 }
 
-// Styles pour le segment de statut
-.status-segment {
-  margin-bottom: 20px;
-  --background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 4px;
-}
-
-.status-segment ion-segment-button {
-  --color: var(--ion-color-medium);
+ion-segment-button {
+  --background: rgba(255, 255, 255, 0.08);
+  --color: var(--ion-color-light);
   --color-checked: var(--ion-color-primary);
-  --background-checked: rgba(var(--ion-color-primary-rgb), 0.2);
-  --border-radius: 8px;
-  min-height: 36px;
-  font-size: 14px;
-  font-weight: 500;
+  margin-right: 4px;
 }
 
 // Compteur de résultats
@@ -155,4 +144,14 @@
   font-size: 14px;
   color: var(--ion-color-medium);
   font-weight: 500;
+}
+
+ion-segment {
+  /* Masquer la scrollbar sur tous les navigateurs */
+  overflow-x: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
+}
+ion-segment::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }

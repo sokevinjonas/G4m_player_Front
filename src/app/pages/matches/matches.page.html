@@ -1,0 +1,141 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Affrontements</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Affrontements</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Filtre par statut -->
+  <ion-segment
+    mode="ios"
+    scrollable
+    value="{{selectedStatus}}"
+    (ionChange)="selectStatus($event.detail.value)"
+    class="custom-segment"
+  >
+    <ion-segment-button value="Tous">
+      <ion-label>Tous</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="À venir">
+      <ion-label>À venir</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="En cours">
+      <ion-label>En cours</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="Terminé">
+      <ion-label>Terminé</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="Programmé">
+      <ion-label>Programmé</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Compteur de résultats -->
+  <div class="result-counter">
+    <ion-text color="medium">
+      <p>
+        {{ filteredMatches.length }} affrontement{{ filteredMatches.length > 1 ?
+        's' : '' }} trouvé{{ filteredMatches.length > 1 ? 's' : '' }}
+      </p>
+    </ion-text>
+  </div>
+
+  <!-- Liste des affrontements -->
+  <div class="matches-container">
+    <ion-card
+      *ngFor="let match of filteredMatches"
+      class="match-card"
+      [class.live-match]="match.status === 'live'"
+    >
+      <!-- En-tête du match -->
+      <ion-card-header class="match-header">
+        <div class="match-info">
+          <ion-badge
+            [color]="getStatusColor(match.status)"
+            class="status-badge"
+          >
+            {{ getStatusLabel(match.status) }}
+          </ion-badge>
+          <ion-text class="competition-name">
+            {{ match.competition.name }}
+          </ion-text>
+          <ion-text color="medium" class="phase">
+            {{ getPhaseLabel(match.phase) }}
+          </ion-text>
+        </div>
+      </ion-card-header>
+
+      <!-- Contenu du match -->
+      <ion-card-content class="match-content">
+        <div class="teams-container">
+          <!-- Équipe 1 -->
+          <div class="team">
+            <div class="team-info">
+              <div class="team-logo">
+                <ion-icon name="shield-outline" size="small"></ion-icon>
+              </div>
+              <div class="team-details">
+                <h6>{{ match.team1.name }}</h6>
+              </div>
+            </div>
+            <div
+              class="team-score"
+              [class.winner]="match.team1_score && match.team2_score && match.team1_score > match.team2_score"
+            >
+              {{ match.team1_score ?? '-' }}
+            </div>
+          </div>
+
+          <!-- VS -->
+          <div class="vs-section">
+            <ion-text color="medium">VS</ion-text>
+          </div>
+
+          <!-- Équipe 2 -->
+          <div class="team">
+            <div
+              class="team-score"
+              [class.winner]="match.team1_score && match.team2_score && match.team2_score > match.team1_score"
+            >
+              {{ match.team2_score ?? '-' }}
+            </div>
+            <div class="team-info reverse">
+              <div class="team-details reverse">
+                <h3>{{ match.team2.name }}</h3>
+              </div>
+              <div class="team-logo">
+                <ion-icon name="shield-outline" size="small"></ion-icon>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Indicateur live -->
+        <div *ngIf="match.status === 'live'" class="live-indicator">
+          <ion-chip color="danger" class="live-chip">
+            <ion-icon name="radio-outline"></ion-icon>
+            <ion-label>EN DIRECT</ion-label>
+          </ion-chip>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Message si aucun résultat -->
+  <div *ngIf="filteredMatches.length === 0" class="no-results">
+    <ion-icon name="trophy-outline" size="large" color="medium"></ion-icon>
+    <ion-text color="medium">
+      <h2>Aucun affrontement trouvé</h2>
+      <p>Aucun affrontement ne correspond aux filtres sélectionnés.</p>
+    </ion-text>
+  </div>
+</ion-content>

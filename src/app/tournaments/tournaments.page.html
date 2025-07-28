@@ -36,7 +36,6 @@
     [(ngModel)]="selectedStatus"
     (ionChange)="selectStatus($event.detail.value?.toString())"
     *ngIf="competitions.length > 0"
-    class="status-segment"
   >
     <ion-segment-button *ngFor="let status of statusOptions" [value]="status">
       <ion-label>{{ status }}</ion-label>
