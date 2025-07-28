@@ -116,3 +116,43 @@
   color: var(--ion-color-light);
   gap: 8px;
 }
+
+// Styles pour la barre de recherche
+.custom-searchbar {
+  --background: rgba(255, 255, 255, 0.1);
+  --border-radius: 12px;
+  --box-shadow: none;
+  --icon-color: var(--ion-color-medium);
+  --placeholder-color: var(--ion-color-medium);
+  --color: var(--ion-color-light);
+  margin-bottom: 16px;
+  padding: 0;
+}
+
+// Styles pour le segment de statut
+.status-segment {
+  margin-bottom: 20px;
+  --background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 4px;
+}
+
+.status-segment ion-segment-button {
+  --color: var(--ion-color-medium);
+  --color-checked: var(--ion-color-primary);
+  --background-checked: rgba(var(--ion-color-primary-rgb), 0.2);
+  --border-radius: 8px;
+  min-height: 36px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+// Compteur de résultats
+.results-counter {
+  margin-bottom: 16px;
+  padding: 8px 12px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--ion-color-medium);
+  font-weight: 500;
+}

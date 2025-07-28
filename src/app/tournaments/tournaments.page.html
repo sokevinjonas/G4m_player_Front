@@ -17,6 +17,41 @@
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher>
+
+  <!-- Barre de recherche -->
+  <ion-searchbar
+    *ngIf="competitions.length > 0"
+    [(ngModel)]="searchTerm"
+    (ionInput)="onSearchChange($event)"
+    placeholder="Rechercher un tournoi ou un jeu..."
+    show-clear-button="focus"
+    debounce="300"
+    class="custom-searchbar"
+  ></ion-searchbar>
+
+  <!-- Segment pour filtrer par statut -->
+  <ion-segment
+    mode="ios"
+    scrollable
+    [(ngModel)]="selectedStatus"
+    (ionChange)="selectStatus($event.detail.value?.toString())"
+    *ngIf="competitions.length > 0"
+    class="status-segment"
+  >
+    <ion-segment-button *ngFor="let status of statusOptions" [value]="status">
+      <ion-label>{{ status }}</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+
+  <!-- Compteur de résultats -->
+  <div class="results-counter" *ngIf="competitions.length > 0">
+    <span
+      >{{ filteredCompetitions.length }} compétition{{
+      filteredCompetitions.length > 1 ? 's' : '' }} trouvée{{
+      filteredCompetitions.length > 1 ? 's' : '' }}</span
+    >
+  </div>
+
   <!-- Skeleton loader pendant le chargement -->
   <ng-container *ngIf="competitions.length === 0">
     <ion-card *ngFor="let skel of [1,2]" class="tournament-card">
@@ -59,9 +94,31 @@
     </ion-card>
   </ng-container>
 
+  <!-- Message si aucune compétition ne correspond aux filtres -->
+  <ng-container
+    *ngIf="competitions.length > 0 && filteredCompetitions.length === 0"
+  >
+    <ion-card class="tournament-card">
+      <ion-card-content>
+        <div style="text-align: center; padding: 24px">
+          <ion-icon
+            name="search-outline"
+            style="font-size: 48px; color: var(--ion-color-medium)"
+          ></ion-icon>
+          <h3>Aucun résultat</h3>
+          <p>Essayez de modifier vos critères de recherche ou filtres.</p>
+          <ion-button fill="clear" color="primary" (click)="resetFilters()">
+            <ion-icon name="refresh-outline" slot="start"></ion-icon>
+            Réinitialiser les filtres
+          </ion-button>
+        </div>
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+
   <!-- Liste des compétitions -->
-  <ng-container *ngIf="competitions && competitions.length > 0">
-    <ng-container *ngFor="let comp of competitions">
+  <ng-container *ngIf="filteredCompetitions && filteredCompetitions.length > 0">
+    <ng-container *ngFor="let comp of filteredCompetitions">
       <ion-card
         button
         [routerLink]="['/show-tournament', comp.id]"
