@@ -257,6 +257,74 @@ export class ShowTournamentPage implements OnInit {
   }
 
   /**
+   * Traite les récompenses depuis le format JSON de l'API
+   */
+  getRewardsArray(): { position: string; prize: string }[] {
+    if (!this.tournament?.reward) return [];
+
+    try {
+      const rewards = JSON.parse(this.tournament.reward);
+      return Object.entries(rewards).map(([position, prize]) => ({
+        position,
+        prize: prize as string,
+      }));
+    } catch (error) {
+      console.error('Erreur lors du parsing des récompenses:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Traite les règles depuis le format JSON de l'API
+   */
+  getRulesArray(): string[] {
+    if (!this.tournament?.rules) return [];
+
+    try {
+      const rules = JSON.parse(this.tournament.rules);
+      return Array.isArray(rules) ? rules : [];
+    } catch (error) {
+      console.error('Erreur lors du parsing des règles:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Traite les liens de contact depuis le format JSON de l'API
+   */
+  getContactLinks(): { type: string; url: string; icon: string }[] {
+    if (!this.tournament?.contact_link) return [];
+
+    try {
+      const contacts = JSON.parse(this.tournament.contact_link);
+      return Array.isArray(contacts) ? contacts : [];
+    } catch (error) {
+      console.error('Erreur lors du parsing des liens de contact:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Retourne l'icône appropriée pour le type de contact
+   */
+  getContactIcon(type: string): string {
+    switch (type.toLowerCase()) {
+      case 'whatsapp':
+        return 'logo-whatsapp';
+      case 'facebook':
+        return 'logo-facebook';
+      case 'instagram':
+        return 'logo-instagram';
+      case 'discord':
+        return 'logo-discord';
+      case 'telegram':
+        return 'paper-plane-outline';
+      default:
+        return 'link-outline';
+    }
+  }
+
+  /**
    * Notifie la page des tournois qu'une inscription a eu lieu
    * pour qu'elle puisse mettre à jour la liste
    */
