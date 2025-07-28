@@ -167,3 +167,144 @@
 .action-card:nth-child(4) {
   animation-delay: 0.4s;
 }
+
+/* SECTION DES AFFRONTEMENTS */
+.matches-section {
+  margin-top: 32px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding: 0 4px;
+
+  h2 {
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+  }
+
+  ion-button {
+    --color: var(--ion-color-primary);
+    --padding-start: 8px;
+    --padding-end: 8px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+.matches-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.match-card {
+  background: rgba(26, 31, 46, 0.8);
+  border-radius: 16px;
+  border: 1px solid rgba(148, 47, 255, 0.1);
+  margin: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.match-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+
+  .competition-name {
+    font-size: 12px;
+    color: #8a91a8;
+    font-weight: 500;
+  }
+
+  .status-chip {
+    font-size: 10px;
+    height: 20px;
+    --color: white;
+  }
+}
+
+.match-phase {
+  font-size: 14px;
+  color: var(--ion-color-primary);
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+.teams-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.team {
+  display: flex;
+  align-items: center;
+  flex: 1;
+
+  &.team1 {
+    .team-info {
+      flex-direction: row;
+    }
+  }
+
+  &.team2 {
+    flex-direction: row-reverse;
+
+    .team-info {
+      flex-direction: row-reverse;
+    }
+  }
+}
+
+.team-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.team-avatar {
+  width: 32px;
+  height: 32px;
+  border: 2px solid rgba(148, 47, 255, 0.3);
+  border-radius: 50%;
+}
+
+.team-name {
+  font-size: 13px;
+  color: #ffffff;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  max-width: 100px;
+}
+
+.team-score {
+  font-size: 18px;
+  font-weight: 700;
+  color: #8a91a8;
+  min-width: 24px;
+  text-align: center;
+
+  &.winner {
+    color: var(--ion-color-success);
+  }
+}
+
+.vs-separator {
+  padding: 0 16px;
+
+  span {
+    font-size: 12px;
+    color: #8a91a8;
+    font-weight: 600;
+  }
+}
