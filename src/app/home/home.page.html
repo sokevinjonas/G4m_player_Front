@@ -58,8 +58,35 @@
     </ion-card>
   </div>
 
+  <!-- Floating Action Button avec animations -->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end" class="animated-fab">
+    <ion-fab-button class="main-fab">
+      <ion-icon name="logo-ionitron" class="pulsing-logo"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button
+        class="social-fab facebook-fab"
+        (click)="openSocialLink('facebook')"
+      >
+        <ion-icon name="logo-facebook"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button
+        class="social-fab whatsapp-fab"
+        (click)="openSocialLink('whatsapp')"
+      >
+        <ion-icon name="logo-whatsapp"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button
+        class="social-fab tiktok-fab"
+        (click)="openSocialLink('tiktok')"
+      >
+        <ion-icon name="logo-tiktok"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+
   <!-- Section des affrontements récents -->
-  <div class="matches-section">
+  <!-- <div class="matches-section">
     <div class="section-header">
       <h2>Affrontements</h2>
       <ion-button
@@ -122,5 +149,5 @@
         </ion-card-content>
       </ion-card>
     </div>
-  </div>
+  </div> -->
 </ion-content>

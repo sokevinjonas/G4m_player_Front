@@ -233,4 +233,20 @@ export class HomePage {
   viewAllMatches() {
     this.router.navigate(['/matches']);
   }
+
+  /**
+   * Ouvre les liens des réseaux sociaux
+   */
+  openSocialLink(platform: string) {
+    const socialLinks = {
+      facebook: 'https://www.facebook.com/share/1EkPQz3q6U/',
+      whatsapp: 'https://chat.whatsapp.com/B5dsn3ZhOiXGy5ornLBfOc',
+      tiktok: 'https://www.tiktok.com/@g4meproafrica',
+    };
+
+    const url = socialLinks[platform as keyof typeof socialLinks];
+    if (url) {
+      window.open(url, '_blank');
+    }
+  }
 }
