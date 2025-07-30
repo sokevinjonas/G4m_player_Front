@@ -10,7 +10,7 @@ export const environment = {
   // Configuration WebSocket/Pusher
   pusher: {
     key: 'e777009ba8f8055d774d',
-    cluster: 'mt1', // Cluster principal de votre backend
+    cluster: 'eu', // Cluster correct selon la documentation Pusher
     forceTLS: true,
     encrypted: true,
   },

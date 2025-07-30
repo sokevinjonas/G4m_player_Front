@@ -20,16 +20,15 @@ export class WebsocketService {
   private maxReconnectAttempts: number = 5;
   private reconnectDelay: number = 3000;
 
-  // Liste des clusters à tester (en commençant par mt1 qui est configuré dans votre backend)
+  // Liste des clusters à tester (en commençant par 'eu' qui est le bon cluster)
   private clusters: string[] = [
-    'eu',
+    'eu', // Cluster principal selon la doc Pusher
     'us2',
     'us3',
     'ap1',
     'ap2',
     'ap3',
     'ap4',
-    environment.pusher.cluster,
   ];
   private currentClusterIndex: number = 0;
   private silentMode: boolean = true; // Mode silencieux pour éviter les logs d'erreur
@@ -75,54 +74,33 @@ export class WebsocketService {
       this.echo.connector.pusher.connection.bind('connected', () => {
         this.isConnected = true;
         this.reconnectAttempts = 0;
-        this.silentMode = false; // Désactiver le mode silencieux une fois connecté
-        console.log(
-          `✅ WebSocket connecté avec succès sur le cluster: ${currentCluster}`
-        );
+        this.silentMode = false; // Réactivé les logs seulement une fois connecté
       });
 
       this.echo.connector.pusher.connection.bind('connecting', () => {
-        console.log(
-          `🔄 Connexion en cours sur le cluster: ${currentCluster}...`
-        );
+        // Pas de log en mode silencieux
       });
 
       this.echo.connector.pusher.connection.bind('unavailable', () => {
-        console.warn(
-          `⚠️ Service indisponible sur le cluster: ${currentCluster}`
-        );
         this.isConnected = false;
         this.tryNextCluster();
       });
 
       this.echo.connector.pusher.connection.bind('failed', () => {
-        console.error(
-          `❌ Échec de connexion sur le cluster: ${currentCluster}`
-        );
         this.isConnected = false;
         this.tryNextCluster();
       });
 
       this.echo.connector.pusher.connection.bind('disconnected', () => {
         this.isConnected = false;
-        console.log('⚠️ WebSocket déconnecté');
-        this.attemptReconnect();
+        if (!this.silentMode) {
+          this.attemptReconnect();
+        }
       });
 
       this.echo.connector.pusher.connection.bind('error', (error: any) => {
-        if (!this.silentMode) {
-          console.error('❌ Erreur WebSocket détaillée:', {
-            error,
-            cluster: currentCluster,
-            type: error.type,
-            code: error.data?.code || error.error?.data?.code,
-            message: error.data?.message || error.error?.data?.message,
-            state: this.echo?.connector?.pusher?.connection?.state,
-          });
-        }
         this.isConnected = false;
-
-        // Toujours essayer le cluster suivant en cas d'erreur
+        // Toujours essayer le cluster suivant en cas d'erreur, mais silencieusement
         this.tryNextCluster();
       });
 
@@ -188,22 +166,16 @@ export class WebsocketService {
    */
   listenToAdminDashboard(callback: (data: any) => void) {
     if (!this.isWebSocketConnected()) {
-      return null; // Pas de warning si WebSocket non connecté
+      return null; // Pas de WebSocket, on continue sans
     }
 
     try {
-      console.log('🎧 Écoute du canal admin-dashboard...');
       return this.echo
         .channel('admin-dashboard')
         .listen('NewParticipant', (data: any) => {
-          console.log(
-            '📡 Nouvelle inscription reçue sur admin-dashboard:',
-            data
-          );
           callback(data);
         });
     } catch (error) {
-      console.error("❌ Erreur lors de l'écoute admin-dashboard:", error);
       return null;
     }
   }
@@ -213,24 +185,17 @@ export class WebsocketService {
    */
   listenToCompetition(competitionId: number, callback: (data: any) => void) {
     if (!this.isWebSocketConnected()) {
-      return null; // Pas de warning si WebSocket non connecté
+      return null; // Pas de WebSocket, on continue sans
     }
 
     try {
       const channelName = `competitions.${competitionId}`;
-      console.log(`🎧 Écoute du canal ${channelName}...`);
-
       return this.echo
         .channel(channelName)
         .listen('NewParticipant', (data: any) => {
-          console.log(`📡 Mise à jour compétition ${competitionId}:`, data);
           callback(data);
         });
     } catch (error) {
-      console.error(
-        `❌ Erreur lors de l'écoute competition ${competitionId}:`,
-        error
-      );
       return null;
     }
   }
