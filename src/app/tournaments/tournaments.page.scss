@@ -155,3 +155,234 @@ ion-segment {
 ion-segment::-webkit-scrollbar {
   display: none; /* Chrome, Safari, Opera */
 }
+
+/* 🔥 STYLES POUR LES INDICATEURS TEMPS RÉEL */
+
+/* Indicateur LIVE dans le header */
+.live-indicator {
+  font-size: 10px;
+  font-weight: bold;
+  margin-left: 8px;
+  border-radius: 12px;
+  animation: pulse-live 2s infinite;
+}
+
+@keyframes pulse-live {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.05);
+  }
+}
+
+/* Spinner de mise à jour */
+.update-spinner {
+  margin-left: 8px;
+  width: 16px;
+  height: 16px;
+}
+
+/* Animation des cartes mises à jour */
+.card-updated {
+  animation: card-highlight 2s ease-in-out;
+  border: 2px solid var(--ion-color-success);
+}
+
+@keyframes card-highlight {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--ion-color-success-rgb), 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(var(--ion-color-success-rgb), 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--ion-color-success-rgb), 0);
+  }
+}
+
+/* Badge "MIS À JOUR" */
+.updated-badge {
+  font-size: 9px;
+  margin-left: 8px;
+  border-radius: 8px;
+  animation: flash-update 1s ease-in-out 3;
+}
+
+@keyframes flash-update {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
+  }
+}
+
+/* Compteur de participants animé */
+.participant-count {
+  transition: all 0.3s ease;
+}
+
+.count-updated {
+  color: var(--ion-color-success);
+  font-weight: bold;
+  animation: count-bounce 0.5s ease;
+}
+
+@keyframes count-bounce {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
+/* Barre de progression animée */
+.participation-progress {
+  margin-top: 4px;
+  height: 4px;
+  border-radius: 2px;
+  transition: all 0.3s ease;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .live-indicator {
+    font-size: 9px;
+    margin-left: 4px;
+  }
+
+  .updated-badge {
+    font-size: 8px;
+    margin-left: 4px;
+  }
+}
+
+/* Styles pour les toasts temps réel */
+ion-toast.realtime-toast {
+  --background: var(--ion-color-success);
+  --color: var(--ion-color-light);
+  --border-radius: 12px;
+}
+
+/* Animation d'entrée pour les nouveaux éléments */
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Effet de brillance pour les éléments actifs */
+.shine-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-effect::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  animation: shine 2s infinite;
+}
+
+@keyframes shine {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+
+/* Animation pour les boutons avec indicateur temps réel */
+.button-pulse {
+  animation: buttonPulse 2s infinite ease-in-out;
+}
+
+@keyframes buttonPulse {
+  0%,
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(var(--ion-color-primary-rgb), 0.3);
+  }
+  50% {
+    transform: scale(1.02);
+    box-shadow: 0 0 0 8px rgba(var(--ion-color-primary-rgb), 0);
+  }
+}
+
+/* Style pour l'icône de mise à jour */
+.update-icon {
+  margin-left: 4px;
+  animation: updateIconBounce 0.6s ease;
+}
+
+@keyframes updateIconBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+/* Barre de progression mise à jour */
+.progress-updated {
+  animation: progressGlow 1s ease;
+}
+
+@keyframes progressGlow {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.3);
+  }
+}
+
+/* Animation de glissement pour les notifications */
+@keyframes slideUp {
+  from {
+    transform: translateX(-50%) translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Style pour le statut WebSocket */
+.websocket-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
