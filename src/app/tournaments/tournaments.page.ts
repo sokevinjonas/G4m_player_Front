@@ -33,6 +33,10 @@ export class TournamentsPage implements OnInit, OnDestroy {
   showRealtimeToast: boolean = false;
   realtimeMessage: string = '';
 
+  // Mode polling fallback
+  pollingInterval: any;
+  isPollingMode: boolean = false;
+
   // Boutons pour le toast temps réel
   toastButtons = [
     {
@@ -72,6 +76,11 @@ export class TournamentsPage implements OnInit, OnDestroy {
    * Configurer les listeners WebSocket
    */
   private setupWebSocketListeners() {
+    // Essayer de configurer les listeners, mais ne pas échouer si WebSocket non disponible
+    if (!this.websocketService.isWebSocketConnected()) {
+      return; // Pas de WebSocket, on continue sans
+    }
+
     // Nettoyer les anciens listeners
     this.cleanupWebSocketListeners();
 
@@ -95,10 +104,6 @@ export class TournamentsPage implements OnInit, OnDestroy {
         });
       }
     });
-
-    console.log(
-      `🔧 ${this.competitionListeners.length} listeners WebSocket configurés`
-    );
   }
 
   /**

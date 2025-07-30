@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import Echo from 'laravel-echo';
 import Pusher from 'pusher-js';
+import { environment } from '../../../../environments/environment';
 
 declare global {
   interface Window {
@@ -19,9 +20,19 @@ export class WebsocketService {
   private maxReconnectAttempts: number = 5;
   private reconnectDelay: number = 3000;
 
-  // Liste des clusters à tester
-  private clusters: string[] = ['eu', 'us2', 'us3', 'ap1', 'ap2', 'ap3', 'ap4'];
+  // Liste des clusters à tester (en commençant par mt1 qui est configuré dans votre backend)
+  private clusters: string[] = [
+    'eu',
+    'us2',
+    'us3',
+    'ap1',
+    'ap2',
+    'ap3',
+    'ap4',
+    environment.pusher.cluster,
+  ];
   private currentClusterIndex: number = 0;
+  private silentMode: boolean = true; // Mode silencieux pour éviter les logs d'erreur
 
   constructor() {
     this.initializeEcho();
@@ -33,16 +44,18 @@ export class WebsocketService {
       window.Pusher = Pusher;
 
       const currentCluster = this.clusters[this.currentClusterIndex];
-      console.log(
-        `🔧 Tentative de connexion avec le cluster: ${currentCluster}`
-      );
+      if (!this.silentMode) {
+        console.log(
+          `🔧 Tentative de connexion avec le cluster: ${currentCluster}`
+        );
+      }
 
       this.echo = new Echo({
         broadcaster: 'pusher',
-        key: 'e777009ba8f8055d774d', // Votre clé Pusher
+        key: environment.pusher.key,
         cluster: currentCluster,
-        forceTLS: true,
-        encrypted: true,
+        forceTLS: environment.pusher.forceTLS,
+        encrypted: environment.pusher.encrypted,
         enabledTransports: ['ws', 'wss'],
         // Options additionnelles pour la stabilité
         auth: {
@@ -50,15 +63,44 @@ export class WebsocketService {
             'X-Requested-With': 'XMLHttpRequest',
           },
         },
+        // Configuration spécifique pour résoudre les erreurs 1006
+        disableStats: true,
+        enableLogging: !environment.production,
+        activityTimeout: 30000,
+        pongTimeout: 6000,
+        unavailableTimeout: 10000,
       });
 
       // Écouter les événements de connexion
       this.echo.connector.pusher.connection.bind('connected', () => {
         this.isConnected = true;
         this.reconnectAttempts = 0;
+        this.silentMode = false; // Désactiver le mode silencieux une fois connecté
         console.log(
           `✅ WebSocket connecté avec succès sur le cluster: ${currentCluster}`
         );
+      });
+
+      this.echo.connector.pusher.connection.bind('connecting', () => {
+        console.log(
+          `🔄 Connexion en cours sur le cluster: ${currentCluster}...`
+        );
+      });
+
+      this.echo.connector.pusher.connection.bind('unavailable', () => {
+        console.warn(
+          `⚠️ Service indisponible sur le cluster: ${currentCluster}`
+        );
+        this.isConnected = false;
+        this.tryNextCluster();
+      });
+
+      this.echo.connector.pusher.connection.bind('failed', () => {
+        console.error(
+          `❌ Échec de connexion sur le cluster: ${currentCluster}`
+        );
+        this.isConnected = false;
+        this.tryNextCluster();
       });
 
       this.echo.connector.pusher.connection.bind('disconnected', () => {
@@ -68,28 +110,32 @@ export class WebsocketService {
       });
 
       this.echo.connector.pusher.connection.bind('error', (error: any) => {
-        console.error('❌ Erreur WebSocket:', error);
+        if (!this.silentMode) {
+          console.error('❌ Erreur WebSocket détaillée:', {
+            error,
+            cluster: currentCluster,
+            type: error.type,
+            code: error.data?.code || error.error?.data?.code,
+            message: error.data?.message || error.error?.data?.message,
+            state: this.echo?.connector?.pusher?.connection?.state,
+          });
+        }
         this.isConnected = false;
 
-        // Si c'est une erreur de cluster, essayer le suivant
-        if (error.error?.data?.code === 4001) {
-          this.tryNextCluster();
-        } else {
-          this.attemptReconnect();
-        }
+        // Toujours essayer le cluster suivant en cas d'erreur
+        this.tryNextCluster();
       });
 
       // Timeout de connexion
       setTimeout(() => {
         if (!this.isConnected) {
-          console.warn(
-            `⏱️ Timeout de connexion pour le cluster ${currentCluster}`
-          );
           this.tryNextCluster();
         }
       }, 10000); // 10 secondes de timeout
     } catch (error) {
-      console.error('❌ Erreur de connexion WebSocket:', error);
+      if (!this.silentMode) {
+        console.error('❌ Erreur de connexion WebSocket:', error);
+      }
       this.isConnected = false;
       this.tryNextCluster();
     }
@@ -122,11 +168,6 @@ export class WebsocketService {
     if (this.currentClusterIndex < this.clusters.length - 1) {
       this.currentClusterIndex++;
       this.reconnectAttempts = 0;
-      console.log(
-        `🔄 Essai du cluster suivant: ${
-          this.clusters[this.currentClusterIndex]
-        }`
-      );
 
       // Déconnecter l'ancienne connexion
       if (this.echo) {
@@ -137,7 +178,7 @@ export class WebsocketService {
         this.initializeEcho();
       }, 1000);
     } else {
-      console.error('❌ Tous les clusters ont été testés sans succès');
+      // Tous les clusters ont été testés, on reste silencieux
       this.isConnected = false;
     }
   }
@@ -146,34 +187,52 @@ export class WebsocketService {
    * Écouter les nouvelles inscriptions sur le dashboard admin
    */
   listenToAdminDashboard(callback: (data: any) => void) {
-    if (!this.isConnected) {
-      console.warn('WebSocket non connecté');
-      return null;
+    if (!this.isWebSocketConnected()) {
+      return null; // Pas de warning si WebSocket non connecté
     }
 
-    return this.echo
-      .channel('admin-dashboard')
-      .listen('NewParticipant', (data: any) => {
-        console.log('📡 Nouvelle inscription reçue:', data);
-        callback(data);
-      });
+    try {
+      console.log('🎧 Écoute du canal admin-dashboard...');
+      return this.echo
+        .channel('admin-dashboard')
+        .listen('NewParticipant', (data: any) => {
+          console.log(
+            '📡 Nouvelle inscription reçue sur admin-dashboard:',
+            data
+          );
+          callback(data);
+        });
+    } catch (error) {
+      console.error("❌ Erreur lors de l'écoute admin-dashboard:", error);
+      return null;
+    }
   }
 
   /**
    * Écouter les mises à jour d'une compétition spécifique
    */
   listenToCompetition(competitionId: number, callback: (data: any) => void) {
-    if (!this.isConnected) {
-      console.warn('WebSocket non connecté');
-      return null;
+    if (!this.isWebSocketConnected()) {
+      return null; // Pas de warning si WebSocket non connecté
     }
 
-    return this.echo
-      .channel(`competitions.${competitionId}`)
-      .listen('NewParticipant', (data: any) => {
-        console.log(`📡 Mise à jour compétition ${competitionId}:`, data);
-        callback(data);
-      });
+    try {
+      const channelName = `competitions.${competitionId}`;
+      console.log(`🎧 Écoute du canal ${channelName}...`);
+
+      return this.echo
+        .channel(channelName)
+        .listen('NewParticipant', (data: any) => {
+          console.log(`📡 Mise à jour compétition ${competitionId}:`, data);
+          callback(data);
+        });
+    } catch (error) {
+      console.error(
+        `❌ Erreur lors de l'écoute competition ${competitionId}:`,
+        error
+      );
+      return null;
+    }
   }
 
   /**
@@ -235,6 +294,75 @@ export class WebsocketService {
   }
 
   /**
+   * Diagnostic de la connexion WebSocket
+   */
+  getDiagnosticInfo() {
+    const status = this.getConnectionStatus();
+
+    console.log('🔍 Diagnostic WebSocket:', {
+      isConnected: this.isConnected,
+      echoExists: !!this.echo,
+      pusherState: this.echo?.connector?.pusher?.connection?.state,
+      currentCluster: status.currentCluster,
+      attempts: status.attempts,
+      availableClusters: status.availableClusters,
+    });
+
+    return status;
+  }
+
+  /**
+   * Tester la connexion avec un cluster spécifique
+   */
+  testCluster(clusterName: string) {
+    console.log(`🧪 Test du cluster: ${clusterName}`);
+
+    const testIndex = this.clusters.indexOf(clusterName);
+    if (testIndex !== -1) {
+      this.currentClusterIndex = testIndex;
+      this.reconnectAttempts = 0;
+      this.disconnect();
+      this.initializeEcho();
+    } else {
+      console.error(`❌ Cluster ${clusterName} non trouvé dans la liste`);
+    }
+  }
+
+  /**
+   * Test de connectivité Pusher simple
+   */
+  async testPusherConnectivity() {
+    console.log('🧪 Test de connectivité Pusher...');
+
+    try {
+      // Test avec Pusher direct (sans Echo)
+      const testPusher = new Pusher(environment.pusher.key, {
+        cluster: environment.pusher.cluster,
+        forceTLS: environment.pusher.forceTLS,
+      });
+
+      testPusher.connection.bind('connected', () => {
+        console.log('✅ Test Pusher direct réussi !');
+        testPusher.disconnect();
+      });
+
+      testPusher.connection.bind('error', (error: any) => {
+        console.error('❌ Échec test Pusher direct:', error);
+        testPusher.disconnect();
+      });
+
+      // Timeout pour le test
+      setTimeout(() => {
+        if (testPusher.connection.state !== 'connected') {
+          console.error('⏱️ Timeout du test Pusher');
+          testPusher.disconnect();
+        }
+      }, 10000);
+    } catch (error) {
+      console.error('❌ Erreur lors du test Pusher:', error);
+    }
+  }
+  /**
    * Déconnecter le WebSocket
    */
   disconnect() {
@@ -242,5 +370,29 @@ export class WebsocketService {
       this.echo.disconnect();
       this.isConnected = false;
     }
+  }
+
+  /**
+   * Mode fallback : polling manuel au lieu de WebSocket
+   */
+  enablePollingMode() {
+    console.log('🔄 Activation du mode polling (fallback sans WebSocket)');
+    this.disconnect();
+
+    // Émettre un événement pour que les composants passent en mode polling
+    window.dispatchEvent(
+      new CustomEvent('websocket-fallback', {
+        detail: { mode: 'polling' },
+      })
+    );
+  }
+
+  /**
+   * Vérifier si le mode fallback est activé
+   */
+  isPollingMode(): boolean {
+    return (
+      !this.isConnected && this.currentClusterIndex >= this.clusters.length
+    );
   }
 }

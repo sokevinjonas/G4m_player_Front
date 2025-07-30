@@ -4,30 +4,17 @@
       <div class="header-title">
         <ion-icon name="trophy" color="primary"></ion-icon>
         <span>Compétitions</span>
-        <!-- 🔥 INDICATEUR WEBSOCKET -->
         <ion-badge
           *ngIf="websocketService.isWebSocketConnected()"
           color="success"
           class="live-indicator shine-effect"
-          [title]="'Connecté au cluster: ' + getWebSocketStatus().currentCluster"
         >
           <ion-icon name="wifi" size="small"></ion-icon>
           LIVE
         </ion-badge>
-        <ion-badge
-          *ngIf="!websocketService.isWebSocketConnected()"
-          color="danger"
-          class="live-indicator"
-          [title]="'Cluster testé: ' + getWebSocketStatus().currentCluster + ' (Tentative ' + getWebSocketStatus().attempts + ')'"
-        >
-          <ion-icon name="wifi-outline" size="small"></ion-icon>
-          HORS LIGNE
-        </ion-badge>
       </div>
     </div>
-    <div class="subtitle">
-      Rejoignez les tournois gaming • Mises à jour temps réel
-    </div>
+    <div class="subtitle">Rejoignez les tournois gaming •</div>
   </ion-toolbar>
 </ion-header>
 
@@ -162,20 +149,10 @@
                 <ion-badge
                   *ngIf="comp.justUpdated"
                   color="success"
-                  class="updated-badge shine-effect"
+                  class="updated-badge"
                 >
                   <ion-icon name="flash" size="small"></ion-icon>
                   MIS À JOUR
-                </ion-badge>
-                <!-- 🔥 INDICATEUR DE CONNEXION WEBSOCKET POUR CETTE COMPÉTITION -->
-                <ion-badge
-                  *ngIf="websocketService.isWebSocketConnected() && !comp.justUpdated"
-                  color="primary"
-                  class="live-indicator"
-                  style="font-size: 8px; margin-left: 4px"
-                >
-                  <ion-icon name="radio" size="small"></ion-icon>
-                  SUIVI
                 </ion-badge>
               </ion-card-title>
               <ion-card-subtitle>
@@ -227,27 +204,16 @@
               <ion-icon name="people-outline"></ion-icon>
               <div class="detail-content">
                 <span class="detail-label">Participants</span>
-                <!-- 🔥 COMPTEUR ANIMÉ EN TEMPS RÉEL -->
                 <span
                   class="detail-value participant-count"
                   [ngClass]="{ 'count-updated': comp.participantCountUpdated }"
                 >
                   {{ comp.current_participants }} / {{ comp.max_participants }}
-                  <!-- 🔥 INDICATEUR DE MISE À JOUR EN TEMPS RÉEL -->
-                  <ion-icon
-                    *ngIf="comp.participantCountUpdated && websocketService.isWebSocketConnected()"
-                    name="trending-up"
-                    color="success"
-                    size="small"
-                    class="update-icon"
-                  ></ion-icon>
                 </span>
-                <!-- 🔥 BARRE DE PROGRESSION ANIMÉE -->
                 <ion-progress-bar
                   [value]="comp.current_participants / comp.max_participants"
                   [color]="comp.status === 'full' ? 'danger' : 'primary'"
                   class="participation-progress"
-                  [ngClass]="{ 'progress-updated': comp.participantCountUpdated }"
                 >
                 </ion-progress-bar>
               </div>
@@ -291,25 +257,15 @@
                 Complet
               </ion-button>
 
-              <!-- Si l'utilisateur peut s'inscrire -->
               <ion-button
                 class="register-btn"
                 *ngIf="comp.status === 'upcoming' && !comp.isUserRegistered"
                 [routerLink]="['/show-tournament', comp.id]"
                 fill="outline"
                 color="primary"
-                [ngClass]="{ 'button-pulse': websocketService.isWebSocketConnected() }"
               >
                 <ion-icon name="add-circle" slot="start"></ion-icon>
                 S'inscrire
-                <!-- 🔥 INDICATEUR TEMPS RÉEL POUR LE BOUTON -->
-                <ion-badge
-                  *ngIf="websocketService.isWebSocketConnected()"
-                  color="success"
-                  style="font-size: 8px; margin-left: 4px"
-                >
-                  LIVE
-                </ion-badge>
               </ion-button>
             </ng-container>
 
@@ -319,19 +275,9 @@
                 [routerLink]="['/show-tournament', comp.id]"
                 fill="outline"
                 color="success"
-                [ngClass]="{ 'button-pulse': websocketService.isWebSocketConnected() }"
               >
                 <ion-icon name="play" slot="start"></ion-icon>
                 Voir le live
-                <!-- 🔥 INDICATEUR TEMPS RÉEL POUR LE LIVE -->
-                <ion-badge
-                  *ngIf="websocketService.isWebSocketConnected()"
-                  color="danger"
-                  style="font-size: 8px; margin-left: 4px"
-                  class="live-indicator"
-                >
-                  LIVE
-                </ion-badge>
               </ion-button>
             </ng-container>
           </div>
@@ -353,43 +299,4 @@
     (didDismiss)="showRealtimeToast = false"
   >
   </ion-toast>
-
-  <!-- 🔥 INDICATEUR DE STATUT DE CONNEXION WEBSOCKET EN BAS -->
-  <div
-    class="websocket-status"
-    *ngIf="!websocketService.isWebSocketConnected()"
-    style="
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--ion-color-warning);
-      color: var(--ion-color-dark);
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 12px;
-      z-index: 1000;
-      animation: slideUp 0.3s ease;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    "
-  >
-    <ion-icon name="wifi-outline" size="small"></ion-icon>
-    <span
-      >Mode hors ligne - Cluster: {{ getWebSocketStatus().currentCluster }} ({{
-      getWebSocketStatus().attempts }}/{{
-      getWebSocketStatus().availableClusters.length }})</span
-    >
-    <ion-button
-      size="small"
-      fill="clear"
-      color="dark"
-      (click)="reconnectWebSocket()"
-      style="--padding-start: 4px; --padding-end: 4px; height: 24px"
-      title="Essayer le cluster suivant"
-    >
-      <ion-icon name="refresh" size="small"></ion-icon>
-    </ion-button>
-  </div>
 </ion-content>
