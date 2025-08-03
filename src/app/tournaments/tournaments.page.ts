@@ -14,16 +14,9 @@ export class TournamentsPage implements OnInit, OnDestroy {
   competitions: any[] = [];
   filteredCompetitions: any[] = [];
   user: any = {};
-  searchTerm: string = '';
   selectedStatus: string = 'Tous';
   isLoading: boolean = false;
-  statusOptions: string[] = [
-    'Tous',
-    'À venir',
-    'En cours',
-    'Terminé',
-    'Annulé',
-  ];
+  statusOptions: string[] = ['Tous', 'À venir', 'Terminé', 'Annulé'];
 
   // WebSocket listeners
   private competitionListeners: any[] = [];
@@ -288,18 +281,12 @@ export class TournamentsPage implements OnInit, OnDestroy {
     this.applyFilters();
   }
 
-  onSearchChange(event: any) {
-    this.searchTerm = event.detail.value || '';
-    this.applyFilters();
-  }
-
   applyFilters() {
     let filtered = [...this.competitions];
 
     if (this.selectedStatus !== 'Tous') {
       const statusMap: { [key: string]: string } = {
         'À venir': 'upcoming',
-        'En cours': 'ongoing',
         Terminé: 'completed',
         Annulé: 'cancelled',
       };
@@ -307,23 +294,7 @@ export class TournamentsPage implements OnInit, OnDestroy {
       filtered = filtered.filter((comp) => comp.status === apiStatus);
     }
 
-    if (this.searchTerm.trim()) {
-      const term = this.searchTerm.toLowerCase().trim();
-      filtered = filtered.filter(
-        (comp) =>
-          comp.tournoi?.name?.toLowerCase().includes(term) ||
-          comp.game?.name?.toLowerCase().includes(term) ||
-          comp.description?.toLowerCase().includes(term)
-      );
-    }
-
     this.filteredCompetitions = filtered;
-  }
-
-  resetFilters() {
-    this.searchTerm = '';
-    this.selectedStatus = 'Tous';
-    this.applyFilters();
   }
 
   doRefresh(event: any) {
@@ -343,6 +314,15 @@ export class TournamentsPage implements OnInit, OnDestroy {
    */
   trackByCompetitionId(index: number, competition: any): number {
     return competition.id;
+  }
+
+  /**
+   * Réinitialise tous les filtres
+   */
+  resetFilters() {
+    this.selectedStatus = 'Tous';
+    this.applyFilters();
+    console.log('🔄 Filtres réinitialisés');
   }
 
   /**

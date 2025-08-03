@@ -54,6 +54,7 @@ export class ShowTournamentPage implements OnInit {
     this.apiService.teamByCompetition(id).subscribe(
       (data) => {
         this.teamByCompetition = data;
+
         console.log('Team by competition:', this.teamByCompetition);
       },
       (error) => {
@@ -70,6 +71,8 @@ export class ShowTournamentPage implements OnInit {
     this.apiService.getCompetition(+id).subscribe((data) => {
       this.tournament = data;
       console.log('Tournament data:', this.tournament);
+      console.log('User data:', this.user);
+      console.log('Teams in tournament:', this.tournament.teams);
 
       // Calculer le temps écoulé et attendre le minimum si nécessaire
       const elapsedTime = Date.now() - startTime;
@@ -169,12 +172,17 @@ export class ShowTournamentPage implements OnInit {
       const alert = await this.alertController.create({
         header: 'Inscription Solo',
         backdropDismiss: false,
-        message: 'Veuillez saisir le nom sur votre profil de jeu :',
+        message:
+          'Veuillez saisir le nom sur votre profil de jeu (3-16 caractères) :',
         inputs: [
           {
             name: 'gameId',
             type: 'text',
             placeholder: 'Nom sur le profil de jeu',
+            attributes: {
+              minlength: 3,
+              maxlength: 16,
+            },
           },
         ],
         buttons: [
@@ -185,9 +193,39 @@ export class ShowTournamentPage implements OnInit {
           {
             text: 'Valider',
             handler: (data: { gameId: string }) => {
-              if (!data.gameId || !data.gameId.trim()) {
+              const gameId = data.gameId?.trim();
+
+              // Validation de base
+              if (!gameId) {
                 this.showToast(
-                  'Veuillez saisir un pseudo ou ID valide.',
+                  'Veuillez saisir un nom de profil valide.',
+                  'danger'
+                );
+                return false;
+              }
+
+              // Validation de la longueur
+              if (gameId.length < 3) {
+                this.showToast(
+                  'Le nom de profil doit contenir au moins 3 caractères.',
+                  'danger'
+                );
+                return false;
+              }
+
+              if (gameId.length > 16) {
+                this.showToast(
+                  'Le nom de profil ne peut pas dépasser 16 caractères.',
+                  'danger'
+                );
+                return false;
+              }
+
+              // Validation des caractères (optionnel - alphanumériques + quelques caractères spéciaux)
+              const validNamePattern = /^[a-zA-Z0-9._-]+$/;
+              if (!validNamePattern.test(gameId)) {
+                this.showToast(
+                  'Le nom de profil ne peut contenir que des lettres, chiffres, points, tirets et underscores.',
                   'danger'
                 );
                 return false;
@@ -196,7 +234,7 @@ export class ShowTournamentPage implements OnInit {
               // Correction ici : on envoie un objet, pas une string
               this.apiService
                 .createTeamAndParticipate(this.tournament.id, {
-                  team_name: data.gameId,
+                  team_name: gameId,
                 })
                 .subscribe(
                   (_response: any) => {
@@ -376,22 +414,40 @@ export class ShowTournamentPage implements OnInit {
    * Vérifie si l'utilisateur connecté fait partie de l'équipe donnée
    */
   isCurrentUserInTeam(team: any): boolean {
-    if (!this.user?.id || !team) return false;
+    if (!this.user?.id || !team) {
+      console.log("Debug - Pas d'utilisateur ou d'équipe:", {
+        user: this.user,
+        team,
+      });
+      return false;
+    }
 
-    // Vérifier si l'utilisateur est le créateur de l'équipe
-    if (team.created_by === this.user.id) return true;
+    // Vérifier si l'utilisateur est le propriétaire de l'équipe (owner_id)
+    if (team.owner_id === this.user.id) {
+      return true;
+    }
+
+    // Vérifier si l'utilisateur est le créateur de l'équipe (created_by) - au cas où
+    if (team.created_by === this.user.id) {
+      return true;
+    }
 
     // Vérifier dans les membres de l'équipe s'ils existent
     if (team.members && Array.isArray(team.members)) {
-      return team.members.some(
+      const isMember = team.members.some(
         (member: any) =>
           member.user_id === this.user.id || member.id === this.user.id
       );
+      if (isMember) {
+        // console.log('Debug - Utilisateur trouvé dans les membres');
+        return true;
+      }
     }
 
     // Vérifier si l'équipe a un lien direct avec l'utilisateur
-    if (team.user_id === this.user.id) return true;
-
+    if (team.user_id === this.user.id) {
+      return true;
+    }
     return false;
   }
 

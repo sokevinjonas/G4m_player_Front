@@ -14,27 +14,24 @@
         </ion-badge>
       </div>
     </div>
-    <div class="subtitle">Rejoignez les tournois gaming •</div>
+    <div class="subtitle">
+      <ion-icon name="game-controller" size="small"></ion-icon>
+      Rejoignez les tournois gaming
+    </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding tournaments-content">
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
-    <ion-refresher-content></ion-refresher-content>
+    <ion-refresher-content
+      pulling-icon="chevron-down-circle-outline"
+      pulling-text="Tirer pour actualiser"
+      refreshing-spinner="circles"
+      refreshing-text="Actualisation..."
+    ></ion-refresher-content>
   </ion-refresher>
 
-  <!-- Barre de recherche -->
-  <ion-searchbar
-    *ngIf="competitions.length > 0"
-    [(ngModel)]="searchTerm"
-    (ionInput)="onSearchChange($event)"
-    placeholder="Rechercher un tournoi ou un jeu..."
-    show-clear-button="focus"
-    debounce="300"
-    class="custom-searchbar"
-  ></ion-searchbar>
-
-  <!-- Segment pour filtrer par statut -->
+  <!-- Segment original pour filtrer par statut -->
   <ion-segment
     mode="ios"
     scrollable
@@ -47,246 +44,268 @@
     </ion-segment-button>
   </ion-segment>
 
-  <!-- Compteur de résultats avec animation -->
+  <!-- Compteur de résultats simple -->
   <div class="results-counter" *ngIf="competitions.length > 0">
-    <span class="counter-text"
-      >{{ filteredCompetitions.length }} compétition{{
+    <span class="counter-text">
+      {{ filteredCompetitions.length }} compétition{{
       filteredCompetitions.length > 1 ? 's' : '' }} trouvée{{
-      filteredCompetitions.length > 1 ? 's' : '' }}</span
-    >
-    <!-- 🔥 INDICATEUR DE MISE À JOUR -->
+      filteredCompetitions.length > 1 ? 's' : '' }}
+    </span>
     <ion-spinner
       *ngIf="isUpdating"
       name="dots"
       color="primary"
       class="update-spinner"
-    >
-    </ion-spinner>
+    ></ion-spinner>
   </div>
 
-  <!-- Skeleton loader pendant le chargement -->
+  <!-- Skeleton loader amélioré pendant le chargement -->
   <ng-container *ngIf="isLoading">
-    <ion-card *ngFor="let skel of [1,2]" class="tournament-card">
-      <ion-card-header>
-        <ion-skeleton-text
-          animated
-          style="width: 60%; height: 24px"
-        ></ion-skeleton-text>
-        <ion-skeleton-text
-          animated
-          style="width: 40%; height: 16px; margin-top: 8px"
-        ></ion-skeleton-text>
-      </ion-card-header>
-      <ion-card-content>
-        <ion-skeleton-text
-          animated
-          style="width: 100%; height: 16px; margin-bottom: 8px"
-        ></ion-skeleton-text>
-        <ion-skeleton-text
-          animated
-          style="width: 80%; height: 16px"
-        ></ion-skeleton-text>
-      </ion-card-content>
-    </ion-card>
-  </ng-container>
-
-  <!-- Message si aucune compétition -->
-  <ng-container *ngIf="competitions && competitions.length === 0">
-    <ion-card class="tournament-card">
-      <ion-card-content>
-        <div style="text-align: center; padding: 24px">
-          <ion-icon
-            name="sad-outline"
-            style="font-size: 48px; color: var(--ion-color-medium)"
-          ></ion-icon>
-          <h3>Aucune compétition trouvée</h3>
-          <p>Reviens plus tard pour découvrir de nouveaux tournois !</p>
-        </div>
-      </ion-card-content>
-    </ion-card>
-  </ng-container>
-
-  <!-- Message si aucune compétition ne correspond aux filtres -->
-  <ng-container
-    *ngIf="competitions.length > 0 && filteredCompetitions.length === 0"
-  >
-    <ion-card class="tournament-card">
-      <ion-card-content>
-        <div style="text-align: center; padding: 24px">
-          <ion-icon
-            name="search-outline"
-            style="font-size: 48px; color: var(--ion-color-medium)"
-          ></ion-icon>
-          <h3>Aucun résultat</h3>
-          <p>Essayez de modifier vos critères de recherche ou filtres.</p>
-          <ion-button fill="clear" color="primary" (click)="resetFilters()">
-            <ion-icon name="refresh-outline" slot="start"></ion-icon>
-            Réinitialiser les filtres
-          </ion-button>
-        </div>
-      </ion-card-content>
-    </ion-card>
-  </ng-container>
-
-  <!-- Liste des compétitions avec indicateurs temps réel -->
-  <ng-container *ngIf="filteredCompetitions && filteredCompetitions.length > 0">
-    <ng-container
-      *ngFor="let comp of filteredCompetitions; trackBy: trackByCompetitionId"
-    >
+    <div class="skeleton-container">
       <ion-card
-        button
-        [routerLink]="['/show-tournament', comp.id]"
-        routerLinkActive="router-link-active"
-        class="tournament-card fade-in"
-        [ngClass]="{ 'card-updated shine-effect': comp.justUpdated }"
+        *ngFor="let skel of [1,2,3]"
+        class="tournament-card skeleton-card"
       >
         <ion-card-header>
-          <div class="card-header-content">
-            <div class="tournament-info">
-              <ion-card-title>
-                {{ comp.tournoi?.name }}
-                <!-- 🔥 BADGE TEMPS RÉEL SI MIS À JOUR RÉCEMMENT -->
-                <ion-badge
-                  *ngIf="comp.justUpdated"
-                  color="success"
-                  class="updated-badge"
-                >
-                  <ion-icon name="flash" size="small"></ion-icon>
-                  MIS À JOUR
-                </ion-badge>
-              </ion-card-title>
-              <ion-card-subtitle>
-                <img
-                  [src]="fileSaveOrPreviewService.getAvatarDisplayUrl(comp.game?.logo)"
-                  alt="logo"
-                  style="
-                    width: 24px;
-                    height: 24px;
-                    vertical-align: middle;
-                    margin-right: 6px;
-                  "
-                />
-                {{ comp.game?.name }}
-              </ion-card-subtitle>
-            </div>
-            <ion-chip class="status-chip" [ngClass]="comp.status">
-              <ion-icon
-                color="light"
-                [name]="
-                  comp.status === 'upcoming' ? 'calendar-outline' :
-                  comp.status === 'ongoing' ? 'play-outline' :
-                  comp.status === 'full' ? 'people-outline' :
-                  comp.status === 'cancelled' ? 'close-circle-outline' :
-                  'checkmark-outline'
+          <div class="skeleton-header">
+            <div class="skeleton-title">
+              <ion-skeleton-text
+                animated
+                style="width: 60%; height: 24px"
+              ></ion-skeleton-text>
+              <ion-skeleton-text
+                animated
+                style="
+                  width: 80px;
+                  height: 20px;
+                  border-radius: 12px;
+                  margin-left: auto;
                 "
-              ></ion-icon>
-              <ion-label>
-                {{ comp.status === 'upcoming' ? 'À venir' : comp.status ===
-                'ongoing' ? 'En cours' : comp.status === 'full' ? 'Complet' :
-                comp.status === 'cancelled' ? 'Annulé' : 'Terminé' }}
-              </ion-label>
-            </ion-chip>
+              ></ion-skeleton-text>
+            </div>
+            <ion-skeleton-text
+              animated
+              style="width: 40%; height: 16px; margin-top: 8px"
+            ></ion-skeleton-text>
           </div>
         </ion-card-header>
-
         <ion-card-content>
-          <div class="tournament-details">
-            <div class="detail-item">
-              <ion-icon name="calendar-outline"></ion-icon>
-              <div class="detail-content">
-                <span class="detail-label">Date Début</span>
-                <span class="detail-value"
-                  >{{ comp.start_date | date:'dd/MM/yyyy' }}</span
-                >
-              </div>
-            </div>
-            <div class="detail-item">
-              <ion-icon name="people-outline"></ion-icon>
-              <div class="detail-content">
-                <span class="detail-label">Participants</span>
-                <span
-                  class="detail-value participant-count"
-                  [ngClass]="{ 'count-updated': comp.participantCountUpdated }"
-                >
-                  {{ comp.current_participants }} / {{ comp.max_participants }}
-                </span>
-                <ion-progress-bar
-                  [value]="comp.current_participants / comp.max_participants"
-                  [color]="comp.status === 'full' ? 'danger' : 'primary'"
-                  class="participation-progress"
-                >
-                </ion-progress-bar>
-              </div>
-            </div>
-          </div>
-
-          <div class="tournament-footer">
-            <ng-container *ngIf="comp.is_online">
-              <span class="prize">En ligne : Oui</span>
-            </ng-container>
-            <ng-container *ngIf="!comp.is_online">
-              <span class="prize">En ligne : Non</span>
-            </ng-container>
-
-            <!-- 🔥 BOUTONS AVEC ÉTATS TEMPS RÉEL -->
-            <ng-container
-              *ngIf="comp.status === 'upcoming' || comp.status === 'full'"
-            >
-              <!-- Si l'utilisateur est déjà inscrit -->
-              <ion-button
-                class="register-btn"
-                *ngIf="comp.isUserRegistered"
-                [routerLink]="['/show-tournament', comp.id]"
-                fill="outline"
-                color="medium"
-              >
-                <ion-icon name="checkmark-circle" slot="start"></ion-icon>
-                Déjà inscrit
-              </ion-button>
-
-              <!-- Si la compétition est pleine -->
-              <ion-button
-                class="register-btn"
-                *ngIf="comp.status === 'full' && !comp.isUserRegistered"
-                [routerLink]="['/show-tournament', comp.id]"
-                fill="outline"
-                color="danger"
-                disabled
-              >
-                <ion-icon name="people" slot="start"></ion-icon>
-                Complet
-              </ion-button>
-
-              <ion-button
-                class="register-btn"
-                *ngIf="comp.status === 'upcoming' && !comp.isUserRegistered"
-                [routerLink]="['/show-tournament', comp.id]"
-                fill="outline"
-                color="primary"
-              >
-                <ion-icon name="add-circle" slot="start"></ion-icon>
-                S'inscrire
-              </ion-button>
-            </ng-container>
-
-            <ng-container *ngIf="comp.status === 'ongoing'">
-              <ion-button
-                class="register-btn"
-                [routerLink]="['/show-tournament', comp.id]"
-                fill="outline"
-                color="success"
-              >
-                <ion-icon name="play" slot="start"></ion-icon>
-                Voir le live
-              </ion-button>
-            </ng-container>
+          <div class="skeleton-content">
+            <ion-skeleton-text
+              animated
+              style="width: 100%; height: 16px; margin-bottom: 12px"
+            ></ion-skeleton-text>
+            <ion-skeleton-text
+              animated
+              style="width: 70%; height: 16px; margin-bottom: 16px"
+            ></ion-skeleton-text>
+            <ion-skeleton-text
+              animated
+              style="width: 120px; height: 32px; border-radius: 16px"
+            ></ion-skeleton-text>
           </div>
         </ion-card-content>
       </ion-card>
-    </ng-container>
+    </div>
   </ng-container>
 
-  <!-- 🔥 TOAST POUR NOTIFICATIONS TEMPS RÉEL -->
+  <!-- Message vide avec design moderne -->
+  <ng-container *ngIf="competitions && competitions.length === 0 && !isLoading">
+    <div class="empty-state">
+      <ion-card class="empty-card">
+        <ion-card-content>
+          <div class="empty-content">
+            <div class="empty-icon">
+              <ion-icon name="trophy-outline"></ion-icon>
+            </div>
+            <h3>Aucune compétition disponible</h3>
+            <p>Les tournois apparaîtront ici dès qu'ils seront organisés.</p>
+            <ion-button
+              fill="outline"
+              color="primary"
+              (click)="doRefresh(null)"
+            >
+              <ion-icon name="refresh-outline" slot="start"></ion-icon>
+              Actualiser
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ng-container>
+
+  <!-- Message aucun résultat avec design moderne -->
+  <ng-container
+    *ngIf="competitions.length > 0 && filteredCompetitions.length === 0 && !isLoading"
+  >
+    <div class="no-results-state">
+      <ion-card class="no-results-card">
+        <ion-card-content>
+          <div class="no-results-content">
+            <div class="no-results-icon">
+              <ion-icon name="search-outline"></ion-icon>
+            </div>
+            <h3 style="color: white">Aucun résultat trouvé</h3>
+            <p>Aucune compétition ne correspond à vos critères de recherche.</p>
+            <div class="reset-actions">
+              <ion-button
+                fill="outline"
+                color="primary"
+                (click)="resetFilters()"
+              >
+                <ion-icon name="refresh-outline" slot="start"></ion-icon>
+                Réinitialiser
+              </ion-button>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+  </ng-container>
+
+  <!-- Liste des compétitions optimisée avec design moderne -->
+  <ng-container *ngIf="filteredCompetitions && filteredCompetitions.length > 0">
+    <div class="tournaments-grid">
+      <ng-container
+        *ngFor="let comp of filteredCompetitions; trackBy: trackByCompetitionId"
+      >
+        <ion-card
+          button
+          [routerLink]="['/show-tournament', comp.id]"
+          routerLinkActive="router-link-active"
+          class="tournament-card fade-in"
+          [ngClass]="{ 
+            'card-updated shine-effect': comp.justUpdated,
+            'status-upcoming': comp.status === 'upcoming',
+            'status-ongoing': comp.status === 'ongoing',
+            'status-full': comp.status === 'full'
+          }"
+        >
+          <ion-card-header>
+            <div class="card-header-content">
+              <div class="tournament-info">
+                <ion-card-title class="tournament-title">
+                  {{ comp.tournoi?.name }}
+                  <!-- Badge de mise à jour temps réel -->
+                  <ion-badge
+                    *ngIf="comp.justUpdated"
+                    color="success"
+                    class="updated-badge pulse"
+                  >
+                    <ion-icon name="flash" size="small"></ion-icon>
+                    NOUVEAU
+                  </ion-badge>
+                </ion-card-title>
+                <ion-card-subtitle class="tournament-subtitle">
+                  <div class="game-info">
+                    <img
+                      [src]="fileSaveOrPreviewService.getAvatarDisplayUrl(comp.game?.logo)"
+                      alt="logo"
+                      class="game-logo"
+                    />
+                    <span class="game-name">{{ comp.game?.name }}</span>
+                  </div>
+                </ion-card-subtitle>
+              </div>
+              <div class="status-section">
+                <ion-chip
+                  class="status-chip"
+                  [ngClass]="'status-' + comp.status"
+                >
+                  <ion-icon
+                    [name]="
+                      comp.status === 'upcoming' ? 'calendar-outline' :
+                      comp.status === 'ongoing' ? 'play-circle' :
+                      comp.status === 'full' ? 'people' :
+                      comp.status === 'cancelled' ? 'close-circle' :
+                      'checkmark-circle'
+                    "
+                    slot="start"
+                  ></ion-icon>
+                  <ion-label class="status-label">
+                    {{ comp.status === 'upcoming' ? 'À venir' : comp.status ===
+                    'ongoing' ? 'En cours' : comp.status === 'full' ? 'Complet'
+                    : comp.status === 'cancelled' ? 'Annulé' : 'Terminé' }}
+                  </ion-label>
+                </ion-chip>
+              </div>
+            </div>
+          </ion-card-header>
+
+          <ion-card-content>
+            <div class="tournament-details">
+              <div class="participation-section">
+                <div class="participation-info">
+                  <div class="participation-icon">
+                    <ion-icon name="people-outline" color="primary"></ion-icon>
+                  </div>
+                  <div class="participation-content">
+                    <span class="participation-label">Participants</span>
+                    <span
+                      class="participation-count"
+                      [ngClass]="{ 'count-updated pulse': comp.participantCountUpdated }"
+                    >
+                      {{ comp.current_participants }} / {{ comp.max_participants
+                      }}
+                    </span>
+                  </div>
+                </div>
+                <ion-progress-bar
+                  [value]="comp.current_participants / comp.max_participants"
+                  [color]="comp.status === 'full' ? 'danger' : comp.current_participants / comp.max_participants > 0.8 ? 'warning' : 'primary'"
+                  class="participation-progress"
+                ></ion-progress-bar>
+              </div>
+            </div>
+
+            <div class="tournament-footer">
+              <!-- Boutons d'action optimisés -->
+              <div class="action-buttons">
+                <!-- Utilisateur déjà inscrit -->
+                <ion-button
+                  *ngIf="comp.isUserRegistered"
+                  class="action-btn registered-btn"
+                  [routerLink]="['/show-tournament', comp.id]"
+                  fill="solid"
+                  color="success"
+                >
+                  <ion-icon name="checkmark-circle" slot="start"></ion-icon>
+                  <span>Inscrit</span>
+                </ion-button>
+
+                <!-- Compétition pleine -->
+                <ion-button
+                  *ngIf="comp.status === 'full' && !comp.isUserRegistered"
+                  class="action-btn full-btn"
+                  [routerLink]="['/show-tournament', comp.id]"
+                  fill="outline"
+                  color="danger"
+                  disabled
+                >
+                  <ion-icon name="people" slot="start"></ion-icon>
+                  <span>Complet</span>
+                </ion-button>
+
+                <!-- Inscription disponible -->
+                <ion-button
+                  *ngIf="comp.status === 'upcoming' && !comp.isUserRegistered"
+                  class="action-btn register-btn"
+                  [routerLink]="['/show-tournament', comp.id]"
+                  fill="solid"
+                  color="primary"
+                >
+                  <ion-icon name="add-circle" slot="start"></ion-icon>
+                  <span>S'inscrire</span>
+                </ion-button>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ng-container>
+    </div>
+  </ng-container>
+
+  <!-- Toast optimisé pour notifications temps réel -->
   <ion-toast
     *ngIf="showRealtimeToast"
     [isOpen]="showRealtimeToast"
@@ -294,9 +313,24 @@
     [duration]="4000"
     position="top"
     color="success"
-    class="realtime-toast"
+    class="realtime-toast modern-toast"
     [buttons]="toastButtons"
     (didDismiss)="showRealtimeToast = false"
   >
   </ion-toast>
+
+  <!-- Bouton d'action flottant pour actualisation -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="refresh-fab">
+    <ion-fab-button
+      color="primary"
+      size="small"
+      (click)="doRefresh(null)"
+      class="refresh-fab-button"
+    >
+      <ion-icon
+        name="refresh-outline"
+        [ngClass]="{ 'spin': isUpdating }"
+      ></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
