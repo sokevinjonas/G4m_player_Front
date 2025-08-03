@@ -5,6 +5,7 @@ import { StatusBar, Style } from '@capacitor/status-bar';
 import { Platform, ToastController } from '@ionic/angular';
 import { AuthenticationService } from './core/services/authentication/authentication.service';
 import { Network } from '@capacitor/network';
+import { PushService } from './core/services/push/push.service';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -16,12 +17,16 @@ export class AppComponent {
     private platform: Platform,
     private router: Router,
     private authService: AuthenticationService,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private pushService: PushService
   ) {
     if (this.platform.is('ios') || this.platform.is('android')) {
       StatusBar.setStyle({ style: Style.Dark });
       StatusBar.setOverlaysWebView({ overlay: false });
     }
+    this.platform.ready().then(() => {
+      this.pushService.initPush();
+    });
     this.SplashScreen();
   }
   ngOnInit() {

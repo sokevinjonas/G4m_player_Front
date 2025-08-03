@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1004255867007",
+    "project_id": "g4meproafrica",
+    "storage_bucket": "g4meproafrica.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1004255867007:android:91ab65d59b6060ea260f4a",
+        "android_client_info": {
+          "package_name": "com.g4me.proafrica"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrX9Qcxe63JE92B_O4MWdO-WrykOp_240"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
