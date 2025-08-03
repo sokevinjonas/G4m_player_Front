@@ -46,11 +46,6 @@ const routes: Routes = [
       import('./pages/aides/aides.module').then((m) => m.AidesPageModule),
   },
   {
-    path: 'guide',
-    loadChildren: () =>
-      import('./pages/guide/guide.module').then((m) => m.GuidePageModule),
-  },
-  {
     path: 'politique',
     loadChildren: () =>
       import('./pages/politique/politique.module').then(

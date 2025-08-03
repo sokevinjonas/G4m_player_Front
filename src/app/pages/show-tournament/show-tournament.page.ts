@@ -263,11 +263,37 @@ export class ShowTournamentPage implements OnInit {
     if (!this.tournament?.reward) return [];
 
     try {
-      const rewards = JSON.parse(this.tournament.reward);
-      return Object.entries(rewards).map(([position, prize]) => ({
-        position,
-        prize: prize as string,
-      }));
+      let rewards = this.tournament.reward;
+
+      // Si c'est déjà un objet, l'utiliser directement
+      if (typeof rewards === 'object' && rewards !== null) {
+        return Object.entries(rewards).map(([position, prize]) => ({
+          position,
+          prize: prize as string,
+        }));
+      }
+
+      // Si c'est une chaîne, essayer de la parser
+      if (typeof rewards === 'string') {
+        // Vérifier si c'est une chaîne invalide comme "[object Object]"
+        if (
+          rewards === '[object Object]' ||
+          rewards.includes('[object Object]')
+        ) {
+          console.warn('Format de récompenses invalide détecté:', rewards);
+          return [];
+        }
+
+        const parsedRewards = JSON.parse(rewards);
+        if (typeof parsedRewards === 'object' && parsedRewards !== null) {
+          return Object.entries(parsedRewards).map(([position, prize]) => ({
+            position,
+            prize: prize as string,
+          }));
+        }
+      }
+
+      return [];
     } catch (error) {
       console.error('Erreur lors du parsing des récompenses:', error);
       return [];
@@ -281,8 +307,26 @@ export class ShowTournamentPage implements OnInit {
     if (!this.tournament?.rules) return [];
 
     try {
-      const rules = JSON.parse(this.tournament.rules);
-      return Array.isArray(rules) ? rules : [];
+      let rules = this.tournament.rules;
+
+      // Si c'est déjà un tableau, l'utiliser directement
+      if (Array.isArray(rules)) {
+        return rules;
+      }
+
+      // Si c'est une chaîne, essayer de la parser
+      if (typeof rules === 'string') {
+        // Vérifier si c'est une chaîne invalide comme "[object Object]"
+        if (rules === '[object Object]' || rules.includes('[object Object]')) {
+          console.warn('Format de règles invalide détecté:', rules);
+          return [];
+        }
+
+        const parsedRules = JSON.parse(rules);
+        return Array.isArray(parsedRules) ? parsedRules : [];
+      }
+
+      return [];
     } catch (error) {
       console.error('Erreur lors du parsing des règles:', error);
       return [];
@@ -296,8 +340,32 @@ export class ShowTournamentPage implements OnInit {
     if (!this.tournament?.contact_link) return [];
 
     try {
-      const contacts = JSON.parse(this.tournament.contact_link);
-      return Array.isArray(contacts) ? contacts : [];
+      let contacts = this.tournament.contact_link;
+
+      // Si c'est déjà un tableau, l'utiliser directement
+      if (Array.isArray(contacts)) {
+        return contacts;
+      }
+
+      // Si c'est une chaîne, essayer de la parser
+      if (typeof contacts === 'string') {
+        // Vérifier si c'est une chaîne invalide comme "[object Object]"
+        if (
+          contacts === '[object Object]' ||
+          contacts.includes('[object Object]')
+        ) {
+          console.warn(
+            'Format de liens de contact invalide détecté:',
+            contacts
+          );
+          return [];
+        }
+
+        const parsedContacts = JSON.parse(contacts);
+        return Array.isArray(parsedContacts) ? parsedContacts : [];
+      }
+
+      return [];
     } catch (error) {
       console.error('Erreur lors du parsing des liens de contact:', error);
       return [];

@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AuthenticationService } from '../core/services/authentication/authentication.service';
 import { ToastController, AlertController } from '@ionic/angular';
 import { FileSaveOrPreviewService } from '../core/services/fileSaveOrPreview/file-save-or-preview.service';
-
+import { Browser } from '@capacitor/browser';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
@@ -80,10 +80,6 @@ export class ProfilePage implements OnInit {
     this.router.navigate(['/politique']);
   }
 
-  openUserGuide() {
-    this.router.navigate(['/guide']);
-  }
-
   goToSupport() {
     this.router.navigate(['/aides']);
   }
@@ -130,5 +126,28 @@ export class ProfilePage implements OnInit {
       color: color,
     });
     toast.present();
+  }
+
+  async openDeletionCompte() {
+    const alert = await this.alertController.create({
+      header: 'Suppression de compte',
+      message: 'Êtes-vous sûr de vouloir supprimer votre compte ?',
+      backdropDismiss: false,
+      buttons: [
+        {
+          text: 'Non',
+          role: 'cancel',
+        },
+        {
+          text: 'Oui je veux',
+          handler: async () => {
+            await Browser.open({
+              url: 'https://g4meproafrica.com/supprimer-compte/',
+            });
+          },
+        },
+      ],
+    });
+    await alert.present();
   }
 }
