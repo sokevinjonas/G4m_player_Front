@@ -168,13 +168,13 @@ export class ShowTournamentPage implements OnInit {
     if (this.tournament.mode === 'un') {
       const alert = await this.alertController.create({
         header: 'Inscription Solo',
-        message:
-          "Veuillez saisir votre pseudo ou ID de jeu pour l'inscription :",
+        backdropDismiss: false,
+        message: 'Veuillez saisir le nom sur votre profil de jeu :',
         inputs: [
           {
             name: 'gameId',
             type: 'text',
-            placeholder: 'Pseudo ou ID du jeu',
+            placeholder: 'Nom sur le profil de jeu',
           },
         ],
         buttons: [
@@ -370,6 +370,29 @@ export class ShowTournamentPage implements OnInit {
       console.error('Erreur lors du parsing des liens de contact:', error);
       return [];
     }
+  }
+
+  /**
+   * Vérifie si l'utilisateur connecté fait partie de l'équipe donnée
+   */
+  isCurrentUserInTeam(team: any): boolean {
+    if (!this.user?.id || !team) return false;
+
+    // Vérifier si l'utilisateur est le créateur de l'équipe
+    if (team.created_by === this.user.id) return true;
+
+    // Vérifier dans les membres de l'équipe s'ils existent
+    if (team.members && Array.isArray(team.members)) {
+      return team.members.some(
+        (member: any) =>
+          member.user_id === this.user.id || member.id === this.user.id
+      );
+    }
+
+    // Vérifier si l'équipe a un lien direct avec l'utilisateur
+    if (team.user_id === this.user.id) return true;
+
+    return false;
   }
 
   /**

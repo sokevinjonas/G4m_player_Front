@@ -146,46 +146,62 @@
   <!-- Affichage des données réelles -->
   <ng-container *ngIf="!loading && tournament">
     <ion-grid>
-      <ion-card-header>
-        <ion-card-title>{{ tournament.tournoi?.name }}</ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <div class="card-row">
-          <p class="game-name">
-            <img
-              *ngIf="tournament.game?.logo"
-              [src]="fileSaveOrPreviewService.getAvatarDisplayUrl(tournament.game?.logo)"
-              alt="logo"
-              style="
-                width: 24px;
-                height: 24px;
-                vertical-align: middle;
-                margin-right: 6px;
-              "
-            />
-            {{ tournament.game?.name }}
-          </p>
-          <ion-chip class="status-chip" [ngClass]="tournament.status">
-            <ion-icon
-              color="light"
-              [name]="tournament.status === 'upcoming' ? 'calendar-outline' : (tournament.status === 'ongoing' ? 'play-outline' : 'checkmark-outline')"
-            ></ion-icon>
-            <ion-label>
-              {{ tournament.status === 'upcoming' ? 'À venir' :
-              (tournament.status === 'ongoing' ? 'En cours' : 'Terminé') }}
-            </ion-label>
-          </ion-chip>
-        </div>
+      <ion-card class="header-card">
+        <ion-card-header>
+          <ion-card-title class="tournament-title">
+            <ion-icon name="trophy" color="warning"></ion-icon>
+            {{ tournament.tournoi?.name }}
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="card-row">
+            <p class="game-name">
+              <img
+                *ngIf="tournament.game?.logo"
+                [src]="fileSaveOrPreviewService.getAvatarDisplayUrl(tournament.game?.logo)"
+                alt="logo"
+                style="
+                  width: 28px;
+                  height: 28px;
+                  vertical-align: middle;
+                  margin-right: 8px;
+                  border-radius: 6px;
+                "
+              />
+              <ion-icon
+                name="game-controller-outline"
+                color="primary"
+              ></ion-icon>
+              {{ tournament.game?.name }}
+            </p>
+            <ion-chip class="status-chip" [ngClass]="tournament.status">
+              <ion-icon
+                color="light"
+                [name]="tournament.status === 'upcoming' ? 'calendar-outline' : (tournament.status === 'ongoing' ? 'play-outline' : 'checkmark-outline')"
+              ></ion-icon>
+              <ion-label>
+                {{ tournament.status === 'upcoming' ? 'À venir' :
+                (tournament.status === 'ongoing' ? 'En cours' : 'Terminé') }}
+              </ion-label>
+            </ion-chip>
+          </div>
 
-        <!-- Participants Count -->
-        <div class="participants-count">
-          <ion-icon name="people-outline" color="primary"></ion-icon>
-          <span
-            >{{ tournament.current_participants }} / {{
-            tournament.max_participants }} participants</span
-          >
-        </div>
-      </ion-card-content>
+          <!-- Participants Count -->
+          <div class="participants-count">
+            <ion-icon name="people-outline" color="primary"></ion-icon>
+            <span class="participants-text">
+              <strong>{{ tournament.current_participants }}</strong> /
+              <strong>{{ tournament.max_participants }}</strong> participants
+            </span>
+            <div class="progress-bar">
+              <div
+                class="progress-fill"
+                [style.width.%]="(tournament.current_participants / tournament.max_participants) * 100"
+              ></div>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
 
       <!-- Informations du tournoi -->
       <ion-card class="tournament-info-card">
@@ -198,19 +214,23 @@
             <div class="card-row">
               <div class="date-container">
                 <div>
-                  <strong>Date Debut:</strong> {{ tournament.start_date |
+                  <ion-icon name="calendar-outline" color="primary"></ion-icon>
+                  <strong>Début:</strong> {{ tournament.start_date |
                   date:'dd/MM/yyyy à HH:mm' }}
                 </div>
                 <div>
-                  <strong>Date Fin:</strong> {{ tournament.end_date |
+                  <ion-icon name="calendar-outline" color="primary"></ion-icon>
+                  <strong>Fin:</strong> {{ tournament.end_date |
                   date:'dd/MM/yyyy à HH:mm' }}
                 </div>
               </div>
               <div class="tournament-details">
                 <span class="mode-info">
+                  <ion-icon name="people-outline" color="success"></ion-icon>
                   <strong>Mode:</strong> {{ getGameModeLabel(tournament.mode) }}
                 </span>
                 <span class="location-info">
+                  <ion-icon name="globe-outline" color="tertiary"></ion-icon>
                   <strong>Type:</strong> {{ tournament.is_online ? 'En ligne' :
                   'Présentiel' }}
                 </span>
@@ -219,16 +239,23 @@
           </ion-card-subtitle>
         </ion-card-header>
         <ion-card-content>
-          <p class="section-title">Description</p>
+          <div class="section-with-icon">
+            <ion-icon name="document-text-outline" color="primary"></ion-icon>
+            <p class="section-title">Description</p>
+          </div>
           <ion-text class="ion-text-justify">
             <p>{{ tournament.description }}</p>
           </ion-text>
-          <p class="section-title">Récompenses</p>
+
+          <div class="section-with-icon">
+            <ion-icon name="trophy-outline" color="warning"></ion-icon>
+            <p class="section-title">Récompenses</p>
+          </div>
           <ion-text class="ion-text-justify">
             <div class="rewards-container">
               <ng-container *ngFor="let reward of getRewardsArray()">
                 <div class="reward-item">
-                  <ion-icon name="trophy-outline" color="warning"></ion-icon>
+                  <ion-icon name="medal-outline" color="warning"></ion-icon>
                   <span
                     ><strong>{{ reward.position }}:</strong> {{ reward.prize
                     }}</span
@@ -238,11 +265,17 @@
             </div>
           </ion-text>
 
-          <p class="section-title">Règles</p>
+          <div class="section-with-icon">
+            <ion-icon name="list-outline" color="primary"></ion-icon>
+            <p class="section-title">Règles</p>
+          </div>
           <ion-text class="ion-text-justify">
             <ul class="rules-list">
               <ng-container *ngFor="let rule of getRulesArray()">
-                <li>{{ rule }}</li>
+                <li>
+                  <ion-icon name="checkmark-outline" color="success"></ion-icon>
+                  {{ rule }}
+                </li>
               </ng-container>
             </ul>
           </ion-text>
@@ -271,12 +304,19 @@
           <ng-container *ngIf="user && tournament.status === 'upcoming'">
             <!-- User is registered and in a team -->
             <ng-container *ngIf="registrationStatus?.isRegistered">
-              <ion-button expand="block" shape="round" color="success" disabled>
+              <ion-button
+                expand="block"
+                shape="round"
+                color="success"
+                disabled
+                class="registration-button success-button"
+              >
                 <ion-icon
                   name="checkmark-circle-outline"
                   slot="start"
                 ></ion-icon>
                 Inscrit au tournoi
+                <ion-icon name="sparkles" slot="end"></ion-icon>
               </ion-button>
             </ng-container>
 
@@ -289,16 +329,25 @@
                 shape="round"
                 color="primary"
                 (click)="createTeam()"
+                class="registration-button primary-button"
               >
                 <ion-icon name="add-circle-outline" slot="start"></ion-icon>
-                S'inscrire
+                S'inscrire au tournoi
+                <ion-icon name="arrow-forward" slot="end"></ion-icon>
               </ion-button>
             </ng-container>
           </ng-container>
 
           <!-- Handle other tournament statuses -->
           <ng-container *ngIf="tournament.status === 'full'">
-            <ion-button expand="block" shape="round" color="danger" disabled>
+            <ion-button
+              expand="block"
+              shape="round"
+              color="danger"
+              disabled
+              class="registration-button danger-button"
+            >
+              <ion-icon name="close-circle-outline" slot="start"></ion-icon>
               Tournoi complet
             </ion-button>
           </ng-container>
@@ -306,7 +355,14 @@
           <ng-container
             *ngIf="tournament.status !== 'upcoming' && tournament.status !== 'full'"
           >
-            <ion-button expand="block" shape="round" color="medium" disabled>
+            <ion-button
+              expand="block"
+              shape="round"
+              color="medium"
+              disabled
+              class="registration-button medium-button"
+            >
+              <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
               Les inscriptions sont fermées
             </ion-button>
           </ng-container>
@@ -318,8 +374,11 @@
               shape="round"
               color="primary"
               (click)="login()"
+              class="registration-button login-button"
             >
+              <ion-icon name="log-in-outline" slot="start"></ion-icon>
               Connectez-vous pour vous inscrire
+              <ion-icon name="person-add-outline" slot="end"></ion-icon>
             </ion-button>
           </ng-container>
         </ion-card-content>
@@ -338,28 +397,52 @@
           >
             <ion-card
               class="participant-card"
+              [ngClass]="{'current-user': isCurrentUserInTeam(team)}"
               *ngFor="let team of tournament.teams"
             >
               <ion-card-header>
-                <ion-card-title>{{ team.name }}</ion-card-title>
-                <ion-card-subtitle
-                  >Équipe - Statut: {{ team.status === 'accepted' ? 'Acceptée' :
-                  team.status }}</ion-card-subtitle
-                >
+                <ion-card-title>
+                  <ion-icon name="shield-outline" color="primary"></ion-icon>
+                  {{ team.name }}
+                </ion-card-title>
+                <ion-card-subtitle>
+                  <ion-chip
+                    [color]="team.status === 'accepted' ? 'success' : 'medium'"
+                    size="small"
+                  >
+                    <ion-icon
+                      [name]="team.status === 'accepted' ? 'checkmark-circle' : 'time'"
+                    ></ion-icon>
+                    <ion-label>
+                      {{ team.status === 'accepted' ? 'Acceptée' : team.status
+                      }}
+                    </ion-label>
+                  </ion-chip>
+                </ion-card-subtitle>
               </ion-card-header>
               <ion-card-content>
                 <div class="team-info">
                   <div class="team-meta">
                     <ion-icon name="calendar-outline" color="medium"></ion-icon>
                     <span
-                      >Inscrite le {{ team.created_at | date:'dd/MM/yyyy'
-                      }}</span
+                      >Inscrite le {{ team.created_at | date:'dd/MM/yyyy à
+                      HH:mm' }}</span
                     >
                   </div>
-                  <!-- <div class="team-meta">
+                  <div
+                    class="team-meta"
+                    *ngIf="team.members && team.members.length > 0"
+                  >
                     <ion-icon name="person-outline" color="medium"></ion-icon>
-                    <span>Joueur: {{ team.members.nom }}</span>
-                  </div> -->
+                    <span>{{ team.members.length }} membre(s)</span>
+                  </div>
+                  <div class="team-meta" *ngIf="isCurrentUserInTeam(team)">
+                    <ion-icon name="star" color="warning"></ion-icon>
+                    <span
+                      style="color: var(--ion-color-warning); font-weight: 600"
+                      >Votre équipe</span
+                    >
+                  </div>
                 </div>
               </ion-card-content>
             </ion-card>
