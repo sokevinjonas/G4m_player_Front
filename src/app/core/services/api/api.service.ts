@@ -115,4 +115,30 @@ export class ApiService {
       userId,
     });
   }
+
+  // --- MATCHES ---
+  getMatches(params?: {
+    competition_id?: number;
+    status?: string;
+    phase?: string;
+    search?: string;
+    page?: number;
+  }): Observable<any> {
+    let url = `${BASE_URL}/matches`;
+
+    if (params) {
+      const queryParams = new URLSearchParams();
+      Object.entries(params).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          queryParams.append(key, value.toString());
+        }
+      });
+
+      if (queryParams.toString()) {
+        url += `?${queryParams.toString()}`;
+      }
+    }
+
+    return this.http.get<any>(url);
+  }
 }

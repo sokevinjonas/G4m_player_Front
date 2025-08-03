@@ -86,7 +86,7 @@
   </ion-fab>
 
   <!-- Section des affrontements récents -->
-  <!-- <div class="matches-section">
+  <div class="matches-section">
     <div class="section-header">
       <h2>Affrontements</h2>
       <ion-button
@@ -100,7 +100,21 @@
       </ion-button>
     </div>
 
-    <div class="matches-list">
+    <!-- État de chargement -->
+    <div *ngIf="isLoadingMatches" class="loading-matches">
+      <ion-spinner name="dots"></ion-spinner>
+      <p>Chargement des matches...</p>
+    </div>
+
+    <!-- Liste des matches -->
+    <div class="matches-list" *ngIf="!isLoadingMatches">
+      <!-- Message si aucun match -->
+      <div *ngIf="matches.length === 0" class="no-matches">
+        <ion-icon name="calendar-outline" size="large"></ion-icon>
+        <p>Aucun match disponible pour le moment</p>
+      </div>
+
+      <!-- Cartes des matches -->
       <ion-card class="match-card" *ngFor="let match of getRecentMatches()">
         <ion-card-content>
           <div class="match-header">
@@ -118,7 +132,19 @@
           <div class="teams-container">
             <div class="team team1">
               <div class="team-info">
-                <ion-icon name="shield-outline" size="small"></ion-icon>
+                <!-- Affichage du logo s'il existe -->
+                <img
+                  *ngIf="match.team1.logo"
+                  [src]="match.team1.logo"
+                  [alt]="match.team1.name + ' logo'"
+                  class="team-logo"
+                  onerror="this.style.display='none'; this.nextElementSibling.style.display='inline'"
+                />
+                <ion-icon
+                  name="shield-outline"
+                  size="small"
+                  [style.display]="match.team1.logo ? 'none' : 'inline'"
+                ></ion-icon>
                 <span class="team-name">{{ match.team1.name }}</span>
               </div>
               <span
@@ -142,12 +168,24 @@
               </span>
               <div class="team-info">
                 <span class="team-name">{{ match.team2.name }}</span>
-                <ion-icon name="shield-outline" size="small"></ion-icon>
+                <!-- Affichage du logo s'il existe -->
+                <img
+                  *ngIf="match.team2.logo"
+                  [src]="match.team2.logo"
+                  [alt]="match.team2.name + ' logo'"
+                  class="team-logo"
+                  onerror="this.style.display='none'; this.nextElementSibling.style.display='inline'"
+                />
+                <ion-icon
+                  name="shield-outline"
+                  size="small"
+                  [style.display]="match.team2.logo ? 'none' : 'inline'"
+                ></ion-icon>
               </div>
             </div>
           </div>
         </ion-card-content>
       </ion-card>
     </div>
-  </div> -->
+  </div>
 </ion-content>

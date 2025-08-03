@@ -2,16 +2,17 @@ import { Component } from '@angular/core';
 import { ApiService } from '../core/services/api/api.service';
 import { Router } from '@angular/router';
 
-interface FakeMatch {
+interface Match {
   id: number;
   competition_id: number;
   team1: { id: number; name: string; logo: string | null };
   team2: { id: number; name: string; logo: string | null };
   team1_score: number | null;
   team2_score: number | null;
-  status: 'pending' | 'live' | 'completed' | 'scheduled';
+  status: 'pending' | 'scheduled' | 'in_progress' | 'completed' | 'cancelled';
   phase: string;
   competition: { name: string };
+  scheduled_at: string | null;
 }
 
 @Component({
@@ -25,15 +26,17 @@ export class HomePage {
   tournoisDisponibles: number = 0;
   jeuxDisponibles: number = 0;
   user: any = {}; // Initialize user as an empty object
-  fakeMatches: FakeMatch[] = [];
+  matches: Match[] = [];
+  isLoadingMatches: boolean = false;
 
   constructor(protected apiService: ApiService, private router: Router) {
-    this.initializeFakeMatches();
+    // Plus besoin d'initialiser de faux matches
   }
 
   ionViewWillEnter() {
     this.getCompetitionsCountAllEnable();
     this.getGamesCountAll();
+    this.loadMatches();
     this.user = JSON.parse(localStorage.getItem('user') || '{}');
     console.log('User:', this.user);
   }
@@ -41,6 +44,7 @@ export class HomePage {
   ngOnInit() {
     this.getCompetitionsCountAllEnable();
     this.getGamesCountAll();
+    this.loadMatches();
     this.user = JSON.parse(localStorage.getItem('user') || '{}');
     console.log('User:', this.user);
   }
@@ -58,137 +62,43 @@ export class HomePage {
       console.log('Jeux disponibles:', data.count);
     });
   }
+
+  loadMatches() {
+    this.isLoadingMatches = true;
+    // Charger seulement les 5 derniers matches
+    this.apiService.getMatches({ page: 1 }).subscribe({
+      next: (response) => {
+        this.matches = response.data || [];
+        this.isLoadingMatches = false;
+        console.log('Matches chargés:', this.matches);
+      },
+      error: (error) => {
+        console.error('Erreur lors du chargement des matches:', error);
+        this.isLoadingMatches = false;
+        // En cas d'erreur, garder un tableau vide
+        this.matches = [];
+      },
+    });
+  }
+
   createAccount() {
     // navigate to the create account page
     console.log('Navigating to create account page');
     this.router.navigate(['/register']);
   }
 
-  initializeFakeMatches() {
-    this.fakeMatches = [
-      {
-        id: 1,
-        competition_id: 1,
-        team1: { id: 1, name: 'Dragons Esport', logo: null },
-        team2: { id: 2, name: 'Phoenix Gaming', logo: null },
-        team1_score: 2,
-        team2_score: 1,
-        status: 'completed',
-        phase: 'final',
-        competition: { name: 'Championnat Valorant' },
-      },
-      {
-        id: 2,
-        competition_id: 1,
-        team1: { id: 3, name: 'Thunder Lions', logo: null },
-        team2: { id: 4, name: 'Cyber Warriors', logo: null },
-        team1_score: null,
-        team2_score: null,
-        status: 'pending',
-        phase: 'semi_final',
-        competition: { name: 'Championnat Valorant' },
-      },
-      {
-        id: 3,
-        competition_id: 2,
-        team1: { id: 5, name: 'Alpha Squad', logo: null },
-        team2: { id: 6, name: 'Beta Force', logo: null },
-        team1_score: 1,
-        team2_score: 3,
-        status: 'completed',
-        phase: 'quarter_final',
-        competition: { name: 'Tournoi FIFA 24' },
-      },
-      {
-        id: 4,
-        competition_id: 2,
-        team1: { id: 7, name: 'Gaming Elite', logo: null },
-        team2: { id: 8, name: 'Pro Players', logo: null },
-        team1_score: null,
-        team2_score: null,
-        status: 'live',
-        phase: 'quarter_final',
-        competition: { name: 'Tournoi FIFA 24' },
-      },
-      {
-        id: 5,
-        competition_id: 3,
-        team1: { id: 9, name: 'Storm Riders', logo: null },
-        team2: { id: 10, name: 'Night Hawks', logo: null },
-        team1_score: 0,
-        team2_score: 2,
-        status: 'completed',
-        phase: 'round_of_16',
-        competition: { name: 'League of Legends Cup' },
-      },
-      {
-        id: 6,
-        competition_id: 3,
-        team1: { id: 11, name: 'Apex Legends', logo: null },
-        team2: { id: 12, name: 'Victory Squad', logo: null },
-        team1_score: null,
-        team2_score: null,
-        status: 'pending',
-        phase: 'round_of_16',
-        competition: { name: 'League of Legends Cup' },
-      },
-      {
-        id: 7,
-        competition_id: 4,
-        team1: { id: 13, name: 'Rocket Masters', logo: null },
-        team2: { id: 14, name: 'Speed Demons', logo: null },
-        team1_score: 4,
-        team2_score: 2,
-        status: 'completed',
-        phase: 'final',
-        competition: { name: 'Rocket League Championship' },
-      },
-      {
-        id: 8,
-        competition_id: 4,
-        team1: { id: 15, name: 'Turbo Kings', logo: null },
-        team2: { id: 16, name: 'Nitro Force', logo: null },
-        team1_score: null,
-        team2_score: null,
-        status: 'scheduled',
-        phase: 'semi_final',
-        competition: { name: 'Rocket League Championship' },
-      },
-      {
-        id: 9,
-        competition_id: 5,
-        team1: { id: 17, name: 'Shadow Ninjas', logo: null },
-        team2: { id: 18, name: 'Light Brigade', logo: null },
-        team1_score: 2,
-        team2_score: 2,
-        status: 'live',
-        phase: 'quarter_final',
-        competition: { name: 'CS:GO Major' },
-      },
-      {
-        id: 10,
-        competition_id: 5,
-        team1: { id: 19, name: 'Fire Storm', logo: null },
-        team2: { id: 20, name: 'Ice Wolves', logo: null },
-        team1_score: 1,
-        team2_score: 0,
-        status: 'completed',
-        phase: 'round_of_32',
-        competition: { name: 'CS:GO Major' },
-      },
-    ];
-  }
-
   getStatusLabel(status: string): string {
     switch (status) {
       case 'pending':
         return 'À venir';
-      case 'live':
+      case 'scheduled':
+        return 'Programmé';
+      case 'in_progress':
         return 'En cours';
       case 'completed':
         return 'Terminé';
-      case 'scheduled':
-        return 'Programmé';
+      case 'cancelled':
+        return 'Annulé';
       default:
         return status;
     }
@@ -198,12 +108,14 @@ export class HomePage {
     switch (status) {
       case 'pending':
         return 'medium';
-      case 'live':
+      case 'scheduled':
+        return 'primary';
+      case 'in_progress':
         return 'danger';
       case 'completed':
         return 'success';
-      case 'scheduled':
-        return 'primary';
+      case 'cancelled':
+        return 'dark';
       default:
         return 'medium';
     }
@@ -227,7 +139,7 @@ export class HomePage {
   }
 
   getRecentMatches() {
-    return this.fakeMatches.slice(0, 5); // Afficher seulement les 5 premiers matches
+    return this.matches.slice(0, 5); // Afficher seulement les 5 premiers matches
   }
 
   viewAllMatches() {

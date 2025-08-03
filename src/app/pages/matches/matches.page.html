@@ -45,7 +45,7 @@
     <ion-card
       *ngFor="let match of filteredMatches"
       class="match-card"
-      [class.live-match]="match.status === 'live'"
+      [class.live-match]="match.status === 'in_progress'"
     >
       <!-- Contenu du match -->
       <ion-card-content>
@@ -56,7 +56,15 @@
           </ion-chip>
         </div>
 
-        <div class="match-phase">{{ getPhaseLabel(match.phase) }}</div>
+        <div class="match-phase">
+          {{ getPhaseLabel(match.phase) }}
+          <span
+            *ngIf="match.scheduled_at && (match.status === 'scheduled' || match.status === 'pending')"
+            class="scheduled-time"
+          >
+            • {{ match.scheduled_at | date:'dd/MM à HH:mm' }}
+          </span>
+        </div>
 
         <div class="teams-container">
           <div class="team team1">
@@ -101,4 +109,15 @@
       <p>Aucun affrontement ne correspond aux filtres sélectionnés.</p>
     </ion-text>
   </div>
+  <!-- Bouton d'action flottant pour actualisation -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="refresh-fab">
+    <ion-fab-button
+      color="primary"
+      size="small"
+      (click)="doRefresh()"
+      class="refresh-fab-button"
+    >
+      <ion-icon name="refresh-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
