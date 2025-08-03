@@ -22,6 +22,25 @@ ion-segment-button {
   margin-bottom: 8px;
 }
 
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+  gap: 16px;
+
+  ion-spinner {
+    width: 32px;
+    height: 32px;
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+  }
+}
+
 .matches-container {
   padding: 0 16px 16px;
   display: flex;

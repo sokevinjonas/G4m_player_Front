@@ -8,6 +8,16 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <!-- Pull to refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Tirez pour actualiser"
+      refreshingSpinner="crescent"
+      refreshingText="Actualisation..."
+    ></ion-refresher-content>
+  </ion-refresher>
+
   <!-- Filtre par statut -->
   <ion-segment
     mode="ios"
@@ -16,22 +26,23 @@
     (ionChange)="selectStatus($event.detail.value)"
     class="custom-segment"
   >
-    <ion-segment-button value="Tous">
-      <ion-label>Tous</ion-label>
-    </ion-segment-button>
     <ion-segment-button value="À venir">
-      <ion-label>Programmé</ion-label>
+      <ion-label>À venir</ion-label>
     </ion-segment-button>
+
     <ion-segment-button value="En cours">
       <ion-label>En cours</ion-label>
     </ion-segment-button>
     <ion-segment-button value="Terminé">
       <ion-label>Terminé</ion-label>
     </ion-segment-button>
+    <ion-segment-button value="Annulé">
+      <ion-label>Annulé</ion-label>
+    </ion-segment-button>
   </ion-segment>
 
   <!-- Compteur de résultats -->
-  <div class="result-counter">
+  <div class="result-counter" *ngIf="!isLoading">
     <ion-text color="medium">
       <p>
         {{ filteredMatches.length }} affrontement{{ filteredMatches.length > 1 ?
@@ -40,8 +51,16 @@
     </ion-text>
   </div>
 
+  <!-- Loading indicator -->
+  <div *ngIf="isLoading" class="loading-container">
+    <ion-spinner name="crescent" color="primary"></ion-spinner>
+    <ion-text color="medium">
+      <p>Chargement des affrontements...</p>
+    </ion-text>
+  </div>
+
   <!-- Liste des affrontements -->
-  <div class="matches-container">
+  <div class="matches-container" *ngIf="!isLoading">
     <ion-card
       *ngFor="let match of filteredMatches"
       class="match-card"

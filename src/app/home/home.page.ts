@@ -11,7 +11,7 @@ interface Match {
   team2_score: number | null;
   status: 'pending' | 'scheduled' | 'in_progress' | 'completed' | 'cancelled';
   phase: string;
-  competition: { name: string };
+  competition: { name: string; title: string };
   scheduled_at: string | null;
 }
 

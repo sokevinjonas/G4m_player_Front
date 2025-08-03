@@ -118,7 +118,8 @@
       <ion-card class="match-card" *ngFor="let match of getRecentMatches()">
         <ion-card-content>
           <div class="match-header">
-            <span class="competition-name">{{ match.competition.name }}</span>
+            <span class="competition-name">{{ match.competition.name }}</span> -
+            <span class="competition-name">{{ match.competition.title }}</span>
             <ion-chip
               [color]="getStatusColor(match.status)"
               class="status-chip"

@@ -23,15 +23,8 @@ interface Match {
 export class MatchesPage implements OnInit {
   matches: Match[] = [];
   filteredMatches: Match[] = [];
-  selectedStatus: string = 'Tous';
-  statusOptions: string[] = [
-    'Tous',
-    'À venir',
-    'Programmé',
-    'En cours',
-    'Terminé',
-    'Annulé',
-  ];
+  selectedStatus: string = 'À venir';
+  statusOptions: string[] = ['À venir', 'En cours', 'Terminé', 'Annulé'];
   isLoading: boolean = false;
   searchTerm: string = '';
 
@@ -40,9 +33,14 @@ export class MatchesPage implements OnInit {
   ngOnInit() {
     this.loadMatches();
   }
-  doRefresh() {
+
+  doRefresh(event?: any) {
     this.loadMatches();
-    setTimeout(() => {}, 2000);
+    if (event) {
+      setTimeout(() => {
+        event.target.complete();
+      }, 2000);
+    }
   }
 
   loadMatches() {
@@ -67,8 +65,6 @@ export class MatchesPage implements OnInit {
     switch (status) {
       case 'pending':
         return 'À venir';
-      case 'scheduled':
-        return 'Programmé';
       case 'in_progress':
         return 'En cours';
       case 'completed':
@@ -124,14 +120,17 @@ export class MatchesPage implements OnInit {
   applyFilters() {
     let filtered = [...this.matches];
 
-    if (this.selectedStatus !== 'Tous') {
+    if (this.selectedStatus && this.selectedStatus !== 'pending') {
       const statusMap: { [key: string]: string } = {
         'À venir': 'pending',
-        'En cours': 'live',
+        'En cours': 'in_progress',
         Terminé: 'completed',
+        Annulé: 'cancelled',
       };
       const apiStatus = statusMap[this.selectedStatus];
-      filtered = filtered.filter((match) => match.status === apiStatus);
+      if (apiStatus) {
+        filtered = filtered.filter((match) => match.status === apiStatus);
+      }
     }
 
     this.filteredMatches = filtered;
