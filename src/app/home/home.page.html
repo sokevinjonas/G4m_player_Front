@@ -118,8 +118,12 @@
       <ion-card class="match-card" *ngFor="let match of getRecentMatches()">
         <ion-card-content>
           <div class="match-header">
-            <span class="competition-name">{{ match.competition.name }}</span> -
-            <span class="competition-name">{{ match.competition.title }}</span>
+            <div class="competition-info">
+              <span class="competition-name">{{ match.competition.name }}</span>
+              <span class="competition-title" *ngIf="match.competition.title"
+                >{{ match.competition.title }}</span
+              >
+            </div>
             <ion-chip
               [color]="getStatusColor(match.status)"
               class="status-chip"
@@ -134,19 +138,24 @@
             <div class="team team1">
               <div class="team-info">
                 <!-- Affichage du logo s'il existe -->
-                <img
-                  *ngIf="match.team1.logo"
-                  [src]="match.team1.logo"
-                  [alt]="match.team1.name + ' logo'"
-                  class="team-logo"
-                  onerror="this.style.display='none'; this.nextElementSibling.style.display='inline'"
-                />
-                <ion-icon
-                  name="shield-outline"
-                  size="small"
-                  [style.display]="match.team1.logo ? 'none' : 'inline'"
-                ></ion-icon>
-                <span class="team-name">{{ match.team1.name }}</span>
+                <div class="team-logo-container">
+                  <img
+                    *ngIf="match.team1.logo"
+                    [src]="match.team1.logo"
+                    [alt]="match.team1.name + ' logo'"
+                    class="team-logo"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+                  />
+                  <ion-icon
+                    name="shield-outline"
+                    size="small"
+                    class="team-icon"
+                    [style.display]="match.team1.logo ? 'none' : 'flex'"
+                  ></ion-icon>
+                </div>
+                <span class="team-name" [title]="match.team1.name"
+                  >{{ match.team1.name }}</span
+                >
               </div>
               <span
                 class="team-score"
@@ -168,20 +177,25 @@
                 {{ match.team2_score !== null ? match.team2_score : '-' }}
               </span>
               <div class="team-info">
-                <span class="team-name">{{ match.team2.name }}</span>
-                <!-- Affichage du logo s'il existe -->
-                <img
-                  *ngIf="match.team2.logo"
-                  [src]="match.team2.logo"
-                  [alt]="match.team2.name + ' logo'"
-                  class="team-logo"
-                  onerror="this.style.display='none'; this.nextElementSibling.style.display='inline'"
-                />
-                <ion-icon
-                  name="shield-outline"
-                  size="small"
-                  [style.display]="match.team2.logo ? 'none' : 'inline'"
-                ></ion-icon>
+                <span class="team-name" [title]="match.team2.name"
+                  >{{ match.team2.name }}</span
+                >
+                <div class="team-logo-container">
+                  <!-- Affichage du logo s'il existe -->
+                  <img
+                    *ngIf="match.team2.logo"
+                    [src]="match.team2.logo"
+                    [alt]="match.team2.name + ' logo'"
+                    class="team-logo"
+                    onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'"
+                  />
+                  <ion-icon
+                    name="shield-outline"
+                    size="small"
+                    class="team-icon"
+                    [style.display]="match.team2.logo ? 'none' : 'flex'"
+                  ></ion-icon>
+                </div>
               </div>
             </div>
           </div>

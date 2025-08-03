@@ -213,19 +213,34 @@
 .match-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+  gap: 12px;
 
-  .competition-name {
-    font-size: 12px;
-    color: #8a91a8;
-    font-weight: 500;
+  .competition-info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 4px;
+
+    .competition-name {
+      font-size: 12px;
+      color: #8a91a8;
+      font-weight: 500;
+    }
+
+    .competition-title {
+      font-size: 11px;
+      color: #6b7280;
+      font-weight: 400;
+    }
   }
 
   .status-chip {
     font-size: 10px;
     height: 20px;
     --color: white;
+    flex-shrink: 0;
   }
 }
 
@@ -241,12 +256,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
 }
 
 .team {
   display: flex;
   align-items: center;
   flex: 1;
+  min-width: 0; /* Important pour permettre le text-wrap */
 
   &.team1 {
     .team-info {
@@ -268,23 +286,46 @@
   align-items: center;
   gap: 8px;
   flex: 1;
+  min-width: 0; /* Important pour permettre le text-wrap */
 }
 
-.team-avatar {
-  width: 32px;
-  height: 32px;
-  border: 2px solid rgba(148, 47, 255, 0.3);
-  border-radius: 50%;
+.team-logo-container {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .team-logo {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .team-icon {
+    color: var(--ion-color-primary);
+  }
 }
 
 .team-name {
   font-size: 13px;
   color: #ffffff;
   font-weight: 500;
-  text-overflow: ellipsis;
+  line-height: 1.2;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  flex: 1;
+  min-width: 0;
+
+  /* Permettre maximum 2 lignes */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  white-space: nowrap;
-  max-width: 100px;
 }
 
 .team-score {
@@ -300,7 +341,8 @@
 }
 
 .vs-separator {
-  padding: 0 16px;
+  padding: 0 8px;
+  flex-shrink: 0;
 
   span {
     font-size: 12px;

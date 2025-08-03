@@ -8,9 +8,9 @@ interface Match {
   team2: { id: number; name: string; logo: string | null };
   team1_score: number | null;
   team2_score: number | null;
-  status: 'pending' | 'scheduled' | 'in_progress' | 'completed' | 'cancelled';
+  status: 'pending' | 'in_progress' | 'completed' | 'cancelled';
   phase: string;
-  competition: { name: string };
+  competition: { name: string; title: string };
   scheduled_at: string | null;
 }
 

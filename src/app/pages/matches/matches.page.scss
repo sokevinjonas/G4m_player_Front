@@ -88,7 +88,11 @@ ion-segment-button {
     color: #8a91a8;
     font-weight: 500;
   }
-
+  .competition-title {
+    font-size: 11px;
+    color: #6b7280;
+    font-weight: 400;
+  }
   .status-chip {
     font-size: 10px;
     height: 20px;
@@ -114,12 +118,15 @@ ion-segment-button {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
 }
 
 .team {
   display: flex;
   align-items: center;
   flex: 1;
+  min-width: 0; /* Important pour permettre le text-wrap */
 
   &.team1 {
     .team-info {
@@ -134,14 +141,6 @@ ion-segment-button {
       flex-direction: row-reverse;
     }
   }
-  align-items: center;
-  gap: 12px;
-  flex: 1;
-  min-width: 0;
-}
-
-.team.reverse {
-  flex-direction: row-reverse;
 }
 
 .team-info {
@@ -149,57 +148,70 @@ ion-segment-button {
   align-items: center;
   gap: 8px;
   flex: 1;
-  min-width: 0;
+  min-width: 0; /* Important pour permettre le text-wrap */
 }
 
-.team-info.reverse {
-  flex-direction: row-reverse;
-  text-align: right;
-}
-
-.team-logo {
-  color: var(--ion-color-medium);
+.team-logo-container {
   flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .team-logo {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .team-icon {
+    color: var(--ion-color-primary);
+  }
 }
 
-.team-details {
-  min-width: 0;
+.team-name {
+  font-size: 13px;
+  color: #ffffff;
+  font-weight: 500;
+  line-height: 1.2;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
   flex: 1;
-}
+  min-width: 0;
 
-.team-details.reverse {
-  text-align: right;
-}
-
-.team-details h6 {
-  margin: 0;
-  //   font-size: 1rem;
-  //   font-weight: 600;
-  color: var(--ion-color-light);
-  white-space: wrap;
+  /* Permettre maximum 2 lignes */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis;
 }
 
 .team-score {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: var(--ion-color-medium);
-  min-width: 40px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #8a91a8;
+  min-width: 24px;
   text-align: center;
   flex-shrink: 0;
+
+  &.winner {
+    color: var(--ion-color-success);
+  }
 }
 
-.team-score.winner {
-  color: var(--ion-color-success);
-  font-size: 1.8rem;
-}
-
-.vs-section {
-  font-weight: 600;
-  font-size: 0.9rem;
+.vs-separator {
   padding: 0 8px;
   flex-shrink: 0;
+
+  span {
+    font-size: 12px;
+    color: #8a91a8;
+    font-weight: 600;
+  }
 }
 
 .live-indicator {
