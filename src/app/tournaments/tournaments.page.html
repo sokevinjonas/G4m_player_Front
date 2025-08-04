@@ -46,11 +46,11 @@
 
   <!-- Compteur de résultats simple -->
   <div class="results-counter" *ngIf="competitions.length > 0">
-    <span class="counter-text">
-      {{ filteredCompetitions.length }} compétition{{
+    <ion-text color="medium">
+      {{ filteredCompetitions.length }} compétition {{
       filteredCompetitions.length > 1 ? 's' : '' }} trouvée{{
       filteredCompetitions.length > 1 ? 's' : '' }}
-    </span>
+    </ion-text>
     <ion-spinner
       *ngIf="isUpdating"
       name="dots"

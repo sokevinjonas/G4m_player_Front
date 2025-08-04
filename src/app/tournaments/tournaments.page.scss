@@ -181,23 +181,6 @@
     border: 1px solid rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
 
-    .counter-info {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-
-      .counter-text {
-        font-weight: 600;
-        color: var(--ion-color-light);
-        font-size: 14px;
-
-        .counter-total {
-          color: var(--ion-color-medium);
-          font-weight: 400;
-        }
-      }
-    }
-
     .update-indicators {
       display: flex;
       align-items: center;
