@@ -30,7 +30,11 @@
 
   <!-- Section des actions -->
   <div class="actions-section">
-    <ion-card class="action-card">
+    <ion-card
+      class="action-card"
+      [routerLink]="['/tabs/tournaments']"
+      routerLinkActive="router-link-active"
+    >
       <ion-card-content>
         <div class="action-header">
           <ion-icon name="trophy" class="action-icon trophy-icon"></ion-icon>
@@ -42,7 +46,11 @@
       </ion-card-content>
     </ion-card>
 
-    <ion-card class="action-card">
+    <ion-card
+      class="action-card"
+      [routerLink]="['/tabs/games']"
+      routerLinkActive="router-link-active"
+    >
       <ion-card-content>
         <div class="action-header">
           <ion-icon
