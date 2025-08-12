@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { ModifierMonProfilPageRoutingModule } from './modifier-mon-profil-routing.module';
 
 import { ModifierMonProfilPage } from './modifier-mon-profil.page';
+import { AvatarSelectionModalComponent } from 'src/app/components/avatar-selection-modal/avatar-selection-modal.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,6 @@ import { ModifierMonProfilPage } from './modifier-mon-profil.page';
     ModifierMonProfilPageRoutingModule,
     ReactiveFormsModule,
   ],
-  declarations: [ModifierMonProfilPage],
+  declarations: [ModifierMonProfilPage, AvatarSelectionModalComponent],
 })
 export class ModifierMonProfilPageModule {}

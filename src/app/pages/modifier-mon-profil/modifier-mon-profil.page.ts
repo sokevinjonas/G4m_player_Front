@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ToastController, LoadingController } from '@ionic/angular';
+import {
+  ToastController,
+  LoadingController,
+  ModalController,
+  Platform,
+} from '@ionic/angular';
 import { ApiService } from 'src/app/core/services/api/api.service';
 import { FileSaveOrPreviewService } from 'src/app/core/services/fileSaveOrPreview/file-save-or-preview.service';
 import { AFRICAN_COUNTRIES } from 'src/app/core/mocks/mock-african-countries';
+import { AvatarSelectionModalComponent } from 'src/app/components/avatar-selection-modal/avatar-selection-modal.component';
 
 @Component({
   selector: 'app-modifier-mon-profil',
@@ -17,12 +23,28 @@ export class ModifierMonProfilPage implements OnInit {
   selectedFile: File | null = null;
   countryList = AFRICAN_COUNTRIES;
 
+  // Liste d'avatars prédéfinis
+  predefinedAvatars = [
+    'assets/avatars/avatar1.jpg',
+    'assets/avatars/avatar2.jpg',
+    'assets/avatars/avatar3.jpg',
+    'assets/avatars/avatar4.jpg',
+    'assets/avatars/avatar5.jpg',
+    'assets/avatars/avatar6.jpg',
+    'assets/avatars/avatar7.jpg',
+    'assets/avatars/avatar8.jpg',
+    'assets/avatars/avatar9.jpg',
+    'assets/avatars/avatar10.jpg',
+  ];
+
   constructor(
     private fb: FormBuilder,
     private apiService: ApiService,
     private fileSaveOrPreviewService: FileSaveOrPreviewService,
     private toastController: ToastController,
-    private loadingController: LoadingController
+    private loadingController: LoadingController,
+    private modalController: ModalController,
+    private platform: Platform
   ) {}
 
   ngOnInit() {
@@ -33,6 +55,7 @@ export class ModifierMonProfilPage implements OnInit {
       email: [user.email || '', [Validators.required, Validators.email]],
       country: [user.country || '', Validators.required],
       description: [user.description || ''], // Utiliser description du backend
+      predefined_avatar: [''], // Nouveau champ pour les avatars prédéfinis
     });
 
     if (user.avatar) {
@@ -44,22 +67,83 @@ export class ModifierMonProfilPage implements OnInit {
 
   async selectImage() {
     try {
-      const result = await this.fileSaveOrPreviewService.selectImage();
+      // Vérifier la plateforme
+      if (
+        this.platform.is('ios') ||
+        this.platform.is('mobileweb') ||
+        this.platform.is('desktop')
+      ) {
+        // Proposer les avatars prédéfinis pour web et iOS
+        await this.showAvatarSelectionModal();
+      } else {
+        // Utiliser la caméra pour Android
+        const result = await this.fileSaveOrPreviewService.selectImage();
 
-      if (result) {
-        this.selectedFile = result.file;
-        this.previewImage = result.previewUrl;
+        if (result) {
+          this.selectedFile = result.file;
+          this.previewImage = result.previewUrl;
 
-        console.log('Image sélectionnée via service:', {
-          name: result.file.name,
-          size: result.file.size,
-          type: result.file.type,
-        });
+          console.log('Image sélectionnée via service:', {
+            name: result.file.name,
+            size: result.file.size,
+            type: result.file.type,
+          });
+        }
       }
     } catch (error) {
       console.error('Erreur image:', error);
       this.showToast("Erreur lors de la sélection de l'image", 'warning');
     }
+  }
+
+  async showAvatarSelectionModal() {
+    const modal = await this.modalController.create({
+      component: AvatarSelectionModalComponent,
+      componentProps: {
+        avatars: this.predefinedAvatars,
+      },
+      cssClass: 'avatar-selection-modal',
+    });
+
+    modal.onDidDismiss().then((result) => {
+      if (result.data) {
+        if (result.data.type === 'predefined') {
+          this.selectPredefinedAvatar(result.data.avatar);
+        } else if (result.data.type === 'camera') {
+          this.selectImageFromCamera();
+        }
+      }
+    });
+
+    return await modal.present();
+  }
+
+  async selectImageFromCamera() {
+    try {
+      const result = await this.fileSaveOrPreviewService.selectImage();
+      if (result) {
+        this.selectedFile = result.file;
+        this.previewImage = result.previewUrl;
+        // Reset avatar prédéfini
+        this.form.patchValue({ predefined_avatar: '' });
+      }
+    } catch (error) {
+      console.error('Erreur caméra:', error);
+      this.showToast('Erreur lors de la prise de photo', 'warning');
+    }
+  }
+
+  selectPredefinedAvatar(avatarPath: string) {
+    this.previewImage = avatarPath;
+    this.selectedFile = null; // Pas de fichier car c'est un avatar prédéfini
+
+    // Marquer que c'est un avatar prédéfini pour l'envoi au serveur
+    this.form.patchValue({
+      predefined_avatar: avatarPath,
+    });
+
+    console.log('Avatar prédéfini sélectionné:', avatarPath);
+    this.showToast('Avatar sélectionné !', 'success');
   }
 
   async onSubmit() {
@@ -80,29 +164,29 @@ export class ModifierMonProfilPage implements OnInit {
     formData.append('country', this.form.get('country')?.value);
     formData.append('description', this.form.get('description')?.value);
 
+    // Gérer l'avatar (fichier ou prédéfini)
+    const predefinedAvatar = this.form.get('predefined_avatar')?.value;
+
     if (this.selectedFile) {
+      // Avatar personnalisé uploadé
       formData.append('avatar', this.selectedFile);
       console.log('Fichier avatar ajouté:', {
         name: this.selectedFile.name,
         size: this.selectedFile.size,
         type: this.selectedFile.type,
       });
+    } else if (predefinedAvatar) {
+      // Avatar prédéfini sélectionné
+      formData.append('predefined_avatar', predefinedAvatar);
+      console.log('Avatar prédéfini sélectionné:', predefinedAvatar);
     } else {
-      console.log('Aucun fichier sélectionné');
+      console.log('Aucun avatar sélectionné');
     }
 
-    console.log('FormData créé avec avatar:', !!this.selectedFile);
-
-    // Debug : vérifier si le fichier est bien dans le FormData
-    const avatarFromFormData = formData.get('avatar');
-    console.log('Avatar dans FormData:', avatarFromFormData);
-    if (avatarFromFormData instanceof File) {
-      console.log('Avatar est bien un File:', {
-        name: avatarFromFormData.name,
-        size: avatarFromFormData.size,
-        type: avatarFromFormData.type,
-      });
-    }
+    console.log(
+      'FormData créé avec avatar:',
+      !!this.selectedFile || !!predefinedAvatar
+    );
 
     this.apiService.updateUserProfile(formData).subscribe({
       next: async (res) => {
@@ -117,6 +201,7 @@ export class ModifierMonProfilPage implements OnInit {
           res.user.avatar
         );
         this.selectedFile = null; // Reset du fichier sélectionné
+        this.form.patchValue({ predefined_avatar: '' }); // Reset avatar prédéfini
       },
       error: async (err) => {
         await loading.dismiss();
