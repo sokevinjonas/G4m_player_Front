@@ -1,7 +1,7 @@
 .avatar-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
   margin-bottom: 24px;
 }
 
@@ -22,17 +22,17 @@
   }
 
   img {
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     object-fit: cover;
-    margin-bottom: 8px;
+    margin-bottom: 10px;
     border: 2px solid rgba(255, 255, 255, 0.2);
   }
 
   p {
     margin: 0;
-    font-size: 12px;
+    font-size: 14px;
     color: var(--ion-color-medium);
     text-align: center;
   }
@@ -46,20 +46,20 @@
 // Responsive pour petits écrans
 @media (max-width: 576px) {
   .avatar-grid {
-    grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
   }
 
   .avatar-item {
-    padding: 8px;
+    padding: 10px;
 
     img {
-      width: 50px;
-      height: 50px;
+      width: 70px;
+      height: 70px;
     }
 
     p {
-      font-size: 10px;
+      font-size: 12px;
     }
   }
 }

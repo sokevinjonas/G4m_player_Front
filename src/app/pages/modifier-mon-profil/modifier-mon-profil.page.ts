@@ -106,12 +106,9 @@ export class ModifierMonProfilPage implements OnInit {
     });
 
     modal.onDidDismiss().then((result) => {
-      if (result.data) {
-        if (result.data.type === 'predefined') {
-          this.selectPredefinedAvatar(result.data.avatar);
-        } else if (result.data.type === 'camera') {
-          this.selectImageFromCamera();
-        }
+      console.log('Modal dismissed with result:', result);
+      if (result.data && result.data.type === 'predefined') {
+        this.selectPredefinedAvatar(result.data.avatar);
       }
     });
 
@@ -124,8 +121,15 @@ export class ModifierMonProfilPage implements OnInit {
       if (result) {
         this.selectedFile = result.file;
         this.previewImage = result.previewUrl;
-        // Reset avatar prédéfini
+        // Reset avatar prédéfini car on utilise un fichier personnalisé
         this.form.patchValue({ predefined_avatar: '' });
+
+        console.log('Image de caméra sélectionnée:', {
+          name: result.file.name,
+          size: result.file.size,
+          type: result.file.type,
+        });
+        this.showToast('Photo sélectionnée !', 'success');
       }
     } catch (error) {
       console.error('Erreur caméra:', error);
@@ -134,16 +138,54 @@ export class ModifierMonProfilPage implements OnInit {
   }
 
   selectPredefinedAvatar(avatarPath: string) {
+    console.log('=== SELECT PREDEFINED AVATAR ===');
+    console.log('Avatar path reçu:', avatarPath);
+
     this.previewImage = avatarPath;
-    this.selectedFile = null; // Pas de fichier car c'est un avatar prédéfini
+    this.selectedFile = null; // Reset le fichier car c'est un avatar prédéfini
 
     // Marquer que c'est un avatar prédéfini pour l'envoi au serveur
     this.form.patchValue({
       predefined_avatar: avatarPath,
     });
 
-    console.log('Avatar prédéfini sélectionné:', avatarPath);
+    console.log('Form après patchValue:');
+    console.log(
+      '- predefined_avatar:',
+      this.form.get('predefined_avatar')?.value
+    );
+    console.log('- selectedFile:', this.selectedFile);
+    console.log('- previewImage:', this.previewImage);
+    console.log('=== FIN SELECT PREDEFINED AVATAR ===');
+
     this.showToast('Avatar sélectionné !', 'success');
+  }
+
+  // Méthode pour convertir un avatar prédéfini en fichier
+  async convertAvatarToFile(avatarPath: string): Promise<File> {
+    try {
+      // Récupérer l'image depuis les assets
+      const response = await fetch(avatarPath);
+      const blob = await response.blob();
+
+      // Extraire le nom du fichier depuis le chemin
+      const fileName = avatarPath.split('/').pop() || 'avatar.jpg';
+
+      // Créer un objet File à partir du Blob
+      const file = new File([blob], fileName, { type: blob.type });
+
+      console.log('Avatar converti en fichier:', {
+        originalPath: avatarPath,
+        fileName: file.name,
+        size: file.size,
+        type: file.type,
+      });
+
+      return file;
+    } catch (error) {
+      console.error("Erreur lors de la conversion de l'avatar:", error);
+      throw new Error("Impossible de charger l'avatar sélectionné");
+    }
   }
 
   async onSubmit() {
@@ -167,26 +209,48 @@ export class ModifierMonProfilPage implements OnInit {
     // Gérer l'avatar (fichier ou prédéfini)
     const predefinedAvatar = this.form.get('predefined_avatar')?.value;
 
+    console.log('=== PREPARATION ENVOI API ===');
+    console.log('selectedFile:', !!this.selectedFile);
+    console.log('predefinedAvatar value:', predefinedAvatar);
+    console.log('Form complet:', this.form.value);
+
     if (this.selectedFile) {
       // Avatar personnalisé uploadé
       formData.append('avatar', this.selectedFile);
-      console.log('Fichier avatar ajouté:', {
+      console.log('✅ Fichier avatar ajouté au FormData:', {
         name: this.selectedFile.name,
         size: this.selectedFile.size,
         type: this.selectedFile.type,
       });
     } else if (predefinedAvatar) {
-      // Avatar prédéfini sélectionné
-      formData.append('predefined_avatar', predefinedAvatar);
-      console.log('Avatar prédéfini sélectionné:', predefinedAvatar);
+      // Avatar prédéfini sélectionné - convertir en fichier
+      try {
+        const avatarFile = await this.convertAvatarToFile(predefinedAvatar);
+        formData.append('avatar', avatarFile);
+        console.log(
+          '✅ Avatar prédéfini converti en fichier et ajouté au FormData:',
+          {
+            name: avatarFile.name,
+            size: avatarFile.size,
+            type: avatarFile.type,
+          }
+        );
+      } catch (error) {
+        console.error("❌ Erreur lors de la conversion de l'avatar:", error);
+        await loading.dismiss();
+        this.showToast("Erreur lors du traitement de l'avatar", 'warning');
+        return;
+      }
     } else {
-      console.log('Aucun avatar sélectionné');
+      console.log('❌ Aucun avatar sélectionné');
     }
 
-    console.log(
-      'FormData créé avec avatar:',
-      !!this.selectedFile || !!predefinedAvatar
-    );
+    // Debug: Lister tout ce qui est dans le FormData
+    console.log('=== CONTENU FORMDATA ===');
+    for (let pair of (formData as any).entries()) {
+      console.log(pair[0] + ': ' + pair[1]);
+    }
+    console.log('=== FIN DEBUG FORMDATA ===');
 
     this.apiService.updateUserProfile(formData).subscribe({
       next: async (res) => {

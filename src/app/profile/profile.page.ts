@@ -35,6 +35,10 @@ export class ProfilePage implements OnInit {
   ngOnInit() {
     this.loadUserData();
   }
+  doRefresh() {
+    console.log('Rafraîchissement manuel des données...');
+    this.loadUserData();
+  }
 
   /**
    * Charge les données utilisateur depuis le localStorage

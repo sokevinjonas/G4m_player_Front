@@ -7,6 +7,15 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh()">
+    <ion-refresher-content
+      pulling-icon="chevron-down-circle-outline"
+      pulling-text="Tirer pour actualiser"
+      refreshing-spinner="circles"
+      refreshing-text="Actualisation..."
+    ></ion-refresher-content>
+  </ion-refresher>
+
   <!-- Profil utilisateur -->
   <div class="profile-header">
     <ion-avatar class="profile-avatar">

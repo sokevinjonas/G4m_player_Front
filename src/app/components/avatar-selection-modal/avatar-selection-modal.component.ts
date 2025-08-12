@@ -19,12 +19,6 @@ export class AvatarSelectionModalComponent {
     });
   }
 
-  openCamera() {
-    this.modalController.dismiss({
-      type: 'camera',
-    });
-  }
-
   closeModal() {
     this.modalController.dismiss();
   }
