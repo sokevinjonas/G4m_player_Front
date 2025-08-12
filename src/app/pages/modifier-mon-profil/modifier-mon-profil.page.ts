@@ -69,9 +69,10 @@ export class ModifierMonProfilPage implements OnInit {
     try {
       // Vérifier la plateforme
       if (
-        this.platform.is('ios') ||
-        this.platform.is('mobileweb') ||
-        this.platform.is('desktop')
+        this.platform.is('ios')
+        // ||
+        // this.platform.is('mobileweb') ||
+        // this.platform.is('desktop')
       ) {
         // Proposer les avatars prédéfinis pour web et iOS
         await this.showAvatarSelectionModal();

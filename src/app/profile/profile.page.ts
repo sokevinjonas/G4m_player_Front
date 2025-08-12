@@ -35,9 +35,17 @@ export class ProfilePage implements OnInit {
   ngOnInit() {
     this.loadUserData();
   }
-  doRefresh() {
+
+  doRefresh(event?: any) {
     console.log('Rafraîchissement manuel des données...');
     this.loadUserData();
+
+    // Compléter l'événement de rafraîchissement après un délai
+    if (event) {
+      setTimeout(() => {
+        event.target.complete();
+      }, 1000);
+    }
   }
 
   /**
@@ -46,6 +54,7 @@ export class ProfilePage implements OnInit {
   private loadUserData() {
     try {
       this.user = JSON.parse(localStorage.getItem('user') || '{}');
+      this.fileSaveOrPreviewService.getAvatarDisplayUrl(this.user.avatar);
       console.log('User:', this.user);
     } catch (error) {
       console.error(
